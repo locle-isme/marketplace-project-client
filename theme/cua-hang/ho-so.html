@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Trang Chủ</title>
+
+    <link rel="stylesheet" href="../assets/css/bootstrap.css">
+    <link rel="stylesheet" href="../assets/css/all.css">
+    <link rel="stylesheet" href="../assets/css/custom.css">
+</head>
+<body>
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-light text-light bg-primary justify-content-around">
+    <div class="container">
+        <!-- LEFT NAV -->
+        <div class="d-flex align-items-center">
+            <div class="navbar-brand">
+                <img class="logo" src="https://salt.tikicdn.com/ts/upload/ae/f5/15/2228f38cf84d1b8451bb49e2c4537081.png"
+                     alt="">
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton">
+                    Danh mục sản phẩm
+                </button>
+                <div class="dropdown-menu nav-dropMenu">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+        </div>
+        <!-- END LEFT NAV -->
+
+        <!-- MAIN NAV -->
+        <div class="d-flex">
+            <form action="" class="form-inline">
+                <label class="sr-only" for="inlineFormInputSearchNav">Tìm kiếm sản phẩm</label>
+                <div class="input-group mb-2 mr-sm-2">
+                    <!--                <div class="input-group-prepend">-->
+                    <!--                    <div class="input-group-text">@</div>-->
+                    <!--                </div>-->
+                    <input type="text" class="form-control" id="inlineFormInputSearchNav"
+                           placeholder="Tìm kiếm sản phẩm ...">
+                </div>
+                <button type="submit" class="btn btn-info mb-2"><i class="fa fa-search" aria-hidden="true"></i> Tìm kiếm
+                </button>
+            </form>
+        </div>
+        <!-- END MAIN NAV -->
+        <!-- RIGHT NAV -->
+        <div class="d-flex">
+            <div class="mx-5">
+                <!--            <div class="d-flex">-->
+                <!--                <div class=""><i class='bx bx-user-plus'></i></div>-->
+                <!--                <div class="d-flex flex-column">-->
+                <!--                    <div>Đăng nhập / Đăng ký</div>-->
+                <!--                    <div>Tài khoản</div>-->
+                <!--                </div>-->
+                <!--            </div>-->
+                <div class="d-flex">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button">
+                            <i class="fas fa-user-alt"></i> Tài khoản
+                        </button>
+                        <div class="dropdown-menu nav-dropMenu">
+                            <a class="dropdown-item" href="#">Đăng nhập</a>
+                            <a class="dropdown-item" href="#">Đăng ký</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="cart align-self-center">
+                <i class="fas fa-cart-plus"></i>
+                <span>Giỏ hàng</span>
+            </div>
+        </div>
+        <!-- END RIGHT NAV -->
+
+    </div>
+</nav>
+<!-- END NAV -->
+
+<!-- MAIN -->
+<div class="container">
+    <!-- INFO -->
+    <div class="row">
+        <div class="col">
+            <div class="info-store card" style="border-radius: unset !important;">
+                <div class="card-body">
+                    <div class="d-flex flex-column">
+                        <div class="info d-flex align-items-center">
+                            <div class="avatar mr-4">
+                                <img src="https://salt.tikicdn.com/cache/w220/ts/seller/47/52/8c/d4da8b863a18d808434f7ffec300b817.png"
+                                     alt="">
+                            </div>
+                            <div class="seller d-flex flex-column pr-3 border-right">
+                                <h6>Unknown</h6>
+                                <span style="color: rgba(255, 255, 255, 0.7);">326 người theo dõi</span>
+                            </div>
+                            <div style="margin: 0px 25px">
+                                <button class="btn btn-primary"><i class="fas fa-plus"></i> Theo dõi</button>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-end">
+                            <div class="menu-tab d-flex">
+                                <div class="tab-item active position-relative"><span>Cửa Hàng</span></div>
+                                <div class="tab-item position-relative"><span>Tất cả sản phẩm</span></div>
+                                <div class="tab-item position-relative"><span>Hồ sơ cửa hàng</span></div>
+                            </div>
+                            <div class="search-store input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-search"
+                                                                                             aria-hidden="true"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Tìm kiếm sản phẩm tại cửa hàng">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END INFO -->
+
+    <!-- SAN PHAM -->
+    <div class="row">
+        <div class="col">
+            <div class="card" style="border-radius: unset !important;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6 border-right">
+                            <div class="row" style="height: 100%">
+                                <div class="col d-flex justify-content-center align-items-center">
+                                    <div class="d-flex flex-column">
+                                        <h5>Tỉ lệ hủy</h5>
+                                        <h4 class="text-center" style="color: #1c7430">0 %</h4>
+                                    </div>
+                                </div>
+                                <div class="col d-flex justify-content-center align-items-center">
+                                    <div class="d-flex flex-column">
+                                        <h5>Tỉ lệ đổi trả</h5>
+                                        <h4 class="text-center" style="color: #1c7430">0 %</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="box-info">
+                                <div class="d-flex">
+                                    <div class="info-label">
+                                        <span><i class="far fa-calendar-minus"></i>&nbsp;&nbsp;Thành viên từ năm</span>
+                                    </div>
+                                    <div class="info-value">
+                                        <span>2018</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="box-info">
+                                <div class="d-flex">
+                                    <div class="info-label">
+                                        <span><i class="fas fa-cube"></i>&nbsp;&nbsp;Sản phẩm</span>
+                                    </div>
+                                    <div class="info-value">
+                                        <span>2018</span>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="box-info">
+                                <div class="d-flex">
+                                    <div class="info-label">
+                                        <span><i class="fas fa-store"></i>&nbsp;Mô tả cửa hàng</span>
+                                    </div>
+                                    <div class="info-value">
+                                        <span>2018</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="box-info">
+                                <div class="d-flex">
+                                    <div class="info-label">
+                                        <span><i class="fas fa-user-plus"></i>&nbsp;Người theo dõi</span>
+                                    </div>
+                                    <div class="info-value">
+                                        <span>2018</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END SAN PHAM -->
+
+</div>
+
+<!-- END MAIN -->
+
+
+<!-- FOOTER -->
+<footer>
+    <div class="container-fluid border-bottom">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-sm-3">
+                    <h6 class="text-uppercase">Hổ trợ khách hàng</h6>
+                    <p><span class="text-danger">Hotline chăm sóc khách hàng: 1900-1515</span>
+                        <span><small>(1000đ/phút , 8-21h kể cả T7, CN)</small></span></p>
+                    <p><a href="">Các câu hỏi thường gặp</a></p>
+                    <p><a href="">Yêu cầu hổ trợ</a></p>
+                    <p><a href="">Hướng dẫn</a></p>
+                </div>
+
+                <div class="col-sm-2">
+                    <h6 class="text-uppercase">Về Tụi Tôi</h6>
+                    <p><a href="">Giới thiệu</a></p>
+                    <p><a href="">Tuyển dụng</a></p>
+                    <p><a href="">Chính sách bảo mật</a></p>
+                    <p><a href="">Chính sách giải quyết khiếu nại</a></p>
+                </div>
+
+                <div class="col-sm-2">
+                    <h6 class="text-uppercase">Hợp tác và liên kết</h6>
+                    <p><a href="">Quy chế hoạt động</a></p>
+                    <p><a href="">Bán hàng cùng</a></p>
+
+                </div>
+
+                <div class="col-sm-3">
+                    <h6 class="text-uppercase">PHƯƠNG THỨC THANH TOÁN</h6>
+                    <p>
+                        <img class="icon" src="../assets/images/payment/visa.svg"
+                             width="54" alt=""/>
+                        <img class="icon"
+                             src="../assets/images/payment/mastercard.svg"
+                             width="54" alt="">
+                        <img class="icon" src="../assets/images/payment/jcb.svg"
+                             width="54" alt="">
+                        <img class="icon" src="../assets/images/payment/cash.svg"
+                             width="54"
+                             alt=""/>
+                        <img class="icon"
+                             src="../assets/images/payment/internet-banking.svg"
+                             width="54" alt=""/>
+                        <img class="icon"
+                             src="../assets/images/payment/installment.svg"
+                             width="54" alt=""/></p>
+                </div>
+
+                <div class="col-sm-2">
+                    <h6 class="text-uppercase">Kết nối với chúng tôi</h6>
+                    <p>
+                        <a href=""><i class="fab fa-facebook fa-3x text-primary"></i></a>
+                        <a href=""><i class="fab fa-youtube fa-3x text-danger"></i></a>
+                        <a href=""><i class="fab fa-twitter fa-3x text-info"></i></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="margin-top: 39px;">
+        <div class="container">
+            <div class="row row-cols-1">
+                <div class="col m-4">
+                    <p><b>Địa chỉ văn phòng:</b> 70/10 Tô Ký, P.TCH, Q.12, thành phố Hồ Chí Minh</p>
+                    <p>Taka nhận đặt hàng trực tuyến và giao hàng tận nơi, chưa hỗ trợ mua và nhận hàng trực tiếp tại
+                        văn phòng
+                        hoặc trung tâm xử lý đơn hàng</p>
+                </div>
+                <div class="col">
+                    <p class="font-weight-bold">© 2020 - Bản quyền của Công Ty Cổ Phần TNZ</p>
+                    <small>Giấy chứng nhận Đăng ký Kinh doanh số 696969 do Sở Kế hoạch và Đầu tư Thành phố Hồ Chí
+                        Minh cấp ngày 06/09/2069
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- END FOOTER -->
+
+</body>
