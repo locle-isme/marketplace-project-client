@@ -17,6 +17,12 @@ export default new VueRouter({
             component: () => import("@/views/SearchPage")
         },
         {
+            name: 'product.detail',
+            path: '/product/:slug_product_detail',
+            component: () => import("@/views/ProductDetailPage")
+        },
+
+        {
             path: '/store/:slug_store',
             component: () => import("@/views/Store"),
             props: true,

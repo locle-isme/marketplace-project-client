@@ -8,25 +8,7 @@
       <div class="name mt-2 limit-line">
         <span>Combo 10 móc treo quần áo đa năng 9 lỗ tiện dụng tên dài vaivaivaivaivaivaivai</span>
       </div>
-      <div class="rating-review d-flex align-items-center my-2">
-        <div class="position-relative">
-          <div class="rating-total d-flex">
-            <i class="far fa-star text-warning"></i>
-            <i class="far fa-star text-warning"></i>
-            <i class="far fa-star text-warning"></i>
-            <i class="far fa-star text-warning"></i>
-            <i class="far fa-star text-warning"></i>
-          </div>
-          <div class="rating-avg d-flex position-absolute">
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-            <i class="fas fa-star text-warning"></i>
-          </div>
-        </div>
-        <div class="review">18</div>
-      </div>
+      <ItemReview :count="20" :rating="0.6"></ItemReview>
     </div>
     <div class="d-flex align-items-center">
       <div class="price">69.000 ₫</div>
@@ -35,7 +17,12 @@
   </div>
 </template>
 <script>
-export default {}
+import ItemReview from "@/components/ItemReview";
+export default {
+  components:{
+    ItemReview
+  }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -54,18 +41,6 @@ export default {}
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
-}
-
-
-.product-item .rating-review .rating-avg {
-  top: 0;
-  left: 0;
-  width: 100%
-}
-
-.product-item .rating-review .review{
-  margin-left: 5px;
-  font-size: 0.95em;
 }
 
 .product-item .discount{

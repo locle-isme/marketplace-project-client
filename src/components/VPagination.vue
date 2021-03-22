@@ -40,9 +40,9 @@ export default {}
   display: flex;
   justify-content: center;
   align-items: center;
-  font-weight: 500;
+  font-weight: 600;
   background-color: rgb(247, 247, 247);
-  color: rgb(51, 51, 51);
+  color: rgb(100, 96, 96);
 }
 
 .pagination > .page-item:not(.disabled):hover > .page-link {
