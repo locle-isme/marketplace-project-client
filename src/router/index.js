@@ -46,6 +46,12 @@ export default new VueRouter({
                     props: true,
                 }
             ]
-        }
+        },
+
+        {
+            name: 'checkout.cart',
+            path: '/checkout/cart',
+            component: () => import("@/views/Cart")
+        },
     ]
 })
