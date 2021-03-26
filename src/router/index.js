@@ -18,12 +18,12 @@ export default new VueRouter({
         },
         {
             name: 'product.detail',
-            path: '/product/:slug_product_detail',
+            path: '/product/:slug',
             component: () => import("@/views/ProductDetailPage")
         },
 
         {
-            path: '/store/:slug_store',
+            path: '/store/:slug',
             component: () => import("@/views/Store"),
             props: true,
             children: [
@@ -53,5 +53,6 @@ export default new VueRouter({
             path: '/checkout/cart',
             component: () => import("@/views/Cart")
         },
+
     ]
 })

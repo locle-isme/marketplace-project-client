@@ -1,5 +1,5 @@
 <template>
-  <div class="product-item col" style="padding: 1rem">
+  <router-link tag="div" :to="{name:'product.detail', params:{slug: '1'}}" class="product-item col" style="padding: 1rem">
     <div class="d-flex flex-column">
       <div>
         <img src="https://salt.tikicdn.com/cache/280x280/ts/product/18/d5/c1/12b6f5dee03a86bb0dc6f4fa847df279.jpg"
@@ -14,7 +14,7 @@
       <div class="price">69.000 ₫</div>
       <div class="discount text-light ml-1">- 45%</div>
     </div>
-  </div>
+  </router-link>
 </template>
 <script>
 import ItemReview from "@/components/ItemReview";

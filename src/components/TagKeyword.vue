@@ -1,5 +1,5 @@
 <template>
-  <div class="keyword-search"><i class="fa fa-search" aria-hidden="true"></i> xúc xích</div>
+  <router-link tag="div" :to="{name:'search'}" class="keyword-search"><i class="fa fa-search" aria-hidden="true"></i> xúc xích</router-link>
 </template>
 
 <script>

@@ -68,13 +68,13 @@
 
                   <div class="col-lg-4 col-sm-12">
                     <div class="card-store d-flex flex-column">
-                      <div class="card-store-info d-flex align-items-center">
+                      <router-link tag="div" :to="{name:'store.global', params:{slug: 'demo1'}}" class="card-store-info d-flex align-items-center">
                         <div class="avatar">
                           <img src="https://vcdn.tikicdn.com/ts/seller/e3/84/1f/33b673123f5c858676ca98872184e9ee.png"
                                alt="">
                         </div>
                         <span class="name-store">Mogo</span>
-                      </div>
+                      </router-link>
                       <div class="seller-detail row">
                         <div class="col border-right">
                           <div class="d-flex flex-column align-items-center">
@@ -249,7 +249,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 .product-content .name-product {
   font-weight: 100;
   font-size: 21px;

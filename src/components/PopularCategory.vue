@@ -1,5 +1,5 @@
 <template>
-  <div class="popular-category col my-2">
+  <router-link tag="div" :to="{name:'search'}" class="popular-category col my-2">
     <div class="d-flex flex-column">
       <div class="category-image align-self-center" style="width: 60px;height: 60px;">
         <img width="100%" height="100%"
@@ -8,7 +8,7 @@
       </div>
       <div class="text-center limit-line"><span>Móc treo kẹp quần áo Móc treo kẹp quần áo </span></div>
     </div>
-  </div>
+  </router-link>
 </template>
 <script>
 export default {}
@@ -16,6 +16,10 @@ export default {}
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+.popular-category{
+  cursor: pointer;
+}
+
 .popular-category .category-image {
   border-radius: 16px;
   overflow: hidden;

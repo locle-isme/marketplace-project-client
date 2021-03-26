@@ -164,7 +164,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style scoped>
 .filter-search .box {
   padding: 10px 10px;
 }

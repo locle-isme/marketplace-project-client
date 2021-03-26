@@ -4,7 +4,7 @@
       <div class="container-fluid position-relative">
         <div class="d-flex flex-column w-100">
           <div class="d-flex w-100 justify-content-between align-items-center py-2">
-            <div>
+            <div style="cursor: pointer">
               <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" role="img"
                    focusable="false" @click="setStatusShowNavBar()">
                 <title>Menu</title>
@@ -17,12 +17,12 @@
                    src="https://salt.tikicdn.com/ts/upload/ae/f5/15/2228f38cf84d1b8451bb49e2c4537081.png"
                    alt="">
             </div>
-            <div class="cart position-relative">
+            <router-link tag="div" :to="{name:'checkout.cart'}" class="cart position-relative">
               <b-icon icon="cart" font-scale="2" aria-hidden="true"></b-icon>
               <div
                   style="width: 20px; height: 20px; display: flex;justify-content: center;align-items: center; border-radius: 50%;background: #f5872d; color: #ffffff; position: absolute; top: -10px; right: -13px">
                 <span class="count" style="font-weight: 600; font-size: 0.8rem">0</span></div>
-            </div>
+            </router-link>
           </div>
           <form action="" class="form-search d-flex my-2 justify-content-around w-100"
                 :class="{'scroll-nav': statusScrollNavBar}">
@@ -41,9 +41,11 @@
       <div class="inner menu">
         <div class="d-flex justify-content-between align-items-center p-3 bg-info text-light">
           <div><i class="fas fa-user-alt" style="font-size: 2em"></i></div>
-          <div class="d-flex flex-column align-items-start">
+          <div v-if="isAuth" class="d-flex flex-column align-items-start">
             <span class="name">Lộc Lê</span>
             <span class="email">locle.isme@gmail.com</span>
+          </div>
+          <div v-else @click="statusShowVAuth = true" style="cursor: pointer; font-weight: 600"><span>Đăng nhập</span>
           </div>
           <div><i class="fas fa-chevron-right" style="font-size: 1rem" aria-hidden="true"></i></div>
         </div>
@@ -86,11 +88,14 @@
       </div>
       <div class="overlay" @click="setStatusShowNavBar()"></div>
     </div>
+    <VAuth v-if="statusShowVAuth" @exit="statusShowVAuth = false"></VAuth>
   </div>
 
 
 </template>
 <script>
+import VAuth from "@/components/VAuth";
+
 export default {
   data() {
     return {
@@ -98,7 +103,12 @@ export default {
       statusScrollNavBar: false,
       statusShowCategoryList: false,
       statusShowMenu: false,
+      statusShowVAuth: false
     }
+  },
+
+  components: {
+    VAuth
   },
 
   mounted() {
@@ -126,7 +136,11 @@ export default {
     }
   },
 
-  computed: {}
+  computed: {
+    isAuth() {
+      return false;
+    }
+  }
 }
 </script>
 
@@ -134,8 +148,13 @@ export default {
 <style>
 
 .logo {
+  cursor: pointer;
   width: 36px;
   height: 24px;
+}
+
+.cart {
+  cursor: pointer;
 }
 
 .nav-left-bar > .inner {
