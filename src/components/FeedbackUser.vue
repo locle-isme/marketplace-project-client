@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import RatingTitle from "@/components/RatingTitle";
+import RatingTitle from "./RatingTitle";
 export default {
   components:{
     RatingTitle

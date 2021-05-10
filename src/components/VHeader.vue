@@ -12,10 +12,8 @@
                       d="M4 7h22M4 15h22M4 23h22"></path>
               </svg>
             </div>
-            <div @click="goHome()" class="logo">
-              <img width="100%" height="100%"
-                   src="https://salt.tikicdn.com/ts/upload/ae/f5/15/2228f38cf84d1b8451bb49e2c4537081.png"
-                   alt="">
+            <div @click="redirect('home')" class="logo">
+
             </div>
             <router-link tag="div" :to="{name:'checkout.cart'}" class="cart position-relative">
               <b-icon icon="cart" font-scale="2" aria-hidden="true"></b-icon>
@@ -27,10 +25,10 @@
           <form action="" class="form-search d-flex my-2 justify-content-around w-100"
                 :class="{'scroll-nav': statusScrollNavBar}">
             <div class="input-group mr-2">
-              <input type="text" class="form-control" id="inlineFormInputSearchNav"
+              <input v-model="keywordSearch" type="text" class="form-control" id="inlineFormInputSearchNav"
                      placeholder="Tìm kiếm sản phẩm ...">
             </div>
-            <button type="submit" class="btn btn-info" style="width: 10rem;">
+            <button type="submit" class="btn btn-info" style="width: 10rem;" @click.prevent="searchProduct">
               <i class="fa fa-search" aria-hidden="true"></i> Tìm kiếm
             </button>
           </form>
@@ -41,19 +39,25 @@
       <div class="inner menu">
         <div class="d-flex justify-content-between align-items-center p-3 bg-info text-light">
           <div><i class="fas fa-user-alt" style="font-size: 2em"></i></div>
-          <div v-if="isAuth" class="d-flex flex-column align-items-start">
-            <span class="name">Lộc Lê</span>
-            <span class="email">locle.isme@gmail.com</span>
+          <div v-if="isAuthenticated" class="d-flex flex-column align-items-start" @click="redirect('customer')">
+            <span class="name text-uppercase">{{ user.name }}</span>
+            <span class="email">{{ user.email }}</span>
           </div>
-          <div v-else @click="statusShowVAuth = true" style="cursor: pointer; font-weight: 600"><span>Đăng nhập</span>
+          <div v-else @click="statusShowVAuth = true" style="cursor: pointer; font-weight: 600;" class="text-uppercase">
+            <span>Đăng nhập</span>
           </div>
-          <div><i class="fas fa-chevron-right" style="font-size: 1rem" aria-hidden="true"></i></div>
+          <div style="cursor: pointer" @click="setStatusShowNavBar()"><i class="fa fa-times" aria-hidden="true"></i>
+          </div>
         </div>
         <div class="d-flex flex-column">
           <ul class="nav">
-            <li @click="goHome()"><i class="sub-title fas fa-home"></i> Trang chủ</li>
-            <li><i class="sub-title far fa-address-card"></i> Quản lý tài khoản</li>
-            <li><i class="sub-title far fa-bell"></i> Thông báo</li>
+            <li @click="redirect('home')"><i class="sub-title fas fa-home"></i> Trang chủ</li>
+            <li v-if="isAuthenticated" @click="redirect('customer')"><i class="sub-title far fa-address-card"></i> Quản
+              lý tài khoản
+            </li>
+            <li v-if="isAuthenticated" @click="redirect('customer.notification')"><i class="sub-title far fa-bell"></i>
+              Thông báo
+            </li>
             <li @click="setStatusShowCategoryList()"><i class="sub-title fa fa-list"></i> Danh mục sản phẩm</li>
           </ul>
           <div class="sub-head text-uppercase">Khuyến mãi hot</div>
@@ -88,13 +92,14 @@
       </div>
       <div class="overlay" @click="setStatusShowNavBar()"></div>
     </div>
-    <VAuth v-if="statusShowVAuth" @exit="statusShowVAuth = false"></VAuth>
+    <VAuth v-if="statusShowVAuth" @close="statusShowVAuth = false"></VAuth>
   </div>
 
 
 </template>
 <script>
-import VAuth from "@/components/VAuth";
+import VAuth from "./VAuth"
+import {mapGetters} from "vuex";
 
 export default {
   data() {
@@ -103,7 +108,8 @@ export default {
       statusScrollNavBar: false,
       statusShowCategoryList: false,
       statusShowMenu: false,
-      statusShowVAuth: false
+      statusShowVAuth: false,
+      keywordSearch: ""
     }
   },
 
@@ -123,9 +129,25 @@ export default {
 
   methods: {
 
-    goHome() {
-      this.$router.push({name: 'home'});
+    redirect(_name, params = {}) {
+      this.$router.push({name: _name, params: params}).then(() => {
+        this.statusShowNavBar = false;
+      }).catch(() => {
+
+      });
     },
+    searchProduct() {
+      let filters = {
+        name: this.keywordSearch
+      };
+      this.keywordSearch = "";
+      this.$router.push({name: 'search', query: filters})
+          .then(() => {
+          })
+          .catch(() => {
+          });
+    },
+
     setStatusShowNavBar() {
       this.statusShowNavBar = !this.statusShowNavBar;
       this.statusShowCategoryList = false;
@@ -137,9 +159,7 @@ export default {
   },
 
   computed: {
-    isAuth() {
-      return false;
-    }
+    ...mapGetters(["isAuthenticated", "user"])
   }
 }
 </script>
@@ -149,11 +169,15 @@ export default {
 
 .logo {
   cursor: pointer;
-  width: 36px;
-  height: 24px;
+  min-width: 36px;
+  min-height: 24px;
+  user-select: none;
+  background: url("https://salt.tikicdn.com/ts/upload/ae/f5/15/2228f38cf84d1b8451bb49e2c4537081.png");
+  background-size: cover;
 }
 
 .cart {
+  z-index: 1111;
   cursor: pointer;
 }
 
@@ -206,6 +230,10 @@ export default {
   cursor: pointer;
 }
 
+.nav-left-bar .email {
+  font-size: 0.9em;
+}
+
 .nav-left-bar > .inner ul.nav {
   margin: 5px 0px;
 }
@@ -243,4 +271,6 @@ export default {
 .form-search.scroll-nav .btn {
   visibility: hidden;
 }
+
+
 </style>

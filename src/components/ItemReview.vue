@@ -16,7 +16,7 @@
         <i class="fas fa-star text-warning"></i>
       </div>
     </div>
-    <div class="review" :style="{fontSize: `${fontSize}em`}">{{ count }}</div>
+    <div class="review" :style="{fontSize: `${fontSize}em`}">{{ rating_count }}</div>
   </div>
 </template>
 <script>
@@ -26,17 +26,17 @@ export default {
       type: Number,
       default: 0.8
     },
-    count: {
+    rating_count: {
       type: Number
     },
-    rating: {
+    rating_average: {
       type: Number
     }
   },
 
   computed: {
     getWidthRating() {
-      return this.rating * 100;
+      return this.rating_average / 5 * 100;
     }
   }
 }

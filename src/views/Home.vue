@@ -31,15 +31,14 @@
     </div>
 
 
-
     <div class="row">
       <div class="col">
         <div class="card position-relative">
           <div class="card-title text-uppercase">Gợi ý hôm nay</div>
           <div class="suggestion-today card-body" style="padding: 0rem 1.25rem">
             <div class="row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
-              <template v-for="i in 10">
-                <ProductItem :key="i"></ProductItem>
+              <template v-for="(product, index) in listProducts.products">
+                <ProductItem :key="index" :product="product"></ProductItem>
               </template>
             </div>
             <div class="my-4 d-flex justify-content-center">
@@ -55,9 +54,15 @@
 import ProductItem from "@/components/ProductItem";
 import TagKeyword from "@/components/TagKeyword";
 import PopularCategory from "@/components/PopularCategory";
+import {mapGetters} from "vuex";
+
 export default {
   data() {
     return {}
+  },
+
+  computed: {
+    ...mapGetters(["listProducts"])
   },
 
   components: {
@@ -77,7 +82,7 @@ export default {
   position: relative;
 }
 
-.feature-search{
+.feature-search {
   max-height: 130px;
   overflow-y: auto;
   overflow-x: auto;

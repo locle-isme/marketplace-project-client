@@ -9,7 +9,7 @@ export default new VueRouter({
         {
             name: 'home',
             path: '/',
-            component: () => import("@/views/Home")
+            component: () => import("../views/Home")
         },
         {
             name: 'search',
@@ -18,12 +18,12 @@ export default new VueRouter({
         },
         {
             name: 'product.detail',
-            path: '/product/:slug',
-            component: () => import("@/views/ProductDetailPage")
+            path: '/products/:slug',
+            component: () => import("../views/ProductDetailPage")
         },
 
         {
-            path: '/store/:slug',
+            path: '/stores/:slug',
             component: () => import("@/views/Store"),
             props: true,
             children: [
@@ -46,6 +46,82 @@ export default new VueRouter({
                     props: true,
                 }
             ]
+        },
+        {
+            path: '/customers',
+            component: () => import("../views/customers/Customer"),
+            props: true,
+            meta: {
+                requiresAuth: true
+            },
+            children: [
+                {
+                    path: "edit",
+                    alias: "",
+                    name: "customer",
+                    component: () => import("../views/customers/CustomerEdit"),
+                    props: true,
+                },
+
+                {
+                    path: "notification",
+                    name: "customer.notification",
+                    component: () => import("../views/customers/CustomerNotification"),
+                    props: true,
+                },
+
+                {
+                    path: "orders",
+                    name: "customer.order.history",
+                    component: () => import("../views/customers/CustomerOrderHistory"),
+                    props: true,
+                },
+
+                {
+                    path: "orders/:orderID",
+                    name: "customer.order.detail",
+                    component: () => import("../views/customers/CustomerOrderDetail"),
+                    props: true,
+                },
+
+
+                {
+                    path: "address",
+                    name: "customer.address",
+                    component: () => import("../views/customers/address/CustomerAddress"),
+                    props: true,
+                },
+
+                {
+                    path: "address/create",
+                    name: "customer.address.create",
+                    component: () => import("../views/customers/address/CustomerAddressCreate"),
+                    props: true,
+                },
+
+                {
+                    path: "address/edit/:addressID",
+                    name: "customer.address.edit",
+                    component: () => import("../views/customers/address/CustomerAddressEdit"),
+                    props: true,
+                },
+
+                {
+                    path: "reviews",
+                    name: "customer.review",
+                    component: () => import("../views/customers/CustomerReview"),
+                    props: true,
+                },
+
+                {
+                    path: "favourites",
+                    name: "customer.favourite",
+                    component: () => import("../views/customers/CustomerFavourite"),
+                    props: true,
+                },
+
+            ]
+
         },
 
         {

@@ -84,7 +84,8 @@
                           <div class="input-group-text">.000 <sup>đ</sup></div>
                         </div>
                       </div>
-                      <span style="width: 20px; height: 1px; font-size: 0px; display: inline-block; background: rgb(154, 154, 154); margin: 0px 4px; vertical-align: middle;">-</span>
+                      <span
+                          style="width: 20px; height: 1px; font-size: 0px; display: inline-block; background: rgb(154, 154, 154); margin: 0px 4px; vertical-align: middle;">-</span>
                       <div class="input-group">
                         <input type="number" class="form-control w-25" value="0">
                         <div class="input-group-append">
@@ -137,8 +138,8 @@
                 </div>
               </div>
               <div class="list-item-result row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
-                <template v-for="i in 10">
-                  <ProductItem :key="i"></ProductItem>
+                <template v-for="(product, index) in listProducts.products">
+                  <ProductItem :key="index" :product="product"></ProductItem>
                 </template>
               </div>
               <div class="my-4 d-flex float-right">
@@ -153,9 +154,45 @@
   </div>
 </template>
 <script>
-import ProductItem from "@/components/ProductItem";
-import VPagination from "@/components/VPagination";
+import ProductItem from "../components/ProductItem";
+import VPagination from "../components/VPagination";
+import {FETCH_PRODUCTS} from "../store/actions.type";
+import {mapGetters} from "vuex";
+
 export default {
+  data() {
+    return {}
+  },
+
+  created() {
+    this.loadingData();
+  },
+
+  methods: {
+    loadingData() {
+      this.$store.dispatch(FETCH_PRODUCTS, this.$route.query)
+          .then(() => {
+            console.log('ok')
+          })
+          .catch(() => {
+            console.log('wrong')
+          })
+    }
+  },
+
+  computed: {
+    ...mapGetters(["listProducts"])
+  },
+
+  watch: {
+    '$route.query.q': {
+      deep: true,
+      handler() {
+        this.loadingData();
+      }
+    }
+  },
+
   components: {
     ProductItem,
     VPagination
@@ -183,7 +220,7 @@ export default {
   cursor: pointer;
 }
 
-.sort .btn-group>button.btn.active, .sort .btn-group>button.btn:hover{
+.sort .btn-group > button.btn.active, .sort .btn-group > button.btn:hover {
   background-color: rgb(13, 92, 182);
   color: #fff;
   font-weight: 500;

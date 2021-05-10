@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import StoreHead from "@/components/StoreHead";
+import StoreHead from "../components/StoreHead";
 export default {
   data() {
     return {}

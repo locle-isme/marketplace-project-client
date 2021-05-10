@@ -17,7 +17,7 @@
               <div class="d-flex flex-column">
                 <div class="d-flex justify-content-between">
                   <div class="font-weight-bold">Địa chỉ nhận hàng</div>
-                  <div class="action-change">Thay đổi</div>
+                  <router-link tag="div" :to="{name:'customer.address'}" class="action-change">Thay đổi</router-link>
                 </div>
                 <div class="d-flex align-items-center mt-2">
                   <div class="name-customer mr-1">Lê Văn Lộc</div>

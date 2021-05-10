@@ -1,0 +1,12 @@
+export const LOGIN = "login";
+export const LOGOUT = "logout";
+export const REGISTER = "register";
+export const UPDATE_USER = "updateUser";
+export const GET_USER = "getUser";
+export const CHECK_AUTH = "checkAuth";
+export const FETCH_ADDRESSES = "fetchAddresses";
+export const ADDRESS_CREATE = "createAddress";
+export const ADDRESS_EDIT = "editAddress";
+export const ADDRESS_DELETE = "deleteAddress";
+export const GET_PRODUCT = "getProduct";
+export const FETCH_PRODUCTS = "getListProducts";

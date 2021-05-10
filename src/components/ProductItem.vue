@@ -1,41 +1,71 @@
 <template>
-  <router-link tag="div" :to="{name:'product.detail', params:{slug: '1'}}" class="product-item col" style="padding: 1rem">
+  <router-link tag="div" :to="{name:'product.detail', params:{slug: product.id}}" class="product-item col"
+               style="padding: 1rem">
     <div class="d-flex flex-column">
       <div>
-        <img src="https://salt.tikicdn.com/cache/280x280/ts/product/18/d5/c1/12b6f5dee03a86bb0dc6f4fa847df279.jpg"
-             class="img-thumbnail" alt="">
+        <img :src="firstImages" class="img-thumbnail" alt="">
       </div>
       <div class="name mt-2 limit-line">
-        <span>Combo 10 móc treo quần áo đa năng 9 lỗ tiện dụng tên dài vaivaivaivaivaivaivai</span>
+        <span>{{ product.name }}</span>
       </div>
-      <ItemReview :count="20" :rating="0.6"></ItemReview>
+      <ItemReview v-if="product.rating_count > 0" :rating_count="product.rating_count"
+                  :rating_average="product.rating_average"></ItemReview>
     </div>
     <div class="d-flex align-items-center">
-      <div class="price">69.000 ₫</div>
-      <div class="discount text-light ml-1">- 45%</div>
+      <div class="price">{{ realPrice | currency }}</div>
+      <div v-if="product.discount > 0" class="discount text-light ml-1">- {{ product.discount }}%</div>
     </div>
   </router-link>
 </template>
 <script>
-import ItemReview from "@/components/ItemReview";
+import ItemReview from "./ItemReview";
+
 export default {
-  components:{
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
+
+  data() {
+    return {
+      defaultImage: 'https://via.placeholder.com/640x480.png/00bb11?text=default',
+    }
+  },
+
+  computed: {
+    firstImages() {
+      const {images} = this.product;
+      return images[0] ? images[0].url : this.defaultImage;
+    },
+
+    realPrice() {
+      const {price, discount} = this.product;
+      return price * (100 - discount) / 100;
+    },
+  },
+  components: {
     ItemReview
-  }
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-
-.product-item:hover{
-  box-shadow: rgba(0,0,0, 0.1) 0px 0px 20px;
+.product-item {
+  cursor: pointer;
 }
 
-.product-item .name{
+.product-item:hover {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+}
+
+.product-item .name {
   text-align: left;
   font-weight: 550;
 }
+
 .product-item .limit-line {
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -43,7 +73,7 @@ export default {
   overflow: hidden;
 }
 
-.product-item .discount{
+.product-item .discount {
   background: #e74646;
   padding: 2px 3px;
   user-select: none;

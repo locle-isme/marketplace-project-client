@@ -16,7 +16,7 @@
         <i class="fas fa-star text-warning"></i>
       </div>
     </div>
-    <h5 class="title">Hài lòng tuyệt đối</h5>
+    <div class="title">Hài lòng tuyệt đối</div>
   </div>
 </template>
 
@@ -36,7 +36,10 @@ export default {
   overflow: hidden;
 }
 
-.rating-title h5.title{
+.rating-title .title{
+  font-size: 1em;
   margin: 0 10px;
+  font-weight: 600;
+  user-select: none;
 }
 </style>

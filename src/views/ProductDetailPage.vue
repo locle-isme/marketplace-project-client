@@ -11,18 +11,13 @@
             <div class="product-image col-xl-4 col-lg-12 border-right mb-4">
               <div class="d-flex flex-column align-items-center">
                 <div class="img-thumbnail">
-                  <img width="100%" height="100%"
-                       src="https://salt.tikicdn.com/cache/w444/ts/product/bf/be/83/3ba7bb510766ae7dc1e9713146da9393.jpg"
-                       alt="">
+                  <img width="100%" height="100%" :src="firstImages" alt="">
                 </div>
                 <div class="d-flex flex-wrap review-image justify-content-center position-relative">
-                  <template v-for="x in 7">
-                    <div :key="x" class="view-photo">
-                      <img
-                          src="https://salt.tikicdn.com/cache/w64/ts/product/bf/be/83/3ba7bb510766ae7dc1e9713146da9393.jpg"
-                          alt="">
-
-                      <span v-if="x == 7">Xem thêm 69 hình</span>
+                  <template v-for="(image, index) in images.slice(0,7)">
+                    <div :key="index" class="view-photo">
+                      <img :src="image.url" alt="">
+                      <span v-if="index == 6">Xem thêm 69 hình</span>
                     </div>
                   </template>
                 </div>
@@ -30,24 +25,38 @@
             </div>
             <div class="product-content col-xl-8 col-lg-12 position-relative">
               <div class="d-flex flex-column">
-                <div class="brand"><span>Thương hiệu:</span> <a href="#"><span>OEM</span></a></div>
-                <div class="name-product">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi culpa
-                  deleniti eos, est excepturi exercitationem impedit ipsam iste, mollitia natus odio
-                  quisquam repellendus rerum sequi ut vel velit veniam, voluptates.
-                </div>
+                <div class="brand"><span>Thương hiệu:</span> <a href="#"><span>{{ brand.name }}</span></a></div>
+                <div class="name-product">{{ currentProduct.name }}</div>
 
                 <div class="row">
                   <div class="col-lg-8 col-sm-12">
                     <div class="card-price d-flex align-items-center">
-                      <div class="current-price">71.000₫</div>
-                      <div class="root-price">89.000₫</div>
-                      <div class="decrease-discount">-11%</div>
+                      <div class="current-price">{{ realPrice | currency }}</div>
+                      <div v-if="currentProduct.discount > 0" class="root-price">{{
+                          currentProduct.price | currency
+                        }}₫
+                      </div>
+                      <div v-if="currentProduct.discount > 0" class="decrease-discount">-{{
+                          currentProduct.discount
+                        }}%
+                      </div>
                     </div>
-                    <div class="card-address d-flex">
-                      <span>Giao đến:</span>
-                      <span class="detail-address">Q. 12, P. Tân Chánh Hiệp, Hồ Chí Minh</span>
-                      <span class="change-address">Đổi địa chỉ</span>
+                    <div v-if="isAuthenticated">
+                      <div v-if="defaultAddress.id" class="card-address d-flex align-items-center">
+                        <span>Giao đến:</span>
+                        <span class="detail-address">{{ defaultAddress.address }}</span>
+                        <button class="btn btn-sm btn-info" style="margin-left: auto"
+                                @click="redirect('customer.address')">Đổi địa chỉ
+                        </button>
+                      </div>
+                      <div v-else class="card-address d-flex align-items-center">
+                        <span style="user-select: none; font-weight: 600">Giao đến:</span>
+                        <button class="btn btn-sm btn-info" style="margin-left: auto"
+                                @click="redirect('customer.address.create')">Thêm địa chỉ
+                        </button>
+                      </div>
                     </div>
+
                     <div class="card-buy d-flex flex-column">
                       <div class="detail-mount d-flex align-items-center flex-wrap">
                         <span>Số lượng:</span>
@@ -58,17 +67,22 @@
                           <button><i class="fa fa-plus" aria-hidden="true"></i>
                           </button>
                         </div>
-                        <span class="text-danger text-uppercase font-weight-bold">CHỈ CÒN LẠI 1 SẢN PHẨM</span>
+                        <span v-if="isLimited" class="text-uppercase font-weight-bold"
+                              style="color: #ff5113">CHỈ CÒN LẠI {{ currentProduct.amount }} SẢN PHẨM</span>
                       </div>
                       <div class="my-3">
-                        <button class="btn btn-block btn-danger font-weight-bold">Chọn mua</button>
+                        <button v-if="currentProduct.amount > 0" class="btn btn-block btn-danger font-weight-bold">Chọn
+                          mua
+                        </button>
+                        <button v-else class="btn btn-block btn-danger font-weight-bold" disabled>Hết hàng</button>
                       </div>
                     </div>
                   </div>
 
                   <div class="col-lg-4 col-sm-12">
                     <div class="card-store d-flex flex-column">
-                      <router-link tag="div" :to="{name:'store.global', params:{slug: 'demo1'}}" class="card-store-info d-flex align-items-center">
+                      <router-link tag="div" :to="{name:'store.global', params:{slug: 'demo1'}}"
+                                   class="card-store-info d-flex align-items-center">
                         <div class="avatar">
                           <img src="https://vcdn.tikicdn.com/ts/seller/e3/84/1f/33b673123f5c858676ca98872184e9ee.png"
                                alt="">
@@ -141,63 +155,19 @@
         <div class="card-title text-uppercase">Mô tả sản phẩm</div>
         <div class="card-body">
           <div class="product-description position-relative">
-            <div class="toggle">
-              Thiết kế lịch lãm, sang trọng<br>
-              Độc đáo với thiết kế siêu nhẹ và bền<br>
-              Màu sắc cá tính riêng biệt<br>
-              Thiết kế êm ái và thoải mái<br>
-              Dễ dàng phối trang phục<br>
-              Chất liệu cao cấp<br>
-              Mũi giày tròn<br>
-              Đế bằng cao su tổng hợp; xẻ rãnh chống trơn trượt<br>
-              Giày giúp tăng 3cm chiều cao<p>Môt đôi giày luôn là sự lựa chọn tuyệt vời bởi sự phong phú
-              trong
-              việc phối đồ, phù hợp với nhiều phong cách khác nhau, đều rất thuận tiện cho vui chơi, đi
-              học và
-              đi làm, mang lại một vẻ đẹp đặc trưng từ màu sắc đậm nhạt…</p>
-              <p>Ngoài ra Giày được thiết kế theo phong cách thời trang hiện đại nhất, luôn trở thành điểm
-                nhấn thu hút mọi ánh nhìn<br>Thiết kế lịch lãm, sang trọng<br>Độc đáo với thiết kế siêu
-                nhẹ
-                và bền<br>Màu sắc cá tính riêng biệt<br>Thiết kế êm ái và thoải mái<br>Dễ dàng
-                phối
-                trang phục<br>Chất liệu cao cấp<br>Mũi giày tròn<br>Đế bằng cao su tổng hợp; xẻ rãnh
-                chống
-                trơn trượt</p>
-              <p style="text-align: center;"><img
-                  src="https://salt.tikicdn.com/ts/tmp/71/bd/11/0f99e3bb292fcd102e67a1f406b4c824.jpg" alt="" width="696"
-                  height="455"></p>
-              <p style="text-align: center;"><img
-                  src="https://salt.tikicdn.com/ts/tmp/74/40/c3/14b672a94dd4b6c3016a81b36c1f82b7.jpg" alt="" width="720"
-                  height="720"></p>
-              <p style="text-align: center;"><img
-                  src="https://salt.tikicdn.com/ts/tmp/c9/2b/93/8d7dd031fd63f72e5e66991583c45975.jpg" alt="" width="720"
-                  height="720"></p>
-              <p style="text-align: center;"><img
-                  src="https://salt.tikicdn.com/ts/tmp/4e/39/63/823fd8122bc736212eea06ad28cc7587.jpg" alt="" width="750"
-                  height="490"></p>
-              <p style="text-align: center;"><img
-                  src="https://salt.tikicdn.com/ts/tmp/fd/61/4c/6a9d8c2d55206181067a8e10b9797d39.jpg" alt="" width="726"
-                  height="1280"></p>
-              <p style="text-align: center;"><img
-                  src="https://salt.tikicdn.com/ts/tmp/1a/5d/c4/93af2bdd851bcf714de41d3537412bf1.jpg" alt="" width="750"
-                  height="616"></p>
-              <p style="text-align: center;"><img
-                  src="https://salt.tikicdn.com/ts/tmp/ae/c1/95/ff7d37c88eebe314e5324dc37ecd5ac1.jpg" alt="" width="750"
-                  height="750"></p>
-              <p style="text-align: center;"><img
-                  src="https://salt.tikicdn.com/ts/tmp/04/0b/26/ddba37cc10206ef348b4caf0100962a4.jpg" alt="" width="750"
-                  height="564"></p>
-              <p style="text-align: center;">&nbsp;</p>
-              <p>Giá sản phẩm trên Tiki đã bao gồm thuế theo luật hiện hành. Tuy nhiên tuỳ vào từng loại
-                sản
-                phẩm hoặc phương thức, địa chỉ giao hàng mà có thể phát sinh thêm chi phí khác như phí
-                vận
-                chuyển, phụ phí hàng cồng kềnh, ...</p></div>
-            <div class="gradient"></div>
+            <div :class="classContentToggle" v-html="currentProduct.description">
+
+            </div>
+            <div v-if="isShowMoreContent == false" class="gradient"></div>
 
           </div>
           <div class="d-flex my-3">
-            <button class="btn btn-sm btn-outline-primary mx-auto">Xem thêm nội dung</button>
+            <button v-if="isShowMoreContent == false" class="btn btn-sm btn-outline-primary mx-auto"
+                    @click="isShowMoreContent = true">Xem thêm nội dung
+            </button>
+            <button v-else class="btn btn-sm btn-outline-primary mx-auto" @click="isShowMoreContent = false">Rút gọn nội
+              dung
+            </button>
           </div>
         </div>
       </div>
@@ -212,9 +182,9 @@
             <div class="col-lg-3 col-md-12">
               <ReviewRating></ReviewRating>
             </div>
-            <div class="col-lg-9 col-md-12">
-              <ReviewImage></ReviewImage>
-            </div>
+            <!--            <div class="col-lg-9 col-md-12">
+                          <ReviewImage></ReviewImage>
+                        </div>-->
           </div>
 
           <div class="feedback d-flex flex-column">
@@ -234,16 +204,104 @@
 
 </template>
 <script>
-import ReviewRating from "@/components/ReviewRating";
-import ReviewImage from "@/components/ReviewImage";
-import FeedbackUser from "@/components/FeedbackUser";
-import VPagination from "@/components/VPagination";
+import ReviewRating from "../components/ReviewRating";
+//import ReviewImage from "../components/ReviewImage";
+import FeedbackUser from "../components/FeedbackUser";
+import VPagination from "../components/VPagination";
+import {mapGetters} from "vuex";
+import {FETCH_ADDRESSES, GET_PRODUCT} from "../store/actions.type";
+
 export default {
-  components:{
+  props: {
+    // slug: {
+    //   type: String,
+    //   required: true
+    // }
+  },
+
+  data() {
+    return {
+      id: "",
+      isShowMoreContent: false,
+      limitedProduct: 30,
+      defaultImage: 'https://via.placeholder.com/640x480.png/00bb11?text=default',
+    }
+  },
+  created() {
+    this.$store.dispatch(FETCH_ADDRESSES);
+    this.loadingData();
+  },
+  methods: {
+    loadingData() {
+      const {slug} = this.$route.params;
+      this.$store.dispatch(GET_PRODUCT, slug)
+    },
+
+    redirect(_name, params = {}) {
+      this.$router.push({name: _name, params: params}).then(() => {
+        this.statusShowNavBar = false;
+      }).catch(() => {
+
+      });
+    },
+  },
+  computed: {
+    ...mapGetters(["currentProduct", "isAuthenticated", "defaultAddress"]),
+    brand() {
+      const {brand} = this.currentProduct;
+      return brand || {};
+    },
+
+    reviews() {
+      const {reviews} = this.currentProduct;
+      return reviews || [];
+    },
+
+    supplier() {
+      const {supplier} = this.currentProduct;
+      return supplier || {};
+    },
+
+    images() {
+      const {images} = this.currentProduct;
+      return images || [];
+    },
+
+    realPrice() {
+      const {price, discount} = this.currentProduct;
+      return price * (100 - discount) / 100;
+    },
+
+    isLimited() {
+      const {amount} = this.currentProduct;
+      return amount && amount < this.limitedProduct ? true : false;
+    },
+
+    classContentToggle() {
+      const {isShowMoreContent} = this;
+      return {
+        toggle: true,
+        show: isShowMoreContent
+      }
+    },
+
+    firstImages() {
+      const {images} = this.currentProduct;
+      return images[0] ? images[0].url : this.defaultImage;
+    },
+  },
+  components: {
     ReviewRating,
-    ReviewImage,
+    //ReviewImage,
     FeedbackUser,
     VPagination
+  },
+  watch: {
+    '$route.params': {
+      handler() {
+        this.loadingData();
+      }
+    }
   }
 }
 </script>
@@ -284,13 +342,6 @@ export default {
 .user-action > .single-action.active {
   color: #dc3545;
   box-shadow: rgb(238 160 160) 0px 2px 6px 0px;
-}
-
-.card-price {
-  margin: 15px 0px;
-  padding: 10px 20px;
-  background: #e9e9e9;
-  border-radius: 5px;
 }
 
 .review-image {
@@ -336,10 +387,12 @@ export default {
 
 
 .card-price {
+  margin: 15px 0px;
   padding: 10px 20px;
   background: #e9e9e9;
   border-radius: 5px;
 }
+
 
 .card-price > .current-price {
   font-size: 2rem;
@@ -363,7 +416,6 @@ export default {
   margin-bottom: 20px;
   padding: 20px 0px;
   border-bottom: 1px #d2cece solid;
-  border-top: 1px #d2cece solid;
 }
 
 .card-address > span {
@@ -486,8 +538,13 @@ table.product-detail tr:nth-child(odd) > td:nth-child(2) {
 
 
 .product-description > .toggle {
-  height: 500px;
+  min-height: 100px;
+  max-height: 500px;
   overflow: hidden;
+}
+
+.product-description > .toggle.show {
+  height: auto !important;
 }
 
 .product-description > .gradient {
