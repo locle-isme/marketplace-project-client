@@ -3,7 +3,8 @@
     <div class="col-12">
       <div class="card">
         <div class="user-action position-absolute d-flex">
-          <div class="single-action like-product active"><i class="fa fa-heart" aria-hidden="true"></i></div>
+          <div :class="classFavouritedProduct" @click="handleAddFavourite"><i class="fa fa-heart"
+                                                                              aria-hidden="true"></i></div>
           <div class="single-action share-product"><i class="fa fa-share-alt" aria-hidden="true"></i></div>
         </div>
         <div class="card-body">
@@ -32,13 +33,11 @@
                   <div class="col-lg-8 col-sm-12">
                     <div class="card-price d-flex align-items-center">
                       <div class="current-price">{{ realPrice | currency }}</div>
-                      <div v-if="currentProduct.discount > 0" class="root-price">{{
-                          currentProduct.price | currency
-                        }}₫
+                      <div v-if="currentProduct.discount > 0" class="root-price">
+                        {{ currentProduct.price | currency }}
                       </div>
-                      <div v-if="currentProduct.discount > 0" class="decrease-discount">-{{
-                          currentProduct.discount
-                        }}%
+                      <div v-if="currentProduct.discount > 0" class="decrease-discount">
+                        -{{ currentProduct.discount }}%
                       </div>
                     </div>
                     <div v-if="isAuthenticated">
@@ -209,15 +208,10 @@ import ReviewRating from "../components/ReviewRating";
 import FeedbackUser from "../components/FeedbackUser";
 import VPagination from "../components/VPagination";
 import {mapGetters} from "vuex";
-import {FETCH_ADDRESSES, GET_PRODUCT} from "../store/actions.type";
+import {FAVOURITE_CREATE, FAVOURITE_DELETE, FETCH_ADDRESSES, GET_PRODUCT} from "../store/actions.type";
 
 export default {
-  props: {
-    // slug: {
-    //   type: String,
-    //   required: true
-    // }
-  },
+  props: {},
 
   data() {
     return {
@@ -227,6 +221,7 @@ export default {
       defaultImage: 'https://via.placeholder.com/640x480.png/00bb11?text=default',
     }
   },
+
   created() {
     this.$store.dispatch(FETCH_ADDRESSES);
     this.loadingData();
@@ -244,6 +239,28 @@ export default {
 
       });
     },
+
+    handleAddFavourite() {
+      if (!this.currentProduct.favourited) {
+        this.$store.dispatch(FAVOURITE_CREATE, {product_id: this.currentProduct.id})
+            .then(() => {
+              this.loadingData();
+              this.$toast.success('Đã thích', {
+                duration: 5000,
+                position: 'top-left'
+              })
+            })
+      } else {
+        this.$store.dispatch(FAVOURITE_DELETE, {product_id: this.currentProduct.id})
+            .then(() => {
+              this.loadingData();
+              this.$toast.success('Đã bỏ thích', {
+                duration: 5000,
+                position: 'top-left'
+              })
+            });
+      }
+    }
   },
   computed: {
     ...mapGetters(["currentProduct", "isAuthenticated", "defaultAddress"]),
@@ -289,6 +306,15 @@ export default {
       const {images} = this.currentProduct;
       return images[0] ? images[0].url : this.defaultImage;
     },
+
+    classFavouritedProduct() {
+      const {favourited} = this.currentProduct;
+      return {
+        'single-action': true,
+        'like-product': true,
+        'active': favourited
+      }
+    }
   },
   components: {
     ReviewRating,
@@ -389,28 +415,28 @@ export default {
 .card-price {
   margin: 15px 0px;
   padding: 10px 20px;
-  background: #e9e9e9;
+  background: rgb(242, 242, 242);
   border-radius: 5px;
 }
 
 
 .card-price > .current-price {
-  font-size: 2rem;
-  font-weight: 600;
+  font-size: 2em;
+  font-weight: 550;
   margin-right: 15px;
-  color: #be0505;
 }
 
 
 .card-price > .root-price {
-  font-size: 1rem;
+  font-size: 1em;
   margin-right: 15px;
   text-decoration: line-through;
 }
 
-.card-price > .root-price {
-  font-size: 1rem;
+.card-price > .decrease-discount {
+  font-size: 0.8em;
 }
+
 
 .card-address {
   margin-bottom: 20px;

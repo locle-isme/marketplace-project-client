@@ -18,7 +18,7 @@ const getters = {
         return state.defaultAddress || {};
     },
 
-    addressErrors(state){
+    addressErrors(state) {
         return state.addressErrors || {};
     }
 
@@ -56,13 +56,13 @@ const actions = {
             .then((response) => {
                 const {status, data} = response;
                 if (status == "success") {
-                    context.commit(SET_ADDRESSES, data);
                     return data;
                 } else {
                     context.commit(SET_ADDRESS_ERRORS, data);
                     throw data;
                 }
             })
+
     },
 
     [ADDRESS_EDIT](context, address) {
@@ -70,13 +70,13 @@ const actions = {
             .then((response) => {
                 const {status, data} = response;
                 if (status == "success") {
-                    context.commit(SET_ADDRESSES, data);
                     return data;
                 } else {
                     context.commit(SET_ADDRESS_ERRORS, data);
                     throw data;
                 }
             })
+
     },
 
     [ADDRESS_DELETE](context, id) {
@@ -84,13 +84,16 @@ const actions = {
             .then((response) => {
                 const {status, data} = response;
                 if (status == "success") {
-                    context.commit(SET_ADDRESSES, data);
                     return data;
                 } else {
                     context.commit(SET_ADDRESS_ERRORS, data);
                     throw data;
                 }
             })
+            .then(() => {
+                return context.dispatch(FETCH_ADDRESSES)
+            })
+
     }
 }
 

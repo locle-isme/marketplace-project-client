@@ -3,6 +3,12 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueSwal from 'vue-swal'
+import VueToast from 'vue-toast-notification';
+// Import one of the available themes
+//import 'vue-toast-notification/dist/theme-default.css';
+import 'vue-toast-notification/dist/theme-sugar.css';
+
+
 import {ApiService} from "./common/api.service";
 import {BootstrapVue, BootstrapVueIcons} from "bootstrap-vue"
 import {CHECK_AUTH} from "./store/actions.type";
@@ -13,6 +19,7 @@ import './assets/css/custom.css'
 import FilterError from './common/filter.error'
 import FilterCurrency from './common/filter.currency'
 
+Vue.use(VueToast);
 Vue.use(VueSwal)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)

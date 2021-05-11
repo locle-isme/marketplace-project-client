@@ -51,6 +51,14 @@ export const ApiService = {
             throw new Error(`[RWV] ApiService ${error}`)
         })
     },
+
+    remove(resource, params) {
+        return Vue.axios.delete(`${resource}`, {
+            data: params
+        }).catch((error) => {
+            throw new Error(`[RWV] ApiService ${error}`)
+        })
+    }
 }
 
 
@@ -123,6 +131,24 @@ export const ProductService = {
 
     getList(params = {}) {
         return ApiService.query('products', params)
+            .then(({data}) => data);
+    }
+}
+
+export const FavouriteService = {
+    getList(params = {}) {
+        return ApiService.query('me/favourites', params)
+            .then(({data}) => data);
+    },
+
+    post(params) {
+        return ApiService.post('me/favourites', params)
+            .then(({data}) => data);
+    },
+
+
+    delete(params) {
+        return ApiService.remove(`me/favourites`, params)
             .then(({data}) => data);
     }
 }

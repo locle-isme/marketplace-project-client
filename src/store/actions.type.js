@@ -10,3 +10,6 @@ export const ADDRESS_EDIT = "editAddress";
 export const ADDRESS_DELETE = "deleteAddress";
 export const GET_PRODUCT = "getProduct";
 export const FETCH_PRODUCTS = "getListProducts";
+export const FETCH_FAVOURITES = "getListFavourites";
+export const FAVOURITE_DELETE = "deleteFavourite";
+export const FAVOURITE_CREATE = "createFavourite";
