@@ -85,65 +85,75 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss">
 
-.delivery-address .action-change {
-  cursor: pointer;
-  color: #2475a0;
-  font-size: 0.9em;
-}
+.delivery-address {
+  .action-change {
+    cursor: pointer;
+    color: #2475a0;
+    font-size: 0.9em;
+  }
 
-.delivery-address .name-customer, .delivery-address .phone-customer {
-  font-weight: 600;
-  font-size: 1em;
-}
+  .name-customer {
+    font-weight: 600;
+    font-size: 1em;
+  }
 
-.delivery-address .address-customer {
-  font-size: 0.85em;
-}
+  .phone-customer {
+    @extend .name-customer
+  }
 
-.coupon .coupon-item {
-  background: #fff;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  border-radius: 5px;
-  padding: 15px 10px;
-  border: #ffffff 1px solid;
-  margin-bottom: 10px;
-}
-
-.coupon .coupon-item.active {
-  background: rgba(141, 214, 215, 0.5);
-  border-color: #44a5ca;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  .address-customer {
+    font-size: 0.85em;
+  }
 }
 
 
-.coupon .coupon-item > .coupon-name {
-  font-size: 0.9em;
-  font-weight: 600;
+.coupon {
+  .coupon-item {
+    background: #fff;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 5px;
+    padding: 15px 10px;
+    border: #ffffff 1px solid;
+    margin-bottom: 10px;
+
+    &.active {
+      background: rgba(141, 214, 215, 0.5);
+      border-color: #44a5ca;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    }
+
+    .coupon-name {
+      font-size: 0.9em;
+      font-weight: 600;
+    }
+  }
 }
 
 
 .cost-box {
+  .box-item {
+    padding: 15px 15px 20px 15px;
+
+    &:nth-child(1) {
+      border-bottom: rgba(162, 160, 160, 0.5) 1px solid;
+    }
+
+    div {
+      &:nth-child(1) {
+        color: #999898;
+      }
+    }
+
+    #total-cost {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #f86262;
+    }
+  }
 
 }
 
-.cost-box .box-item {
-  padding: 15px 15px 20px 15px;
-}
 
-.cost-box .box-item:nth-child(1) {
-  border-bottom: rgba(162, 160, 160, 0.5) 1px solid;
-}
-
-.cost-box .box-item div:nth-child(1) {
-  color: #999898;
-}
-
-.cost-box .box-item #total-cost {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #f86262;
-}
 </style>

@@ -17,47 +17,61 @@ export const ApiService = {
 
 
     query(resource, params) {
-        return Vue.axios.get(`${resource}`, {params}).catch((error) => {
-            throw new Error(`[RWV] ApiService ${error}`)
-        })
+        return Vue.axios.get(`${resource}`, {params})
+            .then(({data}) => data)
+            .catch((error) => {
+                throw new Error(`[RWV] ApiService ${error}`)
+            })
     },
 
     get(resource, slug = "") {
-        return Vue.axios.get(`${resource}/${slug}`).catch((error) => {
-            throw new Error(`[RWV] ApiService ${error}`)
-        })
+        return Vue.axios.get(`${resource}/${slug}`)
+            .then(({data}) => data)
+            .catch((error) => {
+                throw new Error(`[RWV] ApiService ${error}`)
+            })
     },
 
     post(resource, params) {
-        return Vue.axios.post(`${resource}`, params).catch((error) => {
-            throw new Error(`[RWV] ApiService ${error}`)
-        })
+        return Vue.axios.post(`${resource}`, params)
+            .then(({data}) => data)
+            .catch((error) => {
+                throw new Error(`[RWV] ApiService ${error}`)
+            })
     },
 
     update(resource, slug, params) {
-        return Vue.axios.put(`${resource}/${slug}`, params).catch((error) => {
-            throw new Error(`[RWV] ApiService ${error}`)
-        })
+        return Vue.axios.put(`${resource}/${slug}`, params)
+            .then(({data}) => data)
+            .catch((error) => {
+                throw new Error(`[RWV] ApiService ${error}`)
+            })
     },
 
     put(resource, params) {
-        return Vue.axios.put(`${resource}`, params).catch((error) => {
-            throw new Error(`[RWV] ApiService ${error}`)
-        })
+        return Vue.axios.put(`${resource}`, params)
+            .then(({data}) => data)
+            .catch((error) => {
+                throw new Error(`[RWV] ApiService ${error}`)
+            })
     },
 
     delete(resource, slug = "") {
-        return Vue.axios.delete(`${resource}/${slug}`).catch((error) => {
-            throw new Error(`[RWV] ApiService ${error}`)
-        })
+        return Vue.axios.delete(`${resource}/${slug}`)
+            .then(({data}) => data)
+            .catch((error) => {
+                throw new Error(`[RWV] ApiService ${error}`)
+            })
     },
 
     remove(resource, params) {
         return Vue.axios.delete(`${resource}`, {
             data: params
-        }).catch((error) => {
-            throw new Error(`[RWV] ApiService ${error}`)
         })
+            .then(({data}) => data)
+            .catch((error) => {
+                throw new Error(`[RWV] ApiService ${error}`)
+            })
     }
 }
 
@@ -65,17 +79,14 @@ export const ApiService = {
 export const AuthorizationService = {
     login(params) {
         return ApiService.post('login', params)
-            .then(({data}) => data);
     },
 
     register(params) {
         return ApiService.post('register', params)
-            .then(({data}) => data);
     },
 
     logout() {
         return ApiService.post('logout')
-            .then(({data}) => data);
     },
 
     refresh() {
@@ -84,12 +95,10 @@ export const AuthorizationService = {
 
     update(params) {
         return ApiService.put('me', params)
-            .then(({data}) => data);
     },
 
     get() {
         return ApiService.get('me')
-            .then(({data}) => data);
     }
 }
 
@@ -100,55 +109,63 @@ export const AddressService = {
             url += `/${slug}`
         }
         return ApiService.get(url)
-            .then(({data}) => data);
     },
 
     store(params) {
         return ApiService.post(`addresses`, params)
-            .then(({data}) => data);
     },
 
     update(slug, params) {
         return ApiService.put(`addresses/${slug}`, params)
-            .then(({data}) => data);
     },
 
     delete(slug) {
         return ApiService.delete(`addresses`, slug)
-            .then(({data}) => data);
     }
 }
 
 export const ProductService = {
     query(params = {}) {
         return ApiService.query('products', params)
-            .then(({data}) => data);
     },
     get(id) {
         return ApiService.get('products', id)
-            .then(({data}) => data);
     },
 
-    getList(params = {}) {
-        return ApiService.query('products', params)
-            .then(({data}) => data);
-    }
 }
 
 export const FavouriteService = {
     getList(params = {}) {
         return ApiService.query('me/favourites', params)
-            .then(({data}) => data);
     },
 
     post(params) {
         return ApiService.post('me/favourites', params)
-            .then(({data}) => data);
     },
 
 
     delete(params) {
         return ApiService.remove(`me/favourites`, params)
-            .then(({data}) => data);
     }
+}
+
+export const ReviewService = {
+    query(params = {}) {
+        return ApiService.query('reviews', params)
+    },
+    get(id) {
+        return ApiService.get('reviews', id)
+    },
+
+    getListWaitingForReview() {
+        return ApiService.get('me/listWaitingForReview')
+    },
+
+    store(params) {
+        return ApiService.post(`reviews`, params)
+    },
+
+    update(slug, params) {
+        return ApiService.put(`reviews/${slug}`, params)
+    },
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="modal d-block">
+  <div class="modal modal-auth d-block">
     <div class="modal-dialog auth">
       <div class="modal-content">
         <!-- Modal Header -->
@@ -343,32 +343,49 @@ export default {
 }
 </script>
 
-<style scoped>
-@media (min-width: 576px) {
-  .modal-dialog.auth {
-    max-width: 900px;
-    margin: 3rem auto;
-  }
-}
+<style lang="scss">
 
-.modal {
+
+.modal-auth {
   z-index: 1060;
   background: rgba(0, 0, 0, 0.5);
   overflow-y: scroll;
+
+  .modal-dialog {
+    @media (min-width: 576px) {
+      &.auth {
+        max-width: 900px;
+        margin: 3rem auto;
+      }
+    }
+
+    @media (min-width: 576px) {
+      &.auth {
+        max-width: 900px;
+        margin: 3rem auto;
+      }
+    }
+
+    &.auth {
+      .content {
+        height: 100%;
+        background: #fff;
+        padding: 0px 15px;
+
+        .form {
+          margin-top: 20px;
+        }
+      }
+    }
+
+    .nav-item {
+      .nav-link {
+        cursor: pointer;
+      }
+    }
+
+  }
 }
 
 
-.modal-dialog.auth .content {
-  height: 100%;
-  background: #fff;
-  padding: 0px 15px;
-}
-
-.content .form {
-  margin-top: 20px;
-}
-
-.nav-item .nav-link {
-  cursor: pointer;
-}
 </style>

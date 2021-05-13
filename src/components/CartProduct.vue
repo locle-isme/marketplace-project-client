@@ -1,7 +1,8 @@
 <template>
   <div class="cart-product row">
     <div class="d-flex flex-column">
-      <div class="seller">ThuanThienTs <i class="fas fa-chevron-right" style="margin-left: 8px;font-size: 0.8em"></i></div>
+      <div class="seller">ThuanThienTs <i class="fas fa-chevron-right" style="margin-left: 8px;font-size: 0.8em"></i>
+      </div>
       <div class="product row flex-nowrap">
         <div class="img justify-content-center">
           <img src="https://salt.tikicdn.com/cache/200x200/ts/product/d9/5f/97/4b8d952402cfe75a08403cf758eee7df.jpg"
@@ -51,7 +52,7 @@
 <script>
 export default {}
 </script>
-<style>
+<style lang="scss">
 
 .line-straight {
   width: 2px;
@@ -68,149 +69,160 @@ export default {}
   margin: 0px 0px 15px 0px;
   padding: 10px 5px;
   border-radius: 8px;
-}
 
-.seller-discount{
-  padding: 20px 5px 5px 5px;
-}
+  .seller-discount {
+    padding: 20px 5px 5px 5px;
 
-.seller-discount>.description{
-  font-size: 1.1em;
-  color: #242323;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.cart-product .seller {
-  color: rgba(34, 34, 34, 0.8);
-  padding: 8px 15px;
-  font-size: 0.95em;
-  line-height: 5px;
-  font-weight: 550;
-  margin-bottom: 15px;
-  cursor: pointer;
-}
-
-.cart-product .product {
-  padding: 8px 20px;
-}
-
-.cart-product .product > .img {
-  width: 90px;
-  height: 90px;
-}
-
-@media (max-width: 991px) {
-  .cart-product .product > .img {
-    width: 90px;
-    height: 90px;
+    .description {
+      font-size: 1.1em;
+      color: #242323;
+      font-weight: 500;
+      cursor: pointer;
+    }
   }
 
-  .cart-product .content {
-    width: calc(100% - 90px);
-  }
-}
-
-@media (min-width: 992px) {
-  .cart-product .product > .img {
-    width: 130px;
-    height: 130px;
+  .seller {
+    color: rgba(34, 34, 34, 0.8);
+    padding: 8px 15px;
+    font-size: 0.95em;
+    line-height: 5px;
+    font-weight: 550;
+    margin-bottom: 15px;
     cursor: pointer;
   }
 
-  .cart-product .content {
-    width: calc(100% - 120px);
+  .product {
+    padding: 8px 20px;
+
+    @media (max-width: 991px) {
+      .img {
+        width: 90px;
+        height: 90px;
+      }
+
+      .content {
+        width: calc(100% - 90px);
+      }
+    }
+
+    @media (min-width: 992px) {
+      .img {
+        width: 130px;
+        height: 130px;
+        cursor: pointer;
+      }
+
+      .content {
+        width: calc(100% - 120px);
+      }
+    }
+
+    .img {
+      width: 90px;
+      height: 90px;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .content {
+      .description {
+        margin-right: 10px;
+        margin-left: 10px;
+        width: calc(100% - 125px);
+
+        .name {
+          margin-bottom: 15px;
+          font-size: 0.95em;
+          color: #000;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          cursor: pointer;
+        }
+
+        .actions {
+          margin-bottom: 15px;
+
+          .remove {
+            margin-right: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            color: #239de2;
+          }
+
+          .buy-later {
+            @extend .remove;
+          }
+        }
+
+        .note {
+          color: #e54242;
+          font-size: 0.9em;
+        }
+
+        .quality-a {
+          margin-bottom: 20px;
+
+          .btn-group {
+            border: 1px solid rgb(200, 200, 200);
+
+            .quality-btn {
+              width: 24px;
+              height: 24px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              border: none;
+
+              &:first-child {
+                border-right: 1px solid rgb(200, 200, 200);
+              }
+
+              &:last-child {
+                border-left: 1px solid rgb(200, 200, 200);
+              }
+
+            }
+
+            .quality-input {
+              width: 30px;
+              border: none;
+              outline: none;
+              text-align: center;
+            }
+
+          }
+        }
+      }
+
+      .detail {
+        width: auto;
+
+        .price {
+          .real-price {
+            color: #be0505;
+            font-size: 1.1em;
+            font-weight: 600;
+          }
+
+          .root-price {
+            font-size: 0.8em;
+          }
+
+          .discount {
+            @extend .root-price;
+          }
+        }
+      }
+    }
   }
-}
 
 
-.cart-product .product > .content > .description {
-  margin-right: 10px;
-  margin-left: 10px;
-  width: calc(100% - 125px);
-}
-
-.cart-product .product > .content > .detail {
-  width: auto;
-}
-
-.cart-product .product > .img img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-
-.cart-product .product > .content > .description .name, .cart-product .product > .content > .description .note, .cart-product .product > .content > .description .actions {
-  margin-bottom: 15px;
-}
-
-.cart-product .product > .content > .description .name {
-  font-size: 0.95em;
-  color: #000;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.cart-product .product > .content > .description .note {
-  color: #e54242;
-  font-size: 0.9em;
-}
-
-.cart-product .product > .content > .description .actions > .remove, .cart-product .product > .content > .description .actions > .buy-later {
-  cursor: pointer;
-  font-size: 0.9em;
-  color: #239de2;
-}
-
-.cart-product .product > .content > .description .actions > .remove {
-  margin-right: 20px;
-}
-
-.cart-product .product > .content > .detail > .price > .real-price {
-  color: #be0505;
-  font-size: 1.1em;
-  font-weight: 600;
-}
-
-.cart-product .product > .content > .detail > .price .root-price, .cart-product .product > .content > .detail > .price .discount {
-  font-size: 0.8em;
-}
-
-.quality-a {
-  margin-bottom: 20px;
-}
-
-.quality-a > .btn-group {
-  border: 1px solid rgb(200, 200, 200);
-
-}
-
-.quality-a > .btn-group > .quality-btn {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-}
-
-.quality-a > .btn-group > .quality-input {
-  width: 30px;
-  border: none;
-  outline: none;
-  text-align: center;
-}
-
-.quality-a > .btn-group > .quality-btn:first-child {
-  border-right: 1px solid rgb(200, 200, 200);
-}
-
-.quality-a > .btn-group > .quality-btn:last-child {
-  border-left: 1px solid rgb(200, 200, 200);
 }
 
 

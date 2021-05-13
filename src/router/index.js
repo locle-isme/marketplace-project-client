@@ -24,25 +24,25 @@ export default new VueRouter({
 
         {
             path: '/stores/:slug',
-            component: () => import("@/views/Store"),
+            component: () => import("../views/store/Store"),
             props: true,
             children: [
                 {
                     path: "",
                     name: "store.global",
-                    component: () => import("@/views/StoreGlobal"),
+                    component: () => import("../views/store/StoreGlobal"),
                     props: true,
                 },
                 {
                     path: "category",
                     name: "store.category",
-                    component: () => import("@/views/StoreCategory"),
+                    component: () => import("../views/store/StoreCategory"),
                     props: true,
                 },
                 {
                     path: "info",
                     name: "store.info",
-                    component: () => import("@/views/StoreInfo"),
+                    component: () => import("../views/store/StoreInfo"),
                     props: true,
                 }
             ]

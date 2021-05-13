@@ -10,21 +10,7 @@
           <table class="table mt-3">
             <tbody>
             <template v-for="address in listAddresses">
-              <tr :key="address.id">
-                <td>
-                  <ItemAddress :address="address"></ItemAddress>
-                </td>
-
-                <td>
-                  <div class="float-right btn-group">
-                    <button class="btn btn-sm btn-danger" @click="deleteAddress(address.id)">Xóa</button>
-                    <router-link tag="button"
-                                 :to="{name:'customer.address.edit', params: {addressID: address.id.toString()}}"
-                                 class="btn btn-sm btn-warning">Chỉnh sửa
-                    </router-link>
-                  </div>
-                </td>
-              </tr>
+              <AddressComponent :key="address.id" @removeAddress="removeAddress" :address="address"></AddressComponent>
             </template>
             </tbody>
           </table>
@@ -35,7 +21,7 @@
 </template>
 
 <script>
-import ItemAddress from "../../../components/ItemAddress";
+import AddressComponent from "../../../components/AddressComponent";
 import {mapGetters} from "vuex";
 import {FETCH_ADDRESSES, ADDRESS_DELETE} from "../../../store/actions.type";
 
@@ -46,7 +32,7 @@ export default {
   },
 
   methods: {
-    deleteAddress(id) {
+    removeAddress(id) {
       this.$swal({
         title: "Cảnh báo!",
         text: "Bạn có chắc chắn xóa địa chỉ này không!",
@@ -74,11 +60,11 @@ export default {
   },
 
   components: {
-    ItemAddress
+    AddressComponent
   },
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 
 </style>

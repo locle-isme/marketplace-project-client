@@ -38,7 +38,7 @@
           <div class="suggestion-today card-body" style="padding: 0rem 1.25rem">
             <div class="row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
               <template v-for="(product, index) in listProducts.products">
-                <ProductItem :key="index" :product="product"></ProductItem>
+                <ProductComponent :key="index" :product="product"></ProductComponent>
               </template>
             </div>
             <div class="my-4 d-flex justify-content-center">
@@ -51,7 +51,7 @@
   </div>
 </template>
 <script>
-import ProductItem from "@/components/ProductItem";
+import ProductComponent from "../components/ProductComponent";
 import TagKeyword from "@/components/TagKeyword";
 import PopularCategory from "@/components/PopularCategory";
 import {mapGetters} from "vuex";
@@ -66,7 +66,7 @@ export default {
   },
 
   components: {
-    ProductItem,
+    ProductComponent,
     TagKeyword,
     PopularCategory,
   }
@@ -74,7 +74,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss">
 
 .feature-category {
   overflow-y: auto;

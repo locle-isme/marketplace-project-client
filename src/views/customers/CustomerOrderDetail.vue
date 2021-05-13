@@ -83,9 +83,11 @@
                                                        src="https://salt.tikicdn.com/cache/200x200/ts/product/d9/5f/97/4b8d952402cfe75a08403cf758eee7df.jpg"
                                                        alt=""></div>
                         <div class="d-flex flex-column ml-2">
-                          <div><span style="font-weight: 600; color: #1f648b;cursor: pointer">Khay Ổ Cứng Laptop (Caddy Bay) ORICO L95SS (9.5mm) - Hàng Chính hãng</span></div>
+                          <div><span style="font-weight: 600; color: #1f648b;cursor: pointer">Khay Ổ Cứng Laptop (Caddy Bay) ORICO L95SS (9.5mm) - Hàng Chính hãng</span>
+                          </div>
                           <div class="mt-1"><span>Cung cấp bởi &nbsp;</span><span class="text-primary"
-                                                                                  style="cursor: pointer">Tiki Trading</span></div>
+                                                                                  style="cursor: pointer">Tiki Trading</span>
+                          </div>
                         </div>
                       </div>
                     </td>
@@ -101,13 +103,17 @@
                     <td><span class="float-right">49.700₫</span></td>
                   </tr>
                   <tr>
-                    <td colspan="4" style="border: unset"><span class="float-right" style="color: rgb(149, 149, 149);">Phí vận chuyển </span></td>
+                    <td colspan="4" style="border: unset"><span class="float-right" style="color: rgb(149, 149, 149);">Phí vận chuyển </span>
+                    </td>
                     <td style="border: unset"><span class="float-right">49.700₫</span></td>
                   </tr>
                   <tr>
-                    <td colspan="4" style="border: unset"><span class="float-right" style="color: rgb(78,78,78);font-size: 1.2em">Tổng kết</span></td>
+                    <td colspan="4" style="border: unset"><span class="float-right"
+                                                                style="color: rgb(78,78,78);font-size: 1.2em">Tổng kết</span>
+                    </td>
                     <td style="border: unset">
-                      <span class="text-danger font-weight-bold float-right" style="font-size: 1.2em">49.000.700₫</span></td>
+                      <span class="text-danger font-weight-bold float-right" style="font-size: 1.2em">49.000.700₫</span>
+                    </td>
                   </tr>
                   </tbody>
                 </table>
@@ -126,30 +132,34 @@ export default {
 }
 </script>
 
-<style scoped>
-@media (max-width: 576px) {
-  .image-detail {
-    width: 200px !important;
-    height: 200px !important;
-  }
-}
+<style lang="scss">
 
 .image-detail {
   width: 70px;
   height: 70px;
+  @media (max-width: 576px) {
+    width: 200px !important;
+    height: 200px !important;
+  }
+
 }
 
-.notification span {
-  font-size: 0.95em;
-  color: #6b6b6b;
+.notification {
+  span {
+    font-size: 0.95em;
+    color: #6b6b6b;
+  }
 }
 
 .shipping {
   height: calc(100% - 25px);
+
+  .card-body {
+    span {
+      font-size: 0.9em;
+      color: #6b6b6b;
+    }
+  }
 }
 
-.shipping > .card-body span {
-  font-size: 0.9em;
-  color: #6b6b6b;
-}
 </style>

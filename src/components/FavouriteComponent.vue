@@ -1,5 +1,5 @@
 <template>
-  <router-link tag="div" :to="{name:'product.detail', params:{slug: product.id}}" class="product-item col"
+  <router-link tag="div" :to="{name:'product.detail', params:{slug: product.id}}" class="favourite-item col"
                style="padding: 1rem">
     <div class="d-flex flex-column">
       <div style="z-index: 111">
@@ -11,8 +11,8 @@
       <div class="name mt-2 limit-line">
         <span>{{ product.name }}</span>
       </div>
-      <ItemReview v-if="product.rating_count > 0" :rating_count="product.rating_count"
-                  :rating_average="product.rating_average"></ItemReview>
+      <ReviewRating v-if="ratings.rating_count > 0" :rating_count="ratings.rating_count"
+                    :rating_average="ratings.rating_average"></ReviewRating>
     </div>
     <div class="d-flex align-items-center">
       <div class="price">{{ realPrice | currency }}</div>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import ItemReview from "./ItemReview";
+import ReviewRating from "./ReviewRating";
 
 export default {
   props: {
@@ -56,43 +56,50 @@ export default {
     product() {
       const {product} = this.favourite;
       return product;
-    }
+    },
+
+    ratings() {
+      const {ratings} = this.product;
+      return ratings || {};
+    },
   },
   components: {
-    ItemReview
+    ReviewRating
   },
-  name: "FavouriteItem"
+  name: "FavouriteComponent"
 }
 </script>
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-.product-item {
+<style lang="scss">
+.favourite-item {
   cursor: pointer;
-}
 
-.product-item:hover {
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
-}
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+  }
 
-.product-item .name {
-  text-align: left;
-  font-weight: 550;
-}
+  .name {
+    text-align: left;
+    font-weight: 550;
+  }
 
-.product-item .limit-line {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-}
+  .limit-line {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
 
-.product-item .discount {
-  background: #e74646;
-  padding: 2px 3px;
-  user-select: none;
-  border-radius: 5px;
+  .discount {
+    background: #e74646;
+    padding: 2px 3px;
+    user-select: none;
+    font-size: 0.9em;
+    border-radius: 5px;
+  }
+
 }
 
 

@@ -1,31 +1,31 @@
 <template>
   <div>
-    <StoreHead :slug_store="slug_store"></StoreHead>
+    <StoreHeader :slug_store="slug_store"></StoreHeader>
     <router-view></router-view>
   </div>
 </template>
 <script>
-import StoreHead from "../components/StoreHead";
+
+import StoreHeader from "../../components/StoreHeader";
+
 export default {
   data() {
     return {}
   },
 
-  props:{
+  props: {
     slug_store: String
   },
 
-  methods: {
+  methods: {},
 
-  },
-
-  components:{
-    StoreHead,
+  components: {
+    StoreHeader
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style lang="scss">
 
 </style>

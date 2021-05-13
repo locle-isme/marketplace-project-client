@@ -15,20 +15,21 @@ export default {}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
-.popular-category{
+<style lang="scss">
+.popular-category {
   cursor: pointer;
+
+  .category-image {
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .limit-line {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
 }
 
-.popular-category .category-image {
-  border-radius: 16px;
-  overflow: hidden;
-}
-
-.popular-category .limit-line {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-}
 </style>

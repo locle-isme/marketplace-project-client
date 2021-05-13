@@ -20,8 +20,8 @@
           <div class="card-title text-uppercase">Tất cả sản phẩm: <span style="color: #3e3e3e; font-size: 1.2rem">34 kết quả</span></div>
           <div class="suggestion-today card-body" style="padding: 0rem 1.25rem">
             <div class="row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
-              <template v-for="i in 10">
-                <ProductItem :key="i"></ProductItem>
+              <template v-for="product in []">
+                <ProductComponent :key="product" :product="product"></ProductComponent>
               </template>
             </div>
             <div class="my-4 d-flex float-right">
@@ -35,18 +35,18 @@
 </template>
 <script>
 import PopularCategory from "@/components/PopularCategory";
-import ProductItem from "@/components/ProductItem";
+import ProductComponent from "../../components/ProductComponent";
 import VPagination from "@/components/VPagination";
 export default {
   components:{
     PopularCategory,
-    ProductItem,
+    ProductComponent,
     VPagination
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style lang="scss">
 
 </style>

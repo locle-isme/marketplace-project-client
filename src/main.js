@@ -18,6 +18,8 @@ import './assets/css/custom.css'
 
 import FilterError from './common/filter.error'
 import FilterCurrency from './common/filter.currency'
+import FilterRound from './common/filter.round'
+import FilterDate from './common/filter.date'
 
 Vue.use(VueToast);
 Vue.use(VueSwal)
@@ -26,6 +28,8 @@ Vue.use(BootstrapVueIcons)
 
 Vue.filter('error', FilterError)
 Vue.filter('currency', FilterCurrency)
+Vue.filter('round', FilterRound)
+Vue.filter('date', FilterDate)
 
 Vue.config.productionTip = false
 

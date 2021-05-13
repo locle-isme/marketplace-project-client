@@ -3,9 +3,12 @@
     <div class="col-12">
       <div class="card">
         <div class="user-action position-absolute d-flex">
-          <div :class="classFavouritedProduct" @click="handleAddFavourite"><i class="fa fa-heart"
-                                                                              aria-hidden="true"></i></div>
-          <div class="single-action share-product"><i class="fa fa-share-alt" aria-hidden="true"></i></div>
+          <div :class="classFavouritedProduct" @click="handleAddFavourite">
+            <i class="fa fa-heart" aria-hidden="true"></i>
+          </div>
+          <div class="single-action share-product">
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+          </div>
         </div>
         <div class="card-body">
           <div class="row">
@@ -79,38 +82,7 @@
                   </div>
 
                   <div class="col-lg-4 col-sm-12">
-                    <div class="card-store d-flex flex-column">
-                      <router-link tag="div" :to="{name:'store.global', params:{slug: 'demo1'}}"
-                                   class="card-store-info d-flex align-items-center">
-                        <div class="avatar">
-                          <img src="https://vcdn.tikicdn.com/ts/seller/e3/84/1f/33b673123f5c858676ca98872184e9ee.png"
-                               alt="">
-                        </div>
-                        <span class="name-store">Mogo</span>
-                      </router-link>
-                      <div class="seller-detail row">
-                        <div class="col border-right">
-                          <div class="d-flex flex-column align-items-center">
-                            <div class="rate">4.8/5.0 <i class="fas fa-star text-warning"></i>
-                            </div>
-                            <span class="review">(88)</span>
-                          </div>
-                        </div>
-                        <div class="col">
-                          <div class="d-flex flex-column align-items-center">
-                            <div class="follow">12</div>
-                            <span class="review">Theo dõi</span>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="buyer-action d-flex justify-content-center mt-3">
-                        <button class="btn btn-outline-primary"><i class="fa fa-shopping-bag"></i>
-                          Xem shop
-                        </button>
-                        <button class="btn btn-outline-primary"><i class="fas fa-plus"></i> Theo dõi
-                        </button>
-                      </div>
-                    </div>
+                    <ProductSeller :supplier="supplier"></ProductSeller>
                   </div>
                 </div>
               </div>
@@ -177,9 +149,9 @@
       <div class="card position-relative">
         <div class="card-title text-uppercase">Đánh giá sản phẩm</div>
         <div class="card-body">
-          <div class="row border-bottom" style="padding-bottom: 20px">
-            <div class="col-lg-3 col-md-12">
-              <ReviewRating></ReviewRating>
+          <div class="row border-bottom" style="padding-bottom: 20px;">
+            <div class="col-lg-6 col-md-12">
+              <ProductReviewRating v-if="ratings.rating_count" :ratings="ratings"></ProductReviewRating>
             </div>
             <!--            <div class="col-lg-9 col-md-12">
                           <ReviewImage></ReviewImage>
@@ -187,8 +159,8 @@
           </div>
 
           <div class="feedback d-flex flex-column">
-            <template v-for="(feedback, i) in 8">
-              <FeedbackUser :key="i"></FeedbackUser>
+            <template v-for="review in reviews">
+              <ProductReviewComment :key="review.id" :review="review"></ProductReviewComment>
             </template>
           </div>
 
@@ -203,12 +175,13 @@
 
 </template>
 <script>
-import ReviewRating from "../components/ReviewRating";
 //import ReviewImage from "../components/ReviewImage";
-import FeedbackUser from "../components/FeedbackUser";
+import ProductSeller from "../components/ProductSeller";
+import ProductReviewComment from "../components/ProductReviewComment";
+import ProductReviewRating from "../components/ProductReviewRating";
 import VPagination from "../components/VPagination";
 import {mapGetters} from "vuex";
-import {FAVOURITE_CREATE, FAVOURITE_DELETE, FETCH_ADDRESSES, GET_PRODUCT} from "../store/actions.type";
+import {FAVOURITE_CREATE, FAVOURITE_DELETE, FETCH_ADDRESSES, FETCH_REVIEWS, GET_PRODUCT} from "../store/actions.type";
 
 export default {
   props: {},
@@ -230,6 +203,9 @@ export default {
     loadingData() {
       const {slug} = this.$route.params;
       this.$store.dispatch(GET_PRODUCT, slug)
+          .then(() => {
+            this.$store.dispatch(FETCH_REVIEWS, {product_id: this.currentProduct.id});
+          })
     },
 
     redirect(_name, params = {}) {
@@ -263,15 +239,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["currentProduct", "isAuthenticated", "defaultAddress"]),
+    ...mapGetters(["currentProduct", "isAuthenticated", "defaultAddress", "listReviews"]),
     brand() {
       const {brand} = this.currentProduct;
       return brand || {};
-    },
-
-    reviews() {
-      const {reviews} = this.currentProduct;
-      return reviews || [];
     },
 
     supplier() {
@@ -282,6 +253,21 @@ export default {
     images() {
       const {images} = this.currentProduct;
       return images || [];
+    },
+
+    firstImages() {
+      const {images} = this.currentProduct;
+      return images[0] ? images[0].url : this.defaultImage;
+    },
+
+    ratings() {
+      const {ratings} = this.currentProduct;
+      return ratings || {};
+    },
+
+    reviews() {
+      const {reviews} = this.listReviews;
+      return reviews || [];
     },
 
     realPrice() {
@@ -302,10 +288,6 @@ export default {
       }
     },
 
-    firstImages() {
-      const {images} = this.currentProduct;
-      return images[0] ? images[0].url : this.defaultImage;
-    },
 
     classFavouritedProduct() {
       const {favourited} = this.currentProduct;
@@ -317,10 +299,11 @@ export default {
     }
   },
   components: {
-    ReviewRating,
+    ProductReviewRating,
     //ReviewImage,
-    FeedbackUser,
-    VPagination
+    ProductReviewComment,
+    ProductSeller,
+    VPagination,
   },
   watch: {
     '$route.params': {
@@ -333,82 +316,80 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.product-content .name-product {
-  font-weight: 100;
-  font-size: 21px;
-}
+<style lang="scss">
+.product-content {
 
-@media (min-width: 1200px) {
-  .product-content .name-product {
+  .name-product {
+    font-weight: 100;
+    font-size: 21px;
+  }
 
-    max-width: 615px;
+  @media (min-width: 1200px) {
+    .name-product {
+      max-width: 615px;
+    }
   }
 }
-
 
 .user-action {
   top: -35px;
   right: -30px;
-}
 
-.user-action > .single-action {
-  width: 40px;
-  height: 40px;
-  background: #fff;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-  box-shadow: rgb(120 120 120) 0px 2px 6px 0px;
-  cursor: pointer;
-}
+  .single-action {
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    box-shadow: rgb(120 120 120) 0px 2px 6px 0px;
+    cursor: pointer;
 
-.user-action > .single-action.active {
-  color: #dc3545;
-  box-shadow: rgb(238 160 160) 0px 2px 6px 0px;
+    &.active {
+      color: #dc3545;
+      box-shadow: rgb(238 160 160) 0px 2px 6px 0px;
+    }
+  }
 }
 
 .review-image {
   margin-top: 10px;
-}
 
-.review-image > .view-photo {
-  position: relative;
-  width: 64px;
-  height: 64px;
-  border-radius: 4px;
-  margin-right: 8px;
-  margin-top: 8px;
-  overflow: hidden;
-  opacity: 0.85;
-  cursor: pointer;
-}
+  .view-photo {
+    position: relative;
+    width: 64px;
+    height: 64px;
+    border-radius: 4px;
+    margin-right: 8px;
+    margin-top: 8px;
+    overflow: hidden;
+    opacity: 0.85;
+    cursor: pointer;
 
-.review-image > .view-photo img {
-  width: 100%;
-  height: 100%;
-}
+    &.active {
+      box-shadow: rgb(120 120 120) 0px 2px 6px 0px;
+    }
 
-.review-image > .view-photo.active {
-  box-shadow: rgb(120 120 120) 0px 2px 6px 0px;
-}
-
-.review-image > .view-photo:last-child span {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  top: 0;
-  left: 0;
-  color: #fff;
-  font-size: 11px;
-  background-color: rgba(0, 0, 0, 0.7);
-  user-select: none;
-  padding: 0px 2px;
+    &:last-child {
+      span {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        top: 0;
+        left: 0;
+        color: #fff;
+        font-size: 11px;
+        background-color: rgba(0, 0, 0, 0.7);
+        user-select: none;
+        padding: 0px 2px;
+      }
+    }
+  }
 }
 
 
@@ -417,24 +398,23 @@ export default {
   padding: 10px 20px;
   background: rgb(242, 242, 242);
   border-radius: 5px;
-}
 
+  .current-price {
+    font-size: 2em;
+    font-weight: 550;
+    margin-right: 15px;
+  }
 
-.card-price > .current-price {
-  font-size: 2em;
-  font-weight: 550;
-  margin-right: 15px;
-}
+  .root-price {
+    font-size: 1em;
+    margin-right: 15px;
+    text-decoration: line-through;
+  }
 
+  .decrease-discount {
+    font-size: 0.8em;
+  }
 
-.card-price > .root-price {
-  font-size: 1em;
-  margin-right: 15px;
-  text-decoration: line-through;
-}
-
-.card-price > .decrease-discount {
-  font-size: 0.8em;
 }
 
 
@@ -442,147 +422,107 @@ export default {
   margin-bottom: 20px;
   padding: 20px 0px;
   border-bottom: 1px #d2cece solid;
+
+  span {
+    margin-right: 20px;
+
+    &.detail-address {
+      font-weight: 600;
+    }
+
+    &.change-address {
+      font-weight: 600;
+      color: #2a88bd;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+  }
+
 }
 
-.card-address > span {
-  margin-right: 20px;
+.card-buy {
+  .detail-mount {
+    .up-down-amount-group {
+      margin-right: 10px;
+
+      button {
+        width: 30px;
+        height: 30px;
+        padding: 4px;
+        border: 1px #d6d6d6 solid;
+        border-radius: 4px;
+        background: #fff;
+        margin: 0px 3px;
+
+        &:hover {
+          background: #7dd1e3;
+          border-color: #59b7cd;
+          color: #fff;
+        }
+      }
+    }
+
+    input {
+      height: 30px;
+      width: 50px;
+      padding: 4px;
+      border: 1px #d6d6d6 solid;
+      border-radius: 4px;
+      font-size: 15px;
+      text-align: center;
+    }
+
+    span {
+      margin: 10px 0px;
+
+      &:first-child {
+        margin-right: 10px;
+      }
+    }
+  }
 }
 
-.card-address > span.detail-address {
-  font-weight: 600;
+.product-detail {
+  tr {
+    td {
+      border: none;
+
+      &:nth-child(1) {
+        background: rgb(239, 239, 239);
+        font-weight: 500;
+      }
+    }
+
+    &:nth-child(odd) {
+      td {
+        &:nth-child(2) {
+          background: rgba(239, 239, 239, 0.5);
+        }
+      }
+    }
+  }
 }
 
-.card-address > span.change-address {
-  font-weight: 600;
-  color: #2a88bd;
-  text-transform: uppercase;
-  cursor: pointer;
+.product-description {
+  .toggle {
+    min-height: 100px;
+    max-height: 500px;
+    overflow: hidden;
+
+    &.show {
+      height: auto !important;
+    }
+  }
+
+  .gradient {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    background-image: linear-gradient(rgba(255, 255, 255, 0), rgb(255, 255, 255));
+  }
 }
-
-
-.card-buy > .detail-mount > .up-down-amount-group {
-  margin-right: 10px;
-}
-
-.card-buy > .detail-mount > .up-down-amount-group > button {
-  width: 30px;
-  height: 30px;
-  padding: 4px;
-  border: 1px #d6d6d6 solid;
-  border-radius: 4px;
-  background: #fff;
-  margin: 0px 3px;
-}
-
-.card-buy > .detail-mount > .up-down-amount-group > button:hover {
-  background: #7dd1e3;
-  border-color: #59b7cd;
-  color: #fff;
-}
-
-.card-buy > .detail-mount > .up-down-amount-group > input {
-  height: 30px;
-  width: 50px;
-  padding: 4px;
-  border: 1px #d6d6d6 solid;
-  border-radius: 4px;
-  font-size: 15px;
-  text-align: center;
-}
-
-.card-buy > .detail-mount > span {
-  margin: 10px 0px;
-}
-
-.card-buy > .detail-mount > span:first-child {
-  margin-right: 10px;
-}
-
-
-.card-store {
-  background: #fff;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;
-  padding: 10px 12px;
-  border-radius: 5px;
-}
-
-.card-store > .card-store-info {
-  cursor: pointer;
-}
-
-
-.card-store > .card-store-info > .avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-}
-
-.card-store > .card-store-info > .avatar > img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.card-store > .card-store-info > .name-store {
-  margin-left: 15px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #3e3e3e;
-}
-
-.card-store > .seller-detail {
-  margin: 10px 0px;
-}
-
-.card-store > .seller-detail .rate, .card-store > .seller-detail .follow {
-  font-size: 1.2em;
-  font-weight: 600;
-}
-
-.card-store > .seller-detail .review {
-  font-size: 0.8em;
-}
-
-.card-store > .buyer-action > .btn {
-  margin-right: 3px;
-}
-
-table.product-detail tr > td:nth-child(1) {
-  background: rgb(239, 239, 239);
-  font-weight: 500;
-}
-
-table.product-detail tr > td {
-  border: none;
-}
-
-table.product-detail tr:nth-child(odd) > td:nth-child(2) {
-  background: rgba(239, 239, 239, 0.5);
-}
-
-
-.product-description > .toggle {
-  min-height: 100px;
-  max-height: 500px;
-  overflow: hidden;
-}
-
-.product-description > .toggle.show {
-  height: auto !important;
-}
-
-.product-description > .gradient {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 200px;
-  background-image: linear-gradient(rgba(255, 255, 255, 0), rgb(255, 255, 255));
-}
-
-
 </style>
 
 

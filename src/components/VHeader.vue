@@ -165,7 +165,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style lang="scss">
 
 .logo {
   cursor: pointer;
@@ -181,34 +181,6 @@ export default {
   cursor: pointer;
 }
 
-.nav-left-bar > .inner {
-  position: relative;
-  width: 266px;
-  height: 100%;
-  background: #ffff;
-}
-
-.nav-left-bar > .inner.menu {
-  z-index: 2;
-}
-
-.nav-left-bar > .inner.category-list {
-  z-index: 3;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.nav-left-bar > .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  background: rgba(128, 128, 128, 0.3);
-}
-
 .nav-left-bar {
   visibility: hidden;
   left: 0;
@@ -216,60 +188,93 @@ export default {
   height: 100%;
   width: 100%;
   z-index: 1050;
+
+  &.show {
+    visibility: visible;
+  }
+
+  .inner {
+    position: relative;
+    width: 266px;
+    height: 100%;
+    background: #ffff;
+
+    &.menu {
+      z-index: 2;
+    }
+
+    &.category-list {
+      z-index: 3;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .sub-head {
+      border-top: rgb(242, 242, 242) 1px solid;
+      color: rgb(120, 120, 120);
+      padding: 12px 16px 0;
+    }
+
+
+    .nav {
+      margin: 5px 0px;
+
+      li {
+        margin: 12px 16px;
+        font-size: 1rem;
+        cursor: pointer;
+
+        .sub-title {
+          font-size: 1.5rem;
+          margin-right: 15px;
+          width: 25px;
+        }
+      }
+    }
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgba(128, 128, 128, 0.3);
+  }
+
+  .email {
+    cursor: pointer;
+    font-size: 0.9em;
+  }
+
+  .name {
+    @extend .email;
+    font-weight: 600;
+    font-size: 1em;
+  }
+
+
 }
 
-.nav-left-bar.show {
-  visibility: visible;
-}
 
-.nav-left-bar .name {
-  font-weight: 600;
-}
+.form-search {
+  &.scroll-nav {
+    position: fixed;
+    top: 5px;
+    left: 65px;
+    right: 45px;
 
-.nav-left-bar .name, .nav-left-bar .email {
-  cursor: pointer;
-}
+    .btn {
+      visibility: hidden;
+    }
+  }
 
-.nav-left-bar .email {
-  font-size: 0.9em;
-}
+  .btn {
+    visibility: visible;
+  }
 
-.nav-left-bar > .inner ul.nav {
-  margin: 5px 0px;
-}
-
-.nav-left-bar > .inner ul.nav > li {
-  margin: 12px 16px;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-.nav-left-bar > .inner ul.nav > li > .sub-title {
-  font-size: 1.5rem;
-  margin-right: 15px;
-  width: 25px;
-}
-
-.nav-left-bar > .inner .sub-head {
-  border-top: rgb(242, 242, 242) 1px solid;
-  color: rgb(120, 120, 120);
-  padding: 12px 16px 0;
-}
-
-
-.form-search.scroll-nav {
-  position: fixed;
-  top: 5px;
-  left: 65px;
-  right: 45px;
-}
-
-.form-search .btn {
-  visibility: visible;
-}
-
-.form-search.scroll-nav .btn {
-  visibility: hidden;
 }
 
 

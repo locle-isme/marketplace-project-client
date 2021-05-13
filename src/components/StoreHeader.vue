@@ -54,61 +54,62 @@ export default {
 }
 </script>
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style lang="scss">
 .store-info {
   background: url("https://salt.tikicdn.com/ts/sellercenterFE/af/03/9b/57f855e860180c28a25949bce95c1266.png");
   height: auto;
   color: #fff;
   border-radius: unset !important;
-}
 
-.store-info .seller {
-  margin: 1rem 1rem 0 1rem;
-}
+  .seller {
+    margin: 1rem 1rem 0 1rem;
 
-.store-info .seller > .avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  margin-right: 1.5rem;
-  overflow: hidden;
-}
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      margin-right: 1.5rem;
+      overflow: hidden;
+    }
 
-.store-info .seller .name {
-  font-weight: 600;
-}
+    .name {
+      font-weight: 600;
+    }
 
-.store-info .seller .follower {
-  font-size: 0.9rem;
-  color: #b3abab;
-}
+    .follower {
+      font-size: 0.9rem;
+      color: #b3abab;
+    }
+  }
 
-ul.tab.nav {
-  margin: 10px calc(1.5rem + 64px);
-}
+  .nav {
+    margin: 10px calc(1.5rem + 64px);
 
-ul.tab.nav > li {
-  font-size: 0.85rem;
-  cursor: pointer;
-  padding: 5px 20px;
-}
+    li {
+      font-size: 0.85rem;
+      cursor: pointer;
+      padding: 5px 20px;
 
-ul.tab.nav > li.active {
-  position: relative;
-  font-weight: 600;
-}
+      &.active {
+        position: relative;
+        font-weight: 600;
 
-ul.tab.nav > li.active:after {
-  content: "";
-  position: absolute;
-  width: 30px;
-  height: 3px;
-  margin: 0 auto;
-  border-radius: 5px;
-  background: #fff;
-  bottom: 1px;
-  right: 0;
-  left: 0;
+        &:after {
+          content: "";
+          position: absolute;
+          width: 30px;
+          height: 3px;
+          margin: 0 auto;
+          border-radius: 5px;
+          background: #fff;
+          bottom: 1px;
+          right: 0;
+          left: 0;
+        }
+      }
+
+    }
+  }
 }
 </style>
 
