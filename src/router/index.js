@@ -130,5 +130,10 @@ export default new VueRouter({
             component: () => import("@/views/Cart")
         },
 
-    ]
+    ],
+
+    scrollBehavior() {
+        return {x: 0, y: 0}
+    }
+
 })

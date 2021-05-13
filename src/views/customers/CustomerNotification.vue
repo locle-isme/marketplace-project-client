@@ -38,27 +38,26 @@
               <td>Đơn hàng #635678450 đã sẵn sàng để giao đến quý khách. Chúng tôi vừa bàn giao đơn hàng của quý khách
                 đến đối tác vận chuyển Tiki Team. Đơn hàng sẽ được giao trước 23:59 ngày 24/03/2021 Chi tiết
               </td>
-              <td>Xóa</td>
+              <td><button class="btn btn-sm btn-danger">Xóa</button></td>
             </tr>
             </tbody>
           </table>
         </div>
         <div class="my-4 d-flex float-right">
-          <VPagination></VPagination>
+          <PaginateComponent></PaginateComponent>
         </div>
-
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import VPagination from "../../components/VPagination";
+import PaginateComponent from "../../components/PaginateComponent";
 
 export default {
   name: "CustomerNotification",
   components: {
-    VPagination
+    PaginateComponent
   }
 }
 </script>

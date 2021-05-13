@@ -24,7 +24,7 @@
                   <div class="d-flex flex-column list-rate">
                     <div class="form-check filter-rate">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="5" type="checkbox">
+                        <input v-model="queryData.ratings" class="form-check-input" value="5" type="checkbox">
                         <i class="fas fa-star text-warning"></i>
                         <i class="fas fa-star text-warning"></i>
                         <i class="fas fa-star text-warning"></i>
@@ -35,7 +35,7 @@
                     </div>
                     <div class="form-check filter-rate">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="4" type="checkbox">
+                        <input v-model="queryData.ratings" class="form-check-input" value="4" type="checkbox">
                         <i class="fas fa-star text-warning"></i>
                         <i class="fas fa-star text-warning"></i>
                         <i class="fas fa-star text-warning"></i>
@@ -46,7 +46,7 @@
                     </div>
                     <div class="form-check filter-rate">
                       <label class="form-check-label">
-                        <input class="form-check-input" value="3" type="checkbox">
+                        <input v-model="queryData.ratings" class="form-check-input" value="3" type="checkbox">
                         <i class="fas fa-star text-warning"></i>
                         <i class="fas fa-star text-warning"></i>
                         <i class="fas fa-star text-warning"></i>
@@ -55,7 +55,6 @@
                         <span>(từ 3 sao)</span>
                       </label>
                     </div>
-
                   </div>
                 </div>
 
@@ -79,7 +78,7 @@
                   <div class="d-flex flex-column">
                     <div class="d-flex justify-content-center align-items-center">
                       <div class="input-group">
-                        <input type="number" class="form-control w-25" value="0">
+                        <input v-model="tempPrice.min" type="number" class="form-control w-25">
                         <div class="input-group-append">
                           <div class="input-group-text">.000 <sup>đ</sup></div>
                         </div>
@@ -87,13 +86,13 @@
                       <span
                           style="width: 20px; height: 1px; font-size: 0px; display: inline-block; background: rgb(154, 154, 154); margin: 0px 4px; vertical-align: middle;">-</span>
                       <div class="input-group">
-                        <input type="number" class="form-control w-25" value="0">
+                        <input v-model="tempPrice.max" type="number" class="form-control w-25">
                         <div class="input-group-append">
                           <div class="input-group-text">.000 <sup>đ</sup></div>
                         </div>
                       </div>
                     </div>
-                    <button class="btn-sm btn-primary my-2 w-25">Áp dụng</button>
+                    <button class="btn-sm btn-primary my-2 w-25" @click="setPrices()">Áp dụng</button>
                   </div>
                 </div>
                 <!-- END GIÁ-->
@@ -129,10 +128,18 @@
                   <div class="sort d-flex align-items-center">
                     <div class="mr-3">Sắp xếp theo:</div>
                     <div class="btn-group btn-group-sm">
-                      <button class="btn active mr-2">Bán chạy</button>
-                      <button class="btn mr-2">Hàng mới</button>
-                      <button class="btn mr-2">Giá thấp</button>
-                      <button class="btn mr-2">Giá cao</button>
+                      <button @click="queryData.sortBy = 'default'" class="btn mr-2"
+                              :class="{active: sortBy == 'default'}">Bán chạy
+                      </button>
+                      <button @click="queryData.sortBy = 'new_products'" class="btn mr-2" :class="{active: sortBy == 'new'}">Hàng
+                        mới
+                      </button>
+                      <button @click="queryData.sortBy = 'low_price'" class="btn mr-2" :class="{active: sortBy == 'low'}">Giá
+                        thấp
+                      </button>
+                      <button @click="queryData.sortBy = 'high_price'" class="btn mr-2" :class="{active: sortBy == 'high'}">
+                        Giá cao
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -143,7 +150,7 @@
                 </template>
               </div>
               <div class="my-4 d-flex float-right">
-                <VPagination></VPagination>
+                <PaginateComponent :currentPage="1" :pages="45"></PaginateComponent>
               </div>
             </div>
             <!-- END RIGHT BAR -->
@@ -155,13 +162,23 @@
 </template>
 <script>
 import ProductComponent from "../components/ProductComponent";
-import VPagination from "../components/VPagination";
+import PaginateComponent from "../components/PaginateComponent";
 import {FETCH_PRODUCTS} from "../store/actions.type";
 import {mapGetters} from "vuex";
 
 export default {
   data() {
-    return {}
+    return {
+      currentPage: 1,
+      limit: 20,
+      tempPrice: {min: 0, max: 0},
+      queryData: {
+        q: "",
+        ratings: [],
+        prices: {min: 0, max: 0},
+        sortBy: 'default'
+      }
+    }
   },
 
   created() {
@@ -170,30 +187,90 @@ export default {
 
   methods: {
     loadingData() {
-      this.$store.dispatch(FETCH_PRODUCTS, this.$route.query)
+      this.$store.dispatch(FETCH_PRODUCTS, this.listConfigs)
           .then(() => {
           })
           .catch(() => {
           })
+    },
+
+    resetQueryData() {
+      this.currentPage = 1;
+      this.queryData.ratings = [];
+      this.queryData.prices.min = 0;
+      this.queryData.prices.max = 0;
+      this.queryData.sortBy = "default";
+    },
+
+    setPrices() {
+      const {min, max} = this.tempPrice;
+      if (min > max) return;
+      this.queryData.prices.min = parseInt(min) * 1000;
+      this.queryData.prices.max = parseInt(max) * 1000;
     }
   },
 
   computed: {
-    ...mapGetters(["listProducts"])
+    ...mapGetters(["listProducts"]),
+    listConfigs() {
+      const {currentPage} = this;
+      const {q, ratings, prices, sortBy} = this.queryData;
+      const filters = {};
+      if (currentPage > 1) {
+        filters.page = currentPage;
+      }
+      if (q) {
+        filters.q = q;
+      }
+
+      if (ratings.length) {
+        filters.stars = this.stars;
+      }
+
+      if (prices.min && prices.max) {
+        filters.price = this.price;
+      }
+
+      if (sortBy) {
+        filters.sortBy = sortBy;
+      }
+
+      return filters;
+    },
+
+    stars() {
+      const {ratings} = this.queryData;
+      return ratings.join(",");
+    },
+
+    price() {
+      const {prices} = this.queryData;
+      console.log(prices);
+      return `${prices.min},${prices.max}`;
+    },
+
+    sortBy() {
+      const {sortBy} = this.queryData;
+      return sortBy;
+    }
   },
 
+
   watch: {
-    '$route.query.q': {
-      deep: true,
-      handler() {
-        this.loadingData();
-      }
+    '$route.query.q'(keyword) {
+      this.resetQueryData();
+      const {queryData} = this;
+      queryData.q = keyword;
+    },
+
+    listConfigs() {
+      this.loadingData();
     }
   },
 
   components: {
     ProductComponent,
-    VPagination
+    PaginateComponent
   }
 }
 </script>

@@ -25,7 +25,7 @@
               </template>
             </div>
             <div class="my-4 d-flex float-right">
-              <VPagination></VPagination>
+              <PaginateComponent></PaginateComponent>
             </div>
           </div>
         </div>
@@ -34,14 +34,14 @@
   </div>
 </template>
 <script>
-import PopularCategory from "@/components/PopularCategory";
+import PopularCategory from "../../components/PopularCategory";
 import ProductComponent from "../../components/ProductComponent";
-import VPagination from "@/components/VPagination";
+import PaginateComponent from "../../components/PaginateComponent"
 export default {
   components:{
     PopularCategory,
     ProductComponent,
-    VPagination
+    PaginateComponent
   }
 }
 </script>

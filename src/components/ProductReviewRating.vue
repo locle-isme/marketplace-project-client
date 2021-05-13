@@ -11,7 +11,7 @@
             <i class="far fa-star text-warning fa-2x"></i>
             <i class="far fa-star text-warning fa-2x"></i>
           </div>
-          <div class="rating-avg d-flex position-absolute" style="width: 50%">
+          <div class="rating-avg d-flex position-absolute" :style="`width:${getWidthRating}%`">
             <i class="fas fa-star text-warning fa-2x"></i>
             <i class="fas fa-star text-warning fa-2x"></i>
             <i class="fas fa-star text-warning fa-2x"></i>
@@ -41,10 +41,10 @@
           </div>
         </div>
         <div class="line">
-          <div :style="getWidthStar(stars.star1)"></div>
+          <div :style="getWidthStar(stars.star5)"></div>
         </div>
         <div style="width: 50px;">
-          <span class="float-right">{{ stars.star1 }}</span>
+          <span class="float-right">{{ stars.star5 }}</span>
         </div>
       </div>
       <div class="level d-flex align-items-center">
@@ -65,10 +65,10 @@
           </div>
         </div>
         <div class="line">
-          <div :style="getWidthStar(stars.star2)"></div>
+          <div :style="getWidthStar(stars.star4)"></div>
         </div>
         <div style="width: 50px;">
-          <span class="float-right">{{ stars.star2 }}</span>
+          <span class="float-right">{{ stars.star4 }}</span>
         </div>
       </div>
       <div class="level d-flex align-items-center">
@@ -113,10 +113,10 @@
           </div>
         </div>
         <div class="line">
-          <div :style="getWidthStar(stars.star4)"></div>
+          <div :style="getWidthStar(stars.star2)"></div>
         </div>
         <div style="width: 50px;">
-          <span class="float-right">{{ stars.star4 }}</span>
+          <span class="float-right">{{ stars.star2 }}</span>
         </div>
       </div>
       <div class="level d-flex align-items-center">
@@ -137,10 +137,10 @@
           </div>
         </div>
         <div class="line">
-          <div :style="getWidthStar(stars.star5)"></div>
+          <div :style="getWidthStar(stars.star1)"></div>
         </div>
         <div style="width: 50px;">
-          <span class="float-right">{{ stars.star5 }}</span>
+          <span class="float-right">{{ stars.star1 }}</span>
         </div>
       </div>
     </div>
@@ -187,7 +187,7 @@ export default {
 </script>
 
 <style lang="scss">
-.review-rating{
+.review-rating {
 
   .summary {
 

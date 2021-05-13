@@ -138,7 +138,7 @@ export default {
     },
     searchProduct() {
       let filters = {
-        name: this.keywordSearch
+        q: this.keywordSearch
       };
       this.keywordSearch = "";
       this.$router.push({name: 'search', query: filters})
