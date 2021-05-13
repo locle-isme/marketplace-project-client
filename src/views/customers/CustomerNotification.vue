@@ -54,21 +54,28 @@
 
 <script>
 import VPagination from "../../components/VPagination";
+
 export default {
   name: "CustomerNotification",
-  components:{
+  components: {
     VPagination
   }
 }
 </script>
 
-<style scoped>
-.nav-tabs > li.nav-item:hover {
-  cursor: pointer;
-}
+<style lang="scss">
+.nav-tabs {
+  li {
+    &.nav-item {
+      &:hover {
+        cursor: pointer;
+      }
+    }
 
-.nav-tabs > li.nav-item > .nav-link.active {
-  color: #0075ff;
+    .active{
+      color: #0075ff;
+    }
+  }
 }
 
 .circle {

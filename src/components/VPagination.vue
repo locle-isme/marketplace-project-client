@@ -24,41 +24,48 @@ export default {}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style lang="scss">
 .pagination {
   margin: 10px 0px;
-}
 
-.pagination > .page-item {
-  margin: 0px 8px;
-}
+  .page-item {
+    margin: 0px 8px;
 
-.pagination > .page-item > .page-link {
-  border-radius: 5px;
-  width: 28px;
-  height: 28px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: 600;
-  background-color: rgb(247, 247, 247);
-  color: rgb(100, 96, 96);
-}
+    .page-link {
+      border-radius: 5px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 600;
+      background-color: rgb(247, 247, 247);
+      color: rgb(100, 96, 96);
+    }
 
-.pagination > .page-item:not(.disabled):hover > .page-link {
-  background-color: rgb(24, 158, 255);
-  color: #fff;
-}
+    &:not(.disabled) {
+      &:hover {
+        .page-link {
+          background-color: rgb(24, 158, 255);
+          color: #fff;
+        }
+      }
+    }
 
-.pagination > .page-item.disabled > .page-link {
-  visibility: hidden;
-}
+    &.disabled {
+      .page-link {
+        visibility: hidden;
+      }
+    }
 
-
-.pagination > .page-item.active > .page-link {
-  background-color: rgb(24, 158, 255);
-  color: #fff;
-  cursor: default;
-  border: none;
+    &.active {
+      .page-link {
+        background-color: rgb(24, 158, 255);
+        color: #fff;
+        cursor: default;
+        border: none;
+      }
+    }
+  }
 }
 </style>

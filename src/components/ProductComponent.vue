@@ -8,8 +8,8 @@
       <div class="name mt-2 limit-line">
         <span>{{ product.name }}</span>
       </div>
-      <ItemReview v-if="product.rating_count > 0" :rating_count="product.rating_count"
-                  :rating_average="product.rating_average"></ItemReview>
+      <ReviewRating v-if="ratings.rating_count > 0" :rating_count="ratings.rating_count"
+                    :rating_average="ratings.rating_average"></ReviewRating>
     </div>
     <div class="d-flex align-items-center">
       <div class="price">{{ realPrice | currency }}</div>
@@ -18,7 +18,7 @@
   </router-link>
 </template>
 <script>
-import ItemReview from "./ItemReview";
+import ReviewRating from "./ReviewRating";
 
 export default {
   props: {
@@ -44,41 +44,46 @@ export default {
       const {price, discount} = this.product;
       return price * (100 - discount) / 100;
     },
+
+    ratings() {
+      const {ratings} = this.product;
+      return ratings || {};
+    },
   },
   components: {
-    ItemReview
+    ReviewRating
   },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style>
+<style lang="scss">
 .product-item {
   cursor: pointer;
-}
 
-.product-item:hover {
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
-}
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 20px;
+  }
 
-.product-item .name {
-  text-align: left;
-  font-weight: 550;
-}
+  .name {
+    text-align: left;
+    font-weight: 550;
+  }
 
-.product-item .limit-line {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
-}
+  .limit-line {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
 
-.product-item .discount {
-  background: #e74646;
-  padding: 2px 3px;
-  user-select: none;
-  border-radius: 5px;
+  .discount {
+    background: #e74646;
+    padding: 2px 3px;
+    user-select: none;
+    font-size: 0.9em;
+    border-radius: 5px;
+  }
 }
-
 
 </style>

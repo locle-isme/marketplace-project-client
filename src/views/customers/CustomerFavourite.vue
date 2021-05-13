@@ -5,8 +5,8 @@
       <div class="card-body">
         <div class="row row-cols-lg-4-sm-2" style="margin: 0px -18px">
           <template v-for="(favourite) in listFavourites">
-            <FavouriteItem @removeFavourite="handleRemoveFavourite" :key="favourite.id"
-                           :favourite="favourite"></FavouriteItem>
+            <FavouriteComponent @removeFavourite="handleRemoveFavourite" :key="favourite.id"
+                                :favourite="favourite"></FavouriteComponent>
           </template>
         </div>
       </div>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import FavouriteItem from "../../components/FavouriteItem";
+import FavouriteComponent from "../../components/FavouriteComponent";
 import {mapGetters} from "vuex";
 import {FAVOURITE_DELETE, FETCH_FAVOURITES} from "../../store/actions.type";
 
@@ -48,12 +48,12 @@ export default {
   },
 
   components: {
-    FavouriteItem
+    FavouriteComponent
   },
   name: "CustomerFavourite"
 }
 </script>
 
-<style scoped>
+<style lang="scss">
 
 </style>

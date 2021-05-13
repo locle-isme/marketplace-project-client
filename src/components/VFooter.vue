@@ -90,29 +90,34 @@ export default {
 }
 </script>
 
-<style>
-footer{
+<style lang="scss">
+footer {
   background: #fff;
   padding: 20px 0px;
   margin-top: 100px;
+
+  h6 {
+    font-weight: 600;
+    margin-bottom: 15px;
+  }
+
+  span {
+    font-size: 1em;
+    color: rgb(51, 51, 51) !important;
+  }
+
+  p {
+    @extend span;
+  }
+
+  .icon {
+    padding: 0px 10px 10px 0px;
+  }
+
+  .fab {
+    margin: 5px;
+  }
 }
 
-footer h6{
-  font-weight: 600;
-  margin-bottom: 15px;
-}
 
-footer span, footer p{
-  font-size: 1em;
-  color: rgb(51, 51, 51) !important;
-
-}
-
-footer .icon{
-  padding: 0px 10px 10px 0px;
-}
-
-footer .fab{
-  margin: 5px;
-}
 </style>

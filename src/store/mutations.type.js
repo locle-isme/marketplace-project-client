@@ -6,3 +6,7 @@ export const SET_ADDRESSES = "setAddresses";
 export const SET_PRODUCT = "setProduct";
 export const SET_LIST_PRODUCTS = "setListProducts"
 export const SET_LIST_FAVOURITES = "setListFavourites"
+export const SET_LIST_REVIEWS = "setListReviews"
+export const SET_MY_REVIEWS = "setMyReviews"
+export const SET_CURRENT_REVIEW = "setCurrentReview"
+export const SET_LIST_WAITING_FOR_REVIEW = "setListWaitingForReview"

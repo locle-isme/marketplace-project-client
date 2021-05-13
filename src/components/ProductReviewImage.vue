@@ -38,42 +38,46 @@
 <script>
 export default {}
 </script>
-<style>
-.review-images .review-img {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  cursor: pointer;
-  border-radius: 4px;
-  overflow: hidden;
-  margin: 8px 20px 0px 5px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+<style lang="scss">
+.review-images {
+  .review-img {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    cursor: pointer;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 8px 20px 0px 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    div {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center center;
+    }
+
+    span {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 1.2em;
+      font-weight: 600;
+      background-color: rgba(0, 0, 0, 0.7);
+      user-select: none;
+      padding: 0px 2px;
+    }
+
+  }
 }
 
-.review-images .review-img > div {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center center;
-}
-
-.review-images .review-img > span {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  font-size: 1.2em;
-  font-weight: 600;
-  background-color: rgba(0, 0, 0, 0.7);
-  user-select: none;
-  padding: 0px 2px;
-}
 
 </style>

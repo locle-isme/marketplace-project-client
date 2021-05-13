@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-xl-3">
       <div class="d-block" style="margin-top: 50px">
-        <ul class="nav">
+        <ul class="nav-customer">
           <li :class="isActive('customer')" @click="redirect('customer')"><i class="sub-title fas fa-user"></i> Thông
             tin tài khoản
           </li>
@@ -16,7 +16,7 @@
               class="sub-title fa fa-map-marker"></i> Sổ địa chỉ
           </li>
           <li :class="isActive('customer.review')" @click="redirect('customer.review')"><i
-              class="sub-title fas fa-comment-dollar"></i> Nhận xét sản phẩm đã mua
+              class="sub-title fas fa-comment-dollar"></i> Nhận xét sản phẩm
           </li>
           <li :class="isActive('customer.favourite')" @click="redirect('customer.favourite')"><i
               class="sub-title fas fa-heart"></i> Sản phẩm yêu thích
@@ -70,29 +70,34 @@ export default {
 }
 </script>
 
-<style scoped>
-.nav {
+<style lang="scss">
+.nav-customer {
   display: flex;
   flex-direction: column;
+  list-style-type: none;
+
+  li {
+    padding: 10px 18px;
+    cursor: pointer;
+    user-select: none;
+
+    &.active {
+      background-color: rgb(236, 236, 236);
+      color: rgb(0, 0, 0);
+    }
+
+    &:hover {
+      @extend .active
+    }
+
+    .sub-title {
+      min-width: 1.2em;
+      font-size: 1.5em;
+      margin-right: 10px;
+    }
+  }
+
 }
 
-.nav > li {
-  padding: 10px 18px;
-  cursor: pointer;
-  user-select: none;
-}
 
-.nav > li > i {
-  min-width: 1.2em;
-}
-
-.nav > li.active, .nav > li:hover {
-  background-color: rgb(236, 236, 236);
-  color: rgb(0, 0, 0);
-}
-
-.sub-title {
-  font-size: 1.5em;
-  margin-right: 10px;
-}
 </style>

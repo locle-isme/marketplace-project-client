@@ -139,7 +139,7 @@
               </div>
               <div class="list-item-result row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
                 <template v-for="(product, index) in listProducts.products">
-                  <ProductItem :key="index" :product="product"></ProductItem>
+                  <ProductComponent :key="index" :product="product"></ProductComponent>
                 </template>
               </div>
               <div class="my-4 d-flex float-right">
@@ -154,7 +154,7 @@
   </div>
 </template>
 <script>
-import ProductItem from "../components/ProductItem";
+import ProductComponent from "../components/ProductComponent";
 import VPagination from "../components/VPagination";
 import {FETCH_PRODUCTS} from "../store/actions.type";
 import {mapGetters} from "vuex";
@@ -172,10 +172,8 @@ export default {
     loadingData() {
       this.$store.dispatch(FETCH_PRODUCTS, this.$route.query)
           .then(() => {
-            console.log('ok')
           })
           .catch(() => {
-            console.log('wrong')
           })
     }
   },
@@ -194,36 +192,48 @@ export default {
   },
 
   components: {
-    ProductItem,
+    ProductComponent,
     VPagination
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.filter-search .box {
+<style lang="scss">
+.box {
   padding: 10px 10px;
+
+  h6 {
+    font-weight: 600;
+    padding: 4px 0px;
+  }
+
+  ul {
+    &.nav {
+      flex-direction: column;
+
+      li {
+        padding: 4px 0px;
+        cursor: pointer;
+      }
+    }
+  }
 }
 
-.filter-search .box > h6 {
-  font-weight: 600;
-  padding: 4px 0px;
-}
+.sort {
+  .btn-group {
+    .btn {
+      &.active {
+        background-color: rgb(13, 92, 182);
+        color: #fff;
+        font-weight: 500;
+      }
 
-.filter-search .box > ul.nav {
-  flex-direction: column;
-}
-
-.filter-search .box > ul.nav > li {
-  padding: 4px 0px;
-  cursor: pointer;
-}
-
-.sort .btn-group > button.btn.active, .sort .btn-group > button.btn:hover {
-  background-color: rgb(13, 92, 182);
-  color: #fff;
-  font-weight: 500;
+      &:hover {
+        @extend .active;
+      }
+    }
+  }
 }
 
 
