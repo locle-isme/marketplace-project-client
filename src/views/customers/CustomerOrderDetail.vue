@@ -18,40 +18,40 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-xl-4" style="margin-top: 18px">
+        <div class="col-xl-6" style="margin-top: 18px">
           <div class="shipping card">
             <div class="card-title text-uppercase" style="font-weight: unset;font-size: 1em">ĐỊA CHỈ NGƯỜI NHẬN</div>
             <div class="card-body">
               <div class="mt-1">
-                <span class="text-uppercase font-weight-bold text-dark">lộc lê</span>
+                <span class="text-uppercase font-weight-bold text-dark">{{ shippingAddress.name }}</span>
               </div>
               <div class="mt-1">
                 <span style="color: #959595">Địa chỉ:&nbsp;</span>
-                <span>70/10 To Ky, Phường Tân Chánh Hiệp, Quận 12, Hồ Chí Minh</span>
+                <span>{{ shippingAddress.address }}</span>
               </div>
               <div class="mt-1">
                 <span style="color: #959595">Điện thoại: &nbsp;</span>
-                <span>0358771364</span>
+                <span>{{ shippingAddress.phone }}</span>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-xl-4" style="margin-top: 18px">
-          <div class="shipping card">
-            <div class="card-title text-uppercase" style="font-weight: unset;font-size: 1em">HÌNH THỨC GIAO HÀNG</div>
-            <div class="card-body">
-              <div class="mt-1">
-                <span style="color: #959595">Giao vào &nbsp;</span>
-                <span>Thứ sáu, 05/06</span>
-              </div>
-              <div class="mt-1">
-                <span style="color: #959595">Phí vận chuyển:&nbsp;</span>
-                <span>19.000đ</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-4" style="margin-top: 18px">
+        <!--        <div class="col-xl-4" style="margin-top: 18px">
+                  <div class="shipping card">
+                    <div class="card-title text-uppercase" style="font-weight: unset;font-size: 1em">HÌNH THỨC GIAO HÀNG</div>
+                    <div class="card-body">
+                      <div class="mt-1">
+                        <span style="color: #959595">Giao vào &nbsp;</span>
+                        <span>Thứ sáu, 05/06</span>
+                      </div>
+                      <div class="mt-1">
+                        <span style="color: #959595">Phí vận chuyển:&nbsp;</span>
+                        <span>19.000đ</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>-->
+        <div class="col-xl-6" style="margin-top: 18px">
           <div class="shipping card">
             <div class="card-title text-uppercase" style="font-weight: unset;font-size: 1em">HÌNH THỨC THANH TOÁN</div>
             <div class="card-body">
@@ -66,53 +66,41 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body">
-              <div class="table-responsive">
+              <div class="table-xl table-responsive">
                 <table class="table">
                   <thead>
                   <th>Sản phẩm</th>
-                  <th>Giá</th>
-                  <th>Số lượng</th>
-                  <th>Giảm giá</th>
-                  <th><span class="float-right">Tạm tính</span></th>
+                  <th class="text-right">Đơn Giá</th>
+                  <th class="text-center">Số lượng</th>
+                  <!--                  <th class="text-right">Giảm giá</th>-->
+                  <!--                  <th class="text-right">Tạm tính</th>-->
                   </thead>
                   <tbody>
-                  <tr style="background: rgba(33,238,224,0.1)">
+                  <template v-for="(item, index) in currentOrder.items">
+                    <DetailProductComponent :key="'item' + index" :product="item"></DetailProductComponent>
+                  </template>
+                  <tr>
+                    <td colspan="2">
+                      <span class="float-right" style="color: rgb(51, 51, 51); font-size: 1.15em">Tổng tiền hàng</span>
+                    </td>
                     <td>
-                      <div class="d-flex">
-                        <div class="image-detail"><img width="100%" height="100%" class="img-thumbnail"
-                                                       src="https://salt.tikicdn.com/cache/200x200/ts/product/d9/5f/97/4b8d952402cfe75a08403cf758eee7df.jpg"
-                                                       alt=""></div>
-                        <div class="d-flex flex-column ml-2">
-                          <div><span style="font-weight: 600; color: #1f648b;cursor: pointer">Khay Ổ Cứng Laptop (Caddy Bay) ORICO L95SS (9.5mm) - Hàng Chính hãng</span>
-                          </div>
-                          <div class="mt-1"><span>Cung cấp bởi &nbsp;</span><span class="text-primary"
-                                                                                  style="cursor: pointer">Tiki Trading</span>
-                          </div>
-                        </div>
-                      </div>
+                      <span style="font-size: 1.15em" class="float-right">{{ currentOrder.price | currency }}</span>
                     </td>
-                    <td>169.000₫</td>
-                    <td>1</td>
-                    <td>0 ₫</td>
-                    <td><span class="float-right">169.000₫</span></td>
-                  </tr>
-
-
-                  <tr>
-                    <td colspan="4"><span class="float-right" style="color: rgb(149, 149, 149);">Tạm tính</span></td>
-                    <td><span class="float-right">49.700₫</span></td>
                   </tr>
                   <tr>
-                    <td colspan="4" style="border: unset"><span class="float-right" style="color: rgb(149, 149, 149);">Phí vận chuyển </span>
-                    </td>
-                    <td style="border: unset"><span class="float-right">49.700₫</span></td>
-                  </tr>
-                  <tr>
-                    <td colspan="4" style="border: unset"><span class="float-right"
-                                                                style="color: rgb(78,78,78);font-size: 1.2em">Tổng kết</span>
-                    </td>
+                    <td colspan="2" style="border: unset">
+                      <span class="float-right" style="color: rgb(51, 51, 51); font-size: 1.15em">Giảm giá</span></td>
                     <td style="border: unset">
-                      <span class="text-danger font-weight-bold float-right" style="font-size: 1.2em">49.000.700₫</span>
+                      <span style="font-size: 1.15em" class="float-right">{{ currentOrder.discount | currency }}</span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" style="">
+                      <span class="float-right" style="color: rgb(78,78,78);font-size: 1.2em">Tổng kết</span>
+                    </td>
+                    <td style="">
+                      <span class="text-danger font-weight-bold float-right"
+                            style="font-size: 1.2em">{{ currentOrder.grand_total | currency }}</span>
                     </td>
                   </tr>
                   </tbody>
@@ -127,22 +115,60 @@
 </template>
 
 <script>
+import DetailProductComponent from "../../components/Orders/DetailProductComponent";
+import {mapGetters} from "vuex";
+import {GET_ORDER} from "../../store/actions.type";
+
 export default {
+  data() {
+    return {
+      typePayments: {
+        "COD": "Thanh toán khi nhận hàng"
+      },
+    }
+  },
+  created() {
+    this.loadingData();
+  },
+  methods: {
+    loadingData() {
+      return this.$store.dispatch(GET_ORDER, this.$route.params.orderID)
+          .then(() => {
+
+          })
+    },
+  },
+  computed: {
+    ...mapGetters(["currentOrder"]),
+    shippingAddress() {
+      const {shipping_address} = this.currentOrder;
+      return shipping_address || {};
+    },
+    orderID() {
+      return this.$route.params.orderID;
+    },
+
+    typePayment() {
+      const {payment_type} = this.currentOrder;
+      return this.typePayments[payment_type] || "OH NO!";
+    }
+  },
+
+  watch: {
+    orderID() {
+      this.loadingData();
+    }
+  },
+
+  components: {
+    DetailProductComponent
+  },
   name: "CustomerOrderDetail"
 }
 </script>
 
 <style lang="scss">
 
-.image-detail {
-  width: 70px;
-  height: 70px;
-  @media (max-width: 576px) {
-    width: 200px !important;
-    height: 200px !important;
-  }
-
-}
 
 .notification {
   span {
@@ -158,6 +184,30 @@ export default {
     span {
       font-size: 0.9em;
       color: #6b6b6b;
+    }
+  }
+}
+
+.table-xl {
+  thead {
+    th {
+      vertical-align: top;
+      min-width: 130px;
+      padding: 15px 15px;
+      color: rgb(120, 120, 120);
+      font-size: 1.1em;
+      font-weight: 400;
+      text-align: left;
+
+
+    }
+  }
+
+  tbody {
+    td {
+      color: rgb(51, 51, 51);
+      font-size: 0.95em;
+      font-weight: 200;
     }
   }
 }

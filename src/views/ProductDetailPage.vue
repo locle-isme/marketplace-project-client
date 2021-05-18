@@ -160,12 +160,11 @@
 
           <div class="feedback d-flex flex-column">
             <template v-for="review in reviews">
-              <ProductReviewComment :key="review.id" :review="review"></ProductReviewComment>
+              <ProductReviewComment :key="'rv' +review.id" :review="review"></ProductReviewComment>
             </template>
           </div>
 
           <div class="my-4 d-flex float-right">
-            <VPagination></VPagination>
           </div>
         </div>
       </div>
@@ -179,7 +178,6 @@
 import ProductSeller from "../components/ProductSeller";
 import ProductReviewComment from "../components/ProductReviewComment";
 import ProductReviewRating from "../components/ProductReviewRating";
-import VPagination from "../components/VPagination";
 import {mapGetters} from "vuex";
 import {FAVOURITE_CREATE, FAVOURITE_DELETE, FETCH_ADDRESSES, FETCH_REVIEWS, GET_PRODUCT} from "../store/actions.type";
 
@@ -303,7 +301,6 @@ export default {
     //ReviewImage,
     ProductReviewComment,
     ProductSeller,
-    VPagination,
   },
   watch: {
     '$route.params': {

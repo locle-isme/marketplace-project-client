@@ -1,17 +1,30 @@
 import {ProductService} from "../common/api.service";
 import {FETCH_PRODUCTS, GET_PRODUCT} from "./actions.type";
-import {SET_LIST_PRODUCTS, SET_PRODUCT} from "./mutations.type";
+import {SET_LIST_FILTERS, SET_LIST_PRODUCTS, SET_PRODUCT} from "./mutations.type";
 
 const state = {
     currentProduct: {images: []},
-    listProducts: {products: [], count: 0},
+    products: {data: [], total_count: 0},
+    filters: {
+        brands: {data: [], total_count: 0},
+        suppliers: {data: [], total_count: 0},
+        sort_settings: {data: [], total_count: 0}
+    }
 };
 const getters = {
     currentProduct(state) {
         return state.currentProduct;
     },
-    listProducts(state) {
-        return state.listProducts || {products: [], count: 0};
+    products(state) {
+        return state.products || {data: [], total_count: 0};
+    },
+
+    filters(state) {
+        return state.filters || {
+            brands: {data: [], total_count: 0},
+            suppliers: {data: [], total_count: 0},
+            sort_settings: {data: [], total_count: 0}
+        };
     }
 
 };
@@ -20,8 +33,11 @@ const mutations = {
         state.currentProduct = product;
     },
     [SET_LIST_PRODUCTS](state, list) {
-        state.listProducts = list;
-    }
+        state.products = list;
+    },
+    [SET_LIST_FILTERS](state, list) {
+        state.filters = list;
+    },
 };
 const actions = {
     [FETCH_PRODUCTS](context, params) {
@@ -29,7 +45,9 @@ const actions = {
             .then((response) => {
                 const {status, data} = response;
                 if (status == "success") {
-                    context.commit(SET_LIST_PRODUCTS, data);
+                    const {products, filters} = data;
+                    context.commit(SET_LIST_PRODUCTS, products);
+                    context.commit(SET_LIST_FILTERS, filters);
                     return data;
                 } else {
                     throw data;

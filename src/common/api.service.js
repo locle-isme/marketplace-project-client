@@ -158,7 +158,7 @@ export const ReviewService = {
     },
 
     getListWaitingForReview() {
-        return ApiService.get('me/listWaitingForReview')
+        return ApiService.get('me/getListWaitingReview')
     },
 
     store(params) {
@@ -169,3 +169,13 @@ export const ReviewService = {
         return ApiService.put(`reviews/${slug}`, params)
     },
 }
+
+export const OrderService = {
+    query(params = {}) {
+        return ApiService.query('me/orders', params)
+    },
+    get(id) {
+        return ApiService.get('me/orders', id)
+    },
+}
+

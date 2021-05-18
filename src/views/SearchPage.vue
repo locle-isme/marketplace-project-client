@@ -100,57 +100,64 @@
                 <!-- THUONG HIEU -->
                 <div class="box col-12 border-bottom">
                   <h6 class="text-uppercase">THƯƠNG HIỆU</h6>
-                  <ul class="nav">
-                    <li>Nokia</li>
-                    <li>Samsung</li>
-                    <li>OEM</li>
-                  </ul>
+                  <div class="d-flex flex-column list-brand">
+                    <template v-for="brand in brands.data">
+                      <div :key="'brand' + brand.id" class="form-check filter-brand mb-2">
+                        <label class="form-check-label">
+                          <input v-model="queryData.brands" class="form-check-input" :value="brand.id" type="checkbox">
+                          {{ brand.name }}
+                        </label>
+                      </div>
+                    </template>
+                  </div>
                 </div>
                 <!-- END THUONG HIEU-->
 
                 <!-- NHA CUNG CAP -->
                 <div class="box col-12">
                   <h6 class="text-uppercase">NHÀ CUNG CẤP</h6>
-                  <ul class="nav">
-                    <li>TNZ Trade</li>
-                    <li>Lorem</li>
-                    <li>Ipsum</li>
-                  </ul>
+                  <div class="d-flex flex-column list-brand">
+                    <template v-for="supplier in suppliers.data">
+                      <div :key="'supplier' + supplier.id" class="form-check filter-brand mb-2">
+                        <label class="form-check-label">
+                          <input v-model="queryData.suppliers" class="form-check-input" :value="supplier.id"
+                                 type="checkbox">
+                          {{ supplier.name }}
+                        </label>
+                      </div>
+                    </template>
+                  </div>
                 </div>
                 <!-- END NHA CUNG CAP-->
               </div>
             </div>
             <!-- END LEFT BAR -->
             <!-- RIGHT BAR -->
-            <div class="col-xl-9 col-lg-12">
+            <div class="right-bar col-xl-9 col-lg-12">
               <div class="row py-3">
                 <div class="col">
+                  <div class="title my-2">
+                    <span class="keyword">Kết quả tìm kiếm cho `{{ queryData.q }}`: </span>
+                    <span class="quality">{{ products.total_count }} kết quả</span></div>
                   <div class="sort d-flex align-items-center">
                     <div class="mr-3">Sắp xếp theo:</div>
                     <div class="btn-group btn-group-sm">
-                      <button @click="queryData.sortBy = 'default'" class="btn mr-2"
-                              :class="{active: sortBy == 'default'}">Bán chạy
-                      </button>
-                      <button @click="queryData.sortBy = 'new_products'" class="btn mr-2" :class="{active: sortBy == 'new'}">Hàng
-                        mới
-                      </button>
-                      <button @click="queryData.sortBy = 'low_price'" class="btn mr-2" :class="{active: sortBy == 'low'}">Giá
-                        thấp
-                      </button>
-                      <button @click="queryData.sortBy = 'high_price'" class="btn mr-2" :class="{active: sortBy == 'high'}">
-                        Giá cao
-                      </button>
+                      <template v-for="(item, index) in sortSettings.data">
+                        <button :key="'sort'+index" @click="queryData.sortBy = item.key" class="btn mr-2"
+                                :class="{active: sortBy == item.key}">{{ item.value }}
+                        </button>
+                      </template>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="list-item-result row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
-                <template v-for="(product, index) in listProducts.products">
+                <template v-for="(product, index) in products.data">
                   <ProductComponent :key="index" :product="product"></ProductComponent>
                 </template>
               </div>
               <div class="my-4 d-flex float-right">
-                <PaginateComponent :currentPage="1" :pages="45"></PaginateComponent>
+                <PaginateComponent :currentPage.sync="currentPage" :pages="pages"></PaginateComponent>
               </div>
             </div>
             <!-- END RIGHT BAR -->
@@ -173,11 +180,12 @@ export default {
       limit: 20,
       tempPrice: {min: 0, max: 0},
       queryData: {
-        q: "",
         ratings: [],
         prices: {min: 0, max: 0},
-        sortBy: 'default'
-      }
+        sortBy: 'default',
+        brands: [],
+        suppliers: []
+      },
     }
   },
 
@@ -194,8 +202,12 @@ export default {
           })
     },
 
-    resetQueryData() {
+    resetCurrentPage() {
       this.currentPage = 1;
+    },
+
+    resetQueryData() {
+      this.resetCurrentPage();
       this.queryData.ratings = [];
       this.queryData.prices.min = 0;
       this.queryData.prices.max = 0;
@@ -207,24 +219,36 @@ export default {
       if (min > max) return;
       this.queryData.prices.min = parseInt(min) * 1000;
       this.queryData.prices.max = parseInt(max) * 1000;
+    },
+
+    formatDataQuery(ar) {
+      return ar.join(",");
     }
   },
 
   computed: {
-    ...mapGetters(["listProducts"]),
+    ...mapGetters(["products", "filters"]),
     listConfigs() {
       const {currentPage} = this;
-      const {q, ratings, prices, sortBy} = this.queryData;
+      const {ratings, prices, sortBy, brands, suppliers} = this.queryData;
       const filters = {};
       if (currentPage > 1) {
         filters.page = currentPage;
       }
-      if (q) {
-        filters.q = q;
+      if (this.q) {
+        filters.q = this.q;
       }
 
       if (ratings.length) {
-        filters.stars = this.stars;
+        filters.stars = this.formatDataQuery(ratings);
+      }
+
+      if (brands.length) {
+        filters.brands = this.formatDataQuery(brands);
+      }
+
+      if (suppliers.length) {
+        filters.suppliers = this.formatDataQuery(suppliers);
       }
 
       if (prices.min && prices.max) {
@@ -235,37 +259,86 @@ export default {
         filters.sortBy = sortBy;
       }
 
+
       return filters;
     },
 
-    stars() {
+    formQueryStars() {
       const {ratings} = this.queryData;
       return ratings.join(",");
     },
 
+    formQueryBrands() {
+      const {brands} = this.queryData;
+      return brands.join(",");
+    },
+
+    formQuerySuppliers() {
+      const {suppliers} = this.queryData;
+      return suppliers.join(",");
+    },
+
+
     price() {
       const {prices} = this.queryData;
-      console.log(prices);
       return `${prices.min},${prices.max}`;
     },
 
     sortBy() {
       const {sortBy} = this.queryData;
       return sortBy;
+    },
+
+    pages() {
+      const {total_count} = this.products;
+      return Math.ceil(total_count / this.limit) || 0;
+    },
+
+    brands() {
+      const {brands} = this.filters;
+      return brands;
+    },
+
+    suppliers() {
+      const {suppliers} = this.filters;
+      return suppliers;
+    },
+
+    sortSettings() {
+      const {sort_settings} = this.filters;
+      return sort_settings;
+    },
+
+    q() {
+      return this.$route.query.q || "";
     }
   },
 
 
   watch: {
-    '$route.query.q'(keyword) {
+    '$route.query.q'() {
       this.resetQueryData();
-      const {queryData} = this;
-      queryData.q = keyword;
     },
 
     listConfigs() {
       this.loadingData();
-    }
+    },
+
+    formQueryStars() {
+      this.resetCurrentPage();
+    },
+
+    formQueryBrands() {
+      this.resetCurrentPage();
+    },
+
+    formQuerySuppliers() {
+      this.resetCurrentPage();
+    },
+
+    price() {
+      this.resetCurrentPage();
+    },
   },
 
   components: {
@@ -297,17 +370,32 @@ export default {
   }
 }
 
-.sort {
-  .btn-group {
-    .btn {
-      &.active {
-        background-color: rgb(13, 92, 182);
-        color: #fff;
-        font-weight: 500;
-      }
+.right-bar {
+  .title {
+    .keyword {
+      font-weight: 300;
+      font-size: 1.35em;
+    }
 
-      &:hover {
-        @extend .active;
+    .quality {
+      font-weight: 300;
+      color: rgb(137, 137, 137);
+      font-size: 1.2em;
+    }
+  }
+
+  .sort {
+    .btn-group {
+      .btn {
+        &.active {
+          background-color: rgb(13, 92, 182);
+          color: #fff;
+          font-weight: 500;
+        }
+
+        &:hover {
+          @extend .active;
+        }
       }
     }
   }

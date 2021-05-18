@@ -37,7 +37,7 @@
           <div class="card-title text-uppercase">Gợi ý hôm nay</div>
           <div class="suggestion-today card-body" style="padding: 0rem 1.25rem">
             <div class="row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
-              <template v-for="(product, index) in listProducts.products">
+              <template v-for="(product, index) in products.data">
                 <ProductComponent :key="index" :product="product"></ProductComponent>
               </template>
             </div>
@@ -62,7 +62,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["listProducts"])
+    ...mapGetters(["products"])
   },
 
   components: {

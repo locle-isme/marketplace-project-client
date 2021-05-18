@@ -6,6 +6,7 @@ import address from './address.module'
 import product from './product.module'
 import favourite from './favourite.module'
 import review from './review.module'
+import order from './order.module'
 
 Vue.use(Vuex);
 
@@ -16,5 +17,6 @@ export default new Vuex.Store({
         product,
         favourite,
         review,
+        order
     }
 })

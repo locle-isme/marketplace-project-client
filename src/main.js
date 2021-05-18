@@ -20,6 +20,7 @@ import FilterError from './common/filter.error'
 import FilterCurrency from './common/filter.currency'
 import FilterRound from './common/filter.round'
 import FilterDate from './common/filter.date'
+import FilterTimeDate from './common/filter.timeDate'
 
 Vue.use(VueToast);
 Vue.use(VueSwal)
@@ -30,6 +31,7 @@ Vue.filter('error', FilterError)
 Vue.filter('currency', FilterCurrency)
 Vue.filter('round', FilterRound)
 Vue.filter('date', FilterDate)
+Vue.filter('time_date', FilterTimeDate)
 
 Vue.config.productionTip = false
 
