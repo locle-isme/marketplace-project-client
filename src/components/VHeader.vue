@@ -17,9 +17,8 @@
             </div>
             <router-link tag="div" :to="{name:'checkout.cart'}" class="cart position-relative">
               <b-icon icon="cart" font-scale="2" aria-hidden="true"></b-icon>
-              <div
-                  style="width: 20px; height: 20px; display: flex;justify-content: center;align-items: center; border-radius: 50%;background: #f5872d; color: #ffffff; position: absolute; top: -10px; right: -13px">
-                <span class="count" style="font-weight: 600; font-size: 0.8rem">0</span></div>
+              <div class="badge-cart">
+                <span class="count">{{ total_item_cart }}</span></div>
             </router-link>
           </div>
           <form action="" class="form-search d-flex my-2 justify-content-around w-100"
@@ -159,7 +158,11 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["isAuthenticated", "user"])
+    ...mapGetters(["isAuthenticated", "user", "cart"]),
+    total_item_cart() {
+      const {total_count} = this.cart;
+      return total_count || 0;
+    }
   }
 }
 </script>
@@ -275,6 +278,26 @@ export default {
     visibility: visible;
   }
 
+
+}
+
+.badge-cart {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: #f5872d;
+  color: #ffffff;
+  position: absolute;
+  top: -10px;
+  right: -13px;
+
+  .count {
+    font-weight: 600;
+    font-size: 0.8rem
+  }
 }
 
 

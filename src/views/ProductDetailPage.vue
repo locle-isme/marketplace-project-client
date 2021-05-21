@@ -63,17 +63,18 @@
                       <div class="detail-mount d-flex align-items-center flex-wrap">
                         <span>Số lượng:</span>
                         <div class="up-down-amount-group">
-                          <button><i class="fa fa-minus" aria-hidden="true"></i>
+                          <button @click="changeQuantity(-1)"><i class="fa fa-minus" aria-hidden="true"></i>
                           </button>
-                          <input type="text" value="1">
-                          <button><i class="fa fa-plus" aria-hidden="true"></i>
+                          <input v-model="quantity" type="text">
+                          <button @click="changeQuantity(1)"><i class="fa fa-plus" aria-hidden="true"></i>
                           </button>
                         </div>
                         <span v-if="isLimited" class="text-uppercase font-weight-bold"
                               style="color: #ff5113">CHỈ CÒN LẠI {{ currentProduct.amount }} SẢN PHẨM</span>
                       </div>
                       <div class="my-3">
-                        <button v-if="currentProduct.amount > 0" class="btn btn-block btn-danger font-weight-bold">Chọn
+                        <button v-if="currentProduct.amount > 0" class="btn btn-block btn-danger font-weight-bold"
+                                @click="addToCart">Chọn
                           mua
                         </button>
                         <button v-else class="btn btn-block btn-danger font-weight-bold" disabled>Hết hàng</button>
@@ -179,17 +180,19 @@ import ProductSeller from "../components/ProductSeller";
 import ProductReviewComment from "../components/ProductReviewComment";
 import ProductReviewRating from "../components/ProductReviewRating";
 import {mapGetters} from "vuex";
-import {FAVOURITE_CREATE, FAVOURITE_DELETE, FETCH_ADDRESSES, FETCH_REVIEWS, GET_PRODUCT} from "../store/actions.type";
+import {CART_ADD, FETCH_ADDRESSES, FETCH_REVIEWS, GET_PRODUCT} from "../store/actions.type";
+import {ProductMixin} from "../mixins/product.mixin";
+import {HandleFavourite} from "../mixins/favourite.handle";
+import {HandleRedirect} from "../mixins/redirect.handle";
 
 export default {
   props: {},
-
+  mixins: [ProductMixin, HandleFavourite,HandleRedirect],
   data() {
     return {
       id: "",
       isShowMoreContent: false,
-      limitedProduct: 30,
-      defaultImage: 'https://via.placeholder.com/640x480.png/00bb11?text=default',
+      quantity: 1,
     }
   },
 
@@ -206,76 +209,43 @@ export default {
           })
     },
 
-    redirect(_name, params = {}) {
-      this.$router.push({name: _name, params: params}).then(() => {
-        this.statusShowNavBar = false;
-      }).catch(() => {
-
-      });
+    changeQuantity(n) {
+      let temp = this.quantity + n;
+      const {amount} = this.product;
+      if (temp <= 0 || temp > amount) {
+        this.$toast.error('Số lượng mua không hợp lệ', {
+          duration: 5000,
+          position: 'top-left'
+        })
+        return;
+      }
+      this.quantity = temp;
     },
 
-    handleAddFavourite() {
-      if (!this.currentProduct.favourited) {
-        this.$store.dispatch(FAVOURITE_CREATE, {product_id: this.currentProduct.id})
-            .then(() => {
-              this.loadingData();
-              this.$toast.success('Đã thích', {
-                duration: 5000,
-                position: 'top-left'
-              })
-            })
-      } else {
-        this.$store.dispatch(FAVOURITE_DELETE, {product_id: this.currentProduct.id})
-            .then(() => {
-              this.loadingData();
-              this.$toast.success('Đã bỏ thích', {
-                duration: 5000,
-                position: 'top-left'
-              })
-            });
+    addToCart() {
+      const {id} = this.product;
+      if (!this.isAuthenticated){
+        this.$toast.error('Vui lòng đăng nhập để tiếp tục', {
+          duration: 5000,
+          position: 'top-left'
+        })
+        return;
       }
+      this.$store.dispatch(CART_ADD, {product_id: id, amount: this.quantity})
+          .then(() => {
+            this.$toast.success('Thêm vào giỏ hàng hàng thành công', {
+              duration: 5000,
+              position: 'top-left'
+            })
+          });
     }
   },
   computed: {
-    ...mapGetters(["currentProduct", "isAuthenticated", "defaultAddress", "listReviews"]),
-    brand() {
-      const {brand} = this.currentProduct;
-      return brand || {};
-    },
+    ...mapGetters(["currentProduct", "isAuthenticated", "defaultAddress", "listReviews","isAuthenticated"]),
 
-    supplier() {
-      const {supplier} = this.currentProduct;
-      return supplier || {};
-    },
 
-    images() {
-      const {images} = this.currentProduct;
-      return images || [];
-    },
-
-    firstImages() {
-      const {images} = this.currentProduct;
-      return images[0] ? images[0].url : this.defaultImage;
-    },
-
-    ratings() {
-      const {ratings} = this.currentProduct;
-      return ratings || {};
-    },
-
-    reviews() {
-      const {reviews} = this.listReviews;
-      return reviews || [];
-    },
-
-    realPrice() {
-      const {price, discount} = this.currentProduct;
-      return price * (100 - discount) / 100;
-    },
-
-    isLimited() {
-      const {amount} = this.currentProduct;
-      return amount && amount < this.limitedProduct ? true : false;
+    product() {
+      return this.currentProduct;
     },
 
     classContentToggle() {
@@ -286,15 +256,6 @@ export default {
       }
     },
 
-
-    classFavouritedProduct() {
-      const {favourited} = this.currentProduct;
-      return {
-        'single-action': true,
-        'like-product': true,
-        'active': favourited
-      }
-    }
   },
   components: {
     ProductReviewRating,

@@ -3,9 +3,19 @@
     <div class="col-lg-9 col-md-12">
       <div class="card position-relative" style="background-color: unset; border: none">
         <div class="card-title text-uppercase">GIỎ HÀNG</div>
-        <template v-for="(cart, i) in 3">
-          <CartProduct :key="i"></CartProduct>
+        <template v-for="supplier in suppliers">
+          <CartSupplierComponent :key="'or_sp' + supplier.id" :supplier="supplier"
+                                 @loadingData="loadingData"></CartSupplierComponent>
         </template>
+      </div>
+      <div v-if="totalCount == 0" class="card">
+        <div class="card-body">
+          <div class="card-empty">
+            <img class="bg-empty" src="images/cart/undraw_empty_cart_co35.png" alt="">
+            <p class="description">Giỏ hàng của bạn còn trống</p>
+            <button class="btn btn-sm btn-danger" @click="redirect('home')">Mua sắm ngay</button>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -19,13 +29,15 @@
                   <div class="font-weight-bold">Địa chỉ nhận hàng</div>
                   <router-link tag="div" :to="{name:'customer.address'}" class="action-change">Thay đổi</router-link>
                 </div>
-                <div class="d-flex align-items-center mt-2">
-                  <div class="name-customer mr-1">Lê Văn Lộc</div>
-                  <div class="line-straight"></div>
-                  <div class="phone-customer ml-1">0358771364</div>
-                </div>
-                <div class="address-customer d-flex mt-2">
-                  70/10 Tô Ký, tổ 8, KP3, Phường Tân Chánh Hiệp, Quận 12, Hồ Chí Minh
+                <div v-if="defaultAddress.name">
+                  <div class="d-flex align-items-center mt-2">
+                    <div class="name-customer mr-1">{{ defaultAddress.name }}</div>
+                    <div class="line-straight"></div>
+                    <div class="phone-customer ml-1">{{ defaultAddress.phone }}</div>
+                  </div>
+                  <div class="address-customer d-flex mt-2">
+                    {{ defaultAddress.address }}
+                  </div>
                 </div>
               </div>
             </div>
@@ -59,11 +71,15 @@
             <div class="d-flex flex-column">
               <div class="box-item d-flex justify-content-between">
                 <div>Tạm tính</div>
-                <div id="temp-cost">1.050.000đ</div>
+                <div id="temp-cost">{{ totalTempPrice | currency }}</div>
+              </div>
+              <div class="box-item d-flex justify-content-between">
+                <div>Giảm giá</div>
+                <div id="discount-cost">{{ discountPrice | currency }}</div>
               </div>
               <div class="box-item d-flex justify-content-between">
                 <div>Thành tiền</div>
-                <div id="total-cost">1.050.000đ</div>
+                <div id="total-cost">{{ totalPrice |currency }}</div>
               </div>
             </div>
           </div>
@@ -76,12 +92,86 @@
   </div>
 </template>
 <script>
-import CartProduct from "@/components/CartProduct";
+import CartSupplierComponent from "../components/Carts/CartSupplierComponent";
+import {mapGetters} from "vuex";
+import {ADDRESS_DEFAULT_GET, FETCH_CART} from "../store/actions.type";
+import {HandleRedirect} from "../mixins/redirect.handle";
 
 export default {
+
+  mixins: [HandleRedirect],
+  created() {
+    this.loadingData();
+  },
+
+  methods: {
+    loadingData() {
+      // this.$store.dispatch(FETCH_CART)
+      //     .then(() => {
+      //       return this.$store.dispatch(ADDRESS_DEFAULT_GET)
+      //     })
+      Promise.all([
+        this.$store.dispatch(FETCH_CART),
+        this.$store.dispatch(ADDRESS_DEFAULT_GET)
+      ]);
+    },
+
+
+    totalPriceSupplier(supplier) {
+      const {products} = supplier;
+      let total = products.reduce((accumulator, product) => {
+        return accumulator + this.realPrice(product) * product.quantity;
+      }, 0);
+      return total;
+    },
+
+    realPrice(product) {
+      const {price, discount} = product;
+      return price * (100 - discount) / 100;
+    },
+
+  },
+  computed: {
+    ...mapGetters(["cart", "defaultAddress", "couponSupplierInUse"]),
+    suppliers() {
+      const {suppliers} = this.cart;
+      return suppliers || [];
+    },
+
+    totalCount() {
+      const {total_count} = this.cart;
+      return total_count;
+    },
+
+    discountPrice() {
+      let total = this.suppliers.reduce((accumulator, supplier) => {
+        let tempCost = this.totalPriceSupplier(supplier);
+        let coupon = this.couponSupplierInUse.find(c => c.supplier_id == supplier.id);
+        let tempDiscountCost = 0;
+        if (coupon && coupon.discount_code) {
+          const {max_price, percent, from_price} = coupon.discount_code;
+          tempDiscountCost = tempCost > from_price && tempCost * percent / 100 > max_price ? max_price : tempCost * percent / 100;
+        }
+        return accumulator + tempDiscountCost;
+      }, 0);
+      return total;
+    },
+
+    totalTempPrice() {
+      let total = this.suppliers.reduce((accumulator, supplier) => {
+        return accumulator + this.totalPriceSupplier(supplier);
+      }, 0);
+
+      return total;
+    },
+
+    totalPrice() {
+      return this.totalTempPrice - this.discountPrice;
+    }
+  },
   components: {
-    CartProduct
-  }
+    CartSupplierComponent
+  },
 }
 </script>
 
@@ -134,15 +224,15 @@ export default {
 
 .cost-box {
   .box-item {
-    padding: 15px 15px 20px 15px;
+    padding: 0.5em 1em;
 
-    &:nth-child(1) {
-      border-bottom: rgba(162, 160, 160, 0.5) 1px solid;
+    &:last-child {
+      border-top: rgba(162, 160, 160, 0.5) 1px solid;
     }
 
     div {
       &:nth-child(1) {
-        color: #999898;
+        color: #212020;
       }
     }
 

@@ -3,7 +3,7 @@ import {FavouriteService} from "../common/api.service";
 import {SET_LIST_FAVOURITES} from "./mutations.type";
 
 const state = {
-    listFavourites: []
+    listFavourites: {data: [], total_count: 0}
 }
 const getters = {
     listFavourites(state) {

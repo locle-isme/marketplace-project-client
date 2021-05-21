@@ -111,6 +111,10 @@ export const AddressService = {
         return ApiService.get(url)
     },
 
+    getActive() {
+        return ApiService.get('me/addresses/active')
+    },
+
     store(params) {
         return ApiService.post(`addresses`, params)
     },
@@ -177,5 +181,17 @@ export const OrderService = {
     get(id) {
         return ApiService.get('me/orders', id)
     },
+}
+
+export const CartService = {
+    query(params = {}) {
+        return ApiService.query('me/carts', params)
+    },
+    post(params) {
+        return ApiService.post('me/carts', params)
+    },
+    update(params) {
+        return ApiService.put(`me/carts`, params)
+    }
 }
 

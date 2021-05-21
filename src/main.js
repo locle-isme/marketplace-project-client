@@ -11,7 +11,7 @@ import 'vue-toast-notification/dist/theme-sugar.css';
 
 import {ApiService} from "./common/api.service";
 import {BootstrapVue, BootstrapVueIcons} from "bootstrap-vue"
-import {CHECK_AUTH} from "./store/actions.type";
+import {CHECK_AUTH, } from "./store/actions.type";
 import './assets/css/bootstrap.css'
 import './assets/css/all.css'
 import './assets/css/custom.css'
@@ -40,7 +40,9 @@ ApiService.init();
 
 router.beforeEach((to, from, next) => {
     Promise.all([
-        store.dispatch(CHECK_AUTH).then(() => next())
+        store.dispatch(CHECK_AUTH)
+            //.then(() => store.dispatch(FETCH_CART))
+            .then(() => next()),
     ])
 })
 

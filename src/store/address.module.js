@@ -1,6 +1,6 @@
 import {AddressService} from "../common/api.service";
-import {SET_ADDRESSES, SET_ADDRESS_ERRORS} from "./mutations.type";
-import {ADDRESS_CREATE, ADDRESS_DELETE, ADDRESS_EDIT, FETCH_ADDRESSES} from "./actions.type";
+import {SET_ADDRESSES, SET_ADDRESS_ERRORS, SET_DEFAULT_ADDRESS} from "./mutations.type";
+import {ADDRESS_CREATE, ADDRESS_DEFAULT_GET, ADDRESS_DELETE, ADDRESS_EDIT, FETCH_ADDRESSES} from "./actions.type";
 
 
 const state = {
@@ -28,7 +28,10 @@ const mutations = {
         state.listAddresses = listAddresses;
         state.defaultAddress = listAddresses.find(t => t.active == 1);
         state.addressErrors = {};
+    },
 
+    [SET_DEFAULT_ADDRESS](state, address) {
+        state.defaultAddress = address;
     },
 
     [SET_ADDRESS_ERRORS](state, errors) {
@@ -44,6 +47,19 @@ const actions = {
                 const {status, data} = response;
                 if (status == "success") {
                     if (!id) context.commit(SET_ADDRESSES, data);
+                    return data;
+                } else {
+                    throw data;
+                }
+            })
+    },
+
+    [ADDRESS_DEFAULT_GET](context) {
+        return AddressService.getActive()
+            .then((response) => {
+                const {status, data} = response;
+                if (status == "success") {
+                    context.commit(SET_DEFAULT_ADDRESS, data);
                     return data;
                 } else {
                     throw data;

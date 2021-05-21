@@ -4,10 +4,16 @@
       <div class="card-title">Sản phẩm yêu thích</div>
       <div class="card-body">
         <div class="row row-cols-lg-4-sm-2" style="margin: 0px -18px">
-          <template v-for="(favourite) in listFavourites">
-            <FavouriteComponent @removeFavourite="handleRemoveFavourite" :key="favourite.id"
-                                :favourite="favourite"></FavouriteComponent>
+          <template v-for="favourite in listFavourites.data">
+            <FavouriteComponent @removeFavourite="handleRemoveFavourite" :key="'fv'+favourite.id"
+                                :favourite="favourite">
+            </FavouriteComponent>
           </template>
+        </div>
+        <div v-if="total_count == 0" class="card-empty">
+          <img class="bg-empty" src="images/cart/add_to_cart.png" alt="">
+          <p class="description">Bạn không có sản phẩm yêu thích nào</p>
+          <button class="btn btn-sm btn-danger" @click="redirect('home')">Thêm ngay</button>
         </div>
       </div>
     </div>
@@ -19,8 +25,10 @@
 import FavouriteComponent from "../../components/FavouriteComponent";
 import {mapGetters} from "vuex";
 import {FAVOURITE_DELETE, FETCH_FAVOURITES} from "../../store/actions.type";
+import {HandleRedirect} from "../../mixins/redirect.handle";
 
 export default {
+  mixins: [HandleRedirect],
   data() {
     return {}
   },
@@ -44,6 +52,10 @@ export default {
   },
   computed: {
     ...mapGetters(["listFavourites"]),
+    total_count() {
+      const {total_count} = this.listFavourites;
+      return total_count;
+    }
 
   },
 

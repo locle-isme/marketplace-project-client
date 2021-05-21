@@ -166,6 +166,10 @@ export default {
       display: inline-block;
       cursor: pointer;
 
+      &.active {
+        color: $active-color;
+      }
+
       &:hover {
         & ~ .star {
           &:not(.active) {
@@ -173,10 +177,6 @@ export default {
           }
         }
       }
-    }
-
-    .active {
-      color: $active-color;
     }
 
     .title {
@@ -187,7 +187,6 @@ export default {
       margin-top: 5px;
       margin-bottom: 10px;
     }
-
   }
 }
 </style>
