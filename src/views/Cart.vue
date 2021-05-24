@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-lg-9 col-md-12">
+    <div v-if="totalCount > 0" class="col-lg-9 col-md-12">
       <div class="card position-relative" style="background-color: unset; border: none">
         <div class="card-title text-uppercase">GIỎ HÀNG</div>
         <template v-for="supplier in suppliers">
@@ -8,18 +8,8 @@
                                  @loadingData="loadingData"></CartSupplierComponent>
         </template>
       </div>
-      <div v-if="totalCount == 0" class="card">
-        <div class="card-body">
-          <div class="card-empty">
-            <img class="bg-empty" src="images/cart/undraw_empty_cart_co35.png" alt="">
-            <p class="description">Giỏ hàng của bạn còn trống</p>
-            <button class="btn btn-sm btn-danger" @click="redirect('home')">Mua sắm ngay</button>
-          </div>
-        </div>
-      </div>
-
     </div>
-    <div class="col-lg-3 col-md-12">
+    <div v-if="totalCount > 0" class="col-lg-3 col-md-12">
       <div class="row">
         <div class="delivery-address col">
           <div class="card">
@@ -52,16 +42,16 @@
                   <div style="font-size: 0.9em;color: #a7a3a3">Có thể chọn ?</div>
                 </div>
                 <div class="list-coupon d-flex flex-column mt-3">
-                  <template v-for="(i, index) in 3">
-                    <div :key="index" class="coupon-item d-flex justify-content-between align-items-center"
-                         :class="{active: index == 0}">
-                      <div class="coupon-name">Giảm 30%</div>
-                      <div>
-                        <button class="btn btn-primary btn-sm">Áp dụng</button>
-                      </div>
-                    </div>
-                  </template>
+                  <div style="cursor: pointer;font-size: 0.98em;color: deepskyblue"
+                       @click="showModalCouponGlobal = true">
+                    <i class="fa fa-ticket-alt" aria-hidden="true"></i>
+                    Chọn hoặc nhập Khuyến mãi
+                  </div>
                 </div>
+                <ModalAddCouponGlobal v-if="showModalCouponGlobal"
+                                      @exit="showModalCouponGlobal = false">
+
+                </ModalAddCouponGlobal>
               </div>
             </div>
           </div>
@@ -75,7 +65,7 @@
               </div>
               <div class="box-item d-flex justify-content-between">
                 <div>Giảm giá</div>
-                <div id="discount-cost">{{ discountPrice | currency }}</div>
+                <div id="discount-cost">{{ totalDiscountPrice | currency }}</div>
               </div>
               <div class="box-item d-flex justify-content-between">
                 <div>Thành tiền</div>
@@ -85,7 +75,20 @@
           </div>
         </div>
         <div class="purchase col mt-3">
-          <button class="purchase-btn btn btn-block btn-danger text-uppercase">Tiến hành đặt hàng</button>
+          <button class="purchase-btn btn btn-block btn-danger text-uppercase" @click="orderCart()"
+                  :disabled="!isValidCart">Tiến hành đặt hàng
+          </button>
+        </div>
+      </div>
+    </div>
+    <div v-else class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <div class="card-empty">
+            <img class="bg-empty" src="images/cart/undraw_empty_cart_co35.png" alt="">
+            <p class="description">Giỏ hàng của bạn còn trống</p>
+            <button class="btn btn-sm btn-danger" @click="redirect('home')">Mua sắm ngay</button>
+          </div>
         </div>
       </div>
     </div>
@@ -93,8 +96,9 @@
 </template>
 <script>
 import CartSupplierComponent from "../components/Carts/CartSupplierComponent";
+import ModalAddCouponGlobal from "../components/Carts/ModalAddCouponGlobal";
 import {mapGetters} from "vuex";
-import {ADDRESS_DEFAULT_GET, FETCH_CART} from "../store/actions.type";
+import {ADDRESS_DEFAULT_GET, FETCH_CART, GET_LIST_DISCOUNT_CODE_GLOBAL} from "../store/actions.type";
 import {HandleRedirect} from "../mixins/redirect.handle";
 
 export default {
@@ -102,6 +106,13 @@ export default {
   mixins: [HandleRedirect],
   created() {
     this.loadingData();
+  },
+
+  data() {
+    return {
+      isLoading: true,
+      showModalCouponGlobal: false
+    }
   },
 
   methods: {
@@ -112,7 +123,8 @@ export default {
       //     })
       Promise.all([
         this.$store.dispatch(FETCH_CART),
-        this.$store.dispatch(ADDRESS_DEFAULT_GET)
+        this.$store.dispatch(ADDRESS_DEFAULT_GET),
+        this.$store.dispatch(GET_LIST_DISCOUNT_CODE_GLOBAL)
       ]);
     },
 
@@ -130,9 +142,27 @@ export default {
       return price * (100 - discount) / 100;
     },
 
+    totalCostCategoryOfSupplier(supplier) {
+      const {products} = supplier;
+      let coupon = this.globalCoupons.data.find(item => item.code == this.couponGlobalInUse);
+      const {childs} = coupon.category || [];
+      return products.reduce((acc, product) => {
+        const {category} = product;
+        let value = (category.id == coupon.category.id || childs.indexOf(category.id) > -1) ? this.realPrice(product) : 0;
+        return acc + value;
+      }, 0)
+    },
+
+    orderCart() {
+      console.log('ok');
+    },
+
   },
   computed: {
-    ...mapGetters(["cart", "defaultAddress", "couponSupplierInUse"]),
+    ...mapGetters(
+        ["cart", "defaultAddress", "couponSupplierInUse",
+          "couponGlobalInUse", "globalCoupons"
+        ]),
     suppliers() {
       const {suppliers} = this.cart;
       return suppliers || [];
@@ -143,8 +173,8 @@ export default {
       return total_count;
     },
 
-    discountPrice() {
-      let total = this.suppliers.reduce((accumulator, supplier) => {
+    totalPriceDiscountSupplier() {
+      return this.suppliers.reduce((accumulator, supplier) => {
         let tempCost = this.totalPriceSupplier(supplier);
         let coupon = this.couponSupplierInUse.find(c => c.supplier_id == supplier.id);
         let tempDiscountCost = 0;
@@ -154,7 +184,25 @@ export default {
         }
         return accumulator + tempDiscountCost;
       }, 0);
-      return total;
+    },
+
+    totalPriceDiscountCategory() {
+      const {suppliers} = this.cart;
+      let coupon = this.globalCoupons.data.find(item => item.code == this.couponGlobalInUse);
+      if (!coupon) return 0;
+      const {max_price, percent, from_price} = coupon;
+      let supplier = suppliers.find((s) => {
+        let tempCost = this.totalCostCategoryOfSupplier(s);
+        return tempCost > from_price;
+      })
+
+      if (!supplier) return 0;
+      let tempCost = this.totalCostCategoryOfSupplier(supplier);
+      return tempCost * percent / 100 > max_price ? max_price : tempCost * percent / 100;
+    },
+
+    totalDiscountPrice() {
+      return this.totalPriceDiscountSupplier + this.totalPriceDiscountCategory;
     },
 
     totalTempPrice() {
@@ -166,11 +214,17 @@ export default {
     },
 
     totalPrice() {
-      return this.totalTempPrice - this.discountPrice;
+      return this.totalTempPrice - this.totalDiscountPrice;
+    },
+
+    isValidCart() {
+      const {defaultAddress, cart} = this;
+      return defaultAddress && defaultAddress.name && cart && cart.total_count > 0;
     }
   },
   components: {
-    CartSupplierComponent
+    CartSupplierComponent,
+    ModalAddCouponGlobal
   },
 }
 </script>

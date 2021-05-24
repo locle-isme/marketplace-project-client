@@ -187,7 +187,7 @@ import {HandleRedirect} from "../mixins/redirect.handle";
 
 export default {
   props: {},
-  mixins: [ProductMixin, HandleFavourite,HandleRedirect],
+  mixins: [ProductMixin, HandleFavourite, HandleRedirect],
   data() {
     return {
       id: "",
@@ -224,7 +224,7 @@ export default {
 
     addToCart() {
       const {id} = this.product;
-      if (!this.isAuthenticated){
+      if (!this.isAuthenticated) {
         this.$toast.error('Vui lòng đăng nhập để tiếp tục', {
           duration: 5000,
           position: 'top-left'
@@ -237,11 +237,18 @@ export default {
               duration: 5000,
               position: 'top-left'
             })
+          })
+          .catch((error) => {
+            console.log(error)
+            this.$toast.error('Có lỗi sảy ra', {
+              duration: 5000,
+              position: 'top-left'
+            })
           });
     }
   },
   computed: {
-    ...mapGetters(["currentProduct", "isAuthenticated", "defaultAddress", "listReviews","isAuthenticated"]),
+    ...mapGetters(["currentProduct", "isAuthenticated", "defaultAddress", "listReviews", "isAuthenticated"]),
 
 
     product() {

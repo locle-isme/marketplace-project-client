@@ -2,14 +2,18 @@ import {FAVOURITE_CREATE, FAVOURITE_DELETE} from "../store/actions.type";
 
 export const HandleFavourite = {
     data(){
-        return {}
+        return {
+            isLoading: false
+        }
     },
 
     methods:{
         handleAddFavourite() {
+            this.isLoading = true;
             if (!this.product.favourited) {
                 this.$store.dispatch(FAVOURITE_CREATE, {product_id: this.product.id})
                     .then(() => {
+                        this.isLoading = false;
                         this.loadingData();
                         this.$toast.success('Đã thích', {
                             duration: 5000,
@@ -19,6 +23,7 @@ export const HandleFavourite = {
             } else {
                 this.$store.dispatch(FAVOURITE_DELETE, {product_id: this.product.id})
                     .then(() => {
+                        this.isLoading = false;
                         this.loadingData();
                         this.$toast.success('Đã bỏ thích', {
                             duration: 5000,

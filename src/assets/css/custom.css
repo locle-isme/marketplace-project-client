@@ -111,3 +111,7 @@ body {
     font-size: 1.2em;
     margin: 0.5rem 0px;
 }
+
+.card-empty .btn-danger{
+    cursor: pointer;
+}

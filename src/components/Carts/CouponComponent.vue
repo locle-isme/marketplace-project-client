@@ -5,15 +5,14 @@
     </div>
     <div class="description d-flex flex-grow-1 justify-content-between align-items-center">
       <div class="d-flex flex-column">
-        <div class="coupon-name">Giảm {{ discount_code.percent }}% Đơn tổi thiểu
-          {{ discount_code.from_price | currency }}
+        <div class="coupon-name">Giảm {{ discount_code.percent }}%, Đơn tổi thiểu {{ discount_code.from_price | currency }} <br>
           Giảm tối đa {{ discount_code.max_price | currency }}
         </div>
         <span class="date">HSD: {{ discount_code.end_date | time_date }}</span>
       </div>
       <div style="min-width: 80px;" class="float-left">
         <button v-if="isActive" class="btn btn-warning btn-sm float-right"
-                @click="unselectCounpon()">Bỏ
+                @click="unselectCoupon()">Bỏ
           chọn
         </button>
         <button v-else class="btn btn-primary btn-sm float-right"
@@ -54,7 +53,7 @@ export default {
       this.$store.commit(SET_COUPON_SUPPLIER_IN_USE, payload);
     },
 
-    unselectCounpon() {
+    unselectCoupon() {
       const {id} = this.supplier;
       const payload = {supplier_id: id, discount_code: this.discount_code};
       this.$store.commit(REMOVE_COUPON_SUPPLIER_IN_USE, payload);

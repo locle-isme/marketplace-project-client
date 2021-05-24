@@ -127,6 +127,9 @@ export default new VueRouter({
         {
             name: 'checkout.cart',
             path: '/checkout/cart',
+            meta: {
+                requiresAuth: true
+            },
             component: () => import("@/views/Cart")
         },
 

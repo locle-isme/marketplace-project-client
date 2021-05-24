@@ -11,9 +11,9 @@
           <div class="note" v-if="isLimited">Còn {{ product.amount }} sản phẩm</div>
           <div class="quality-a">
             <div class="btn-group">
-              <button class="quality-btn" @click="changeQuantity(-1)">-</button>
+              <button :class="classQuantityBtn" :disabled="isLoading" @click="changeQuantity(-1)">-</button>
               <input v-model="quantity" type="text" class="quality-input">
-              <button class="quality-btn" @click="changeQuantity(1)">+</button>
+              <button :class="classQuantityBtn" :disabled="isLoading" @click="changeQuantity(1)">+</button>
             </div>
           </div>
         </div>
@@ -29,12 +29,12 @@
           </div>
           <div class="actions d-flex">
             <div class="remove">
-              <button class="btn btn-sm btn-warning" @click="removeCartItem()">
+              <button class="btn btn-sm btn-warning" @click="removeCartItem()" :disabled="isLoading">
                 <i class="fa fa-recycle"></i>
               </button>
             </div>
             <div class="buy-later">
-              <button class="btn btn-sm" :class="{'btn-light': !isFavourited, 'btn-danger': isFavourited}">
+              <button class="btn btn-sm" :class="{'btn-light': !isFavourited, 'btn-danger': isFavourited}" :disabled="isLoading">
                 <i class="fa fa-heart" :class="{'text-white': isFavourited}" @click="handleAddFavourite()"></i></button>
             </div>
           </div>
@@ -64,7 +64,10 @@ export default {
   mixins: [ProductMixin, HandleFavourite, HandleRedirect],
 
   data() {
-    return {quantity: 0}
+    return {
+      isLoading: false,
+      quantity: 0
+    }
   },
 
   created() {
@@ -78,8 +81,10 @@ export default {
 
     removeCartItem() {
       const {id} = this.product;
+      this.isLoading = true;
       this.$store.dispatch(CART_EDIT, {product_id: id, amount: 0})
           .then(() => {
+            this.isLoading = false;
             this.$toast.success('Xóa sản phẩm thành công', {
               duration: 5000,
               position: 'top-left'
@@ -104,6 +109,14 @@ export default {
       }
       this.quantity = temp;
       this.$store.dispatch(CART_EDIT, {product_id: id, amount: this.quantity});
+    }
+  },
+
+  computed: {
+    classQuantityBtn() {
+      return {
+        'quality-btn': true,
+      }
     }
   },
 

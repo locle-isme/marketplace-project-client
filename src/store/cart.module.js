@@ -1,12 +1,18 @@
-import {REMOVE_COUPON_SUPPLIER_IN_USE, SET_CART, SET_COUPON_SUPPLIER_IN_USE,} from "./mutations.type";
-import {CART_ADD, CART_EDIT, FETCH_CART,} from "./actions.type";
-import {CartService} from "../common/api.service";
+import {
+    REMOVE_COUPON_GLOBAL_IN_USE,
+    REMOVE_COUPON_SUPPLIER_IN_USE,
+    SET_CART,
+    SET_COUPON_GLOBAL, SET_COUPON_GLOBAL_IN_USE,
+    SET_COUPON_SUPPLIER_IN_USE,
+} from "./mutations.type";
+import {CART_ADD, CART_EDIT, FETCH_CART, GET_LIST_DISCOUNT_CODE_GLOBAL,} from "./actions.type";
+import {CartService, DiscountCodeService} from "../common/api.service";
 
 const state = {
     cart: {suppliers: [], total_count: 0},
-    global_coupons: [],
+    globalCoupons: {data: []},
     couponSupplierInUse: [], // [{supplier_id: null, discount_code: {}}]
-    couponGlobalInUse: [],
+    couponGlobalInUse: ""
 }
 
 const getters = {
@@ -14,20 +20,16 @@ const getters = {
         return state.cart;
     },
 
-    coupons(state) {
-        return state.coupons;
-    },
-
-    currentCoupons(state) {
-        return state.currentCoupons;
+    globalCoupons() {
+        return state.globalCoupons || {data: []};
     },
 
     couponSupplierInUse(state) {
-        return state.couponSupplierInUse;
+        return state.couponSupplierInUse || [];
     },
 
     couponGlobalInUse(state) {
-        return state.couponSupplierInUse;
+        return state.couponGlobalInUse || "";
     }
 }
 const mutations = {
@@ -46,7 +48,18 @@ const mutations = {
         const {supplier_id} = obj;
         let temp = state.couponSupplierInUse.filter(c => c.supplier_id != supplier_id);
         state.couponSupplierInUse = temp;
-    }
+    },
+    [SET_COUPON_GLOBAL](state, list) {
+        state.globalCoupons = list;
+    },
+
+    [SET_COUPON_GLOBAL_IN_USE](state, code) {
+        state.couponGlobalInUse = code;
+    },
+
+    [REMOVE_COUPON_GLOBAL_IN_USE](state) {
+        state.couponGlobalInUse = "";
+    },
 }
 const actions = {
     [FETCH_CART](context) {
@@ -85,6 +98,19 @@ const actions = {
             })
             .then(() => {
                 return context.dispatch(FETCH_CART);
+            })
+    },
+
+    [GET_LIST_DISCOUNT_CODE_GLOBAL](context) {
+        return DiscountCodeService.getListDiscountGlobal()
+            .then(response => {
+                const {data, status} = response;
+                if (status == 'success') {
+                    context.commit(SET_COUPON_GLOBAL, data);
+                    return data;
+                } else {
+                    throw data;
+                }
             })
     },
 

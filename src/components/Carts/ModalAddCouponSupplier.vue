@@ -6,6 +6,9 @@
           <!-- Modal Header -->
           <div class="modal-header">
             <div class="modal-title h5">{{ supplier.nameOfShop }} Khuyến mãi</div>
+            <button type="button" class="close float-right" aria-label="Close" @click="$emit('exit')">
+              <span aria-hidden="true" style="font-size: 1em">&times;</span>
+            </button>
           </div>
           <div class="modal-body">
             <div class="list-coupons d-flex flex-column mt-3">

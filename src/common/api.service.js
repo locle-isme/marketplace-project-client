@@ -195,3 +195,15 @@ export const CartService = {
     }
 }
 
+export const DiscountCodeService = {
+    query(params = {}) {
+        return ApiService.query('discounts', params)
+    },
+    get(id) {
+        return ApiService.get('discounts', id)
+    },
+
+    getListDiscountGlobal() {
+        return ApiService.get('me/cart/discounts')
+    },
+}

@@ -41,7 +41,10 @@ export default {
   },
 
   data() {
-    return {showModal: false}
+    return {
+      isLoading: true,
+      showModal: false
+    }
   },
 
   methods: {
@@ -63,7 +66,8 @@ export default {
     },
 
     totalPrice() {
-      let total = this.products.reduce((accumulator, product) => {
+      const {products} = this.supplier;
+      let total = products.reduce((accumulator, product) => {
         return accumulator + this.realPrice(product) * product.quantity;
       }, 0);
       return total;
@@ -78,7 +82,7 @@ export default {
   watch: {
     totalPrice(tempCost) {
       const {from_price} = this.discountCodeUse;
-      if (from_price && from_price > tempCost){
+      if (from_price && from_price > tempCost) {
         const {id} = this.supplier;
         const payload = {supplier_id: id, discount_code: this.discountCodeUse};
         this.$store.commit(REMOVE_COUPON_SUPPLIER_IN_USE, payload);
