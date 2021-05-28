@@ -21,6 +21,7 @@ export const REVIEW_DELETE = "deleteReview";
 export const GET_LIST_WAITING_FOR_REVIEW = "getListWaitingForReview";
 export const FETCH_ORDERS = "fetchOrders";
 export const GET_ORDER = "getOrder";
+export const ORDER_CREATE = "createOrder";
 export const FETCH_CART = "fetchCart";
 export const CART_ADD = "addCart";
 export const CART_EDIT = "editCart";

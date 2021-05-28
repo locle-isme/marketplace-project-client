@@ -122,7 +122,7 @@
                         <label class="form-check-label">
                           <input v-model="queryData.suppliers" class="form-check-input" :value="supplier.id"
                                  type="checkbox">
-                          {{ supplier.name }}
+                          {{ supplier.nameOfShop }}
                         </label>
                       </div>
                     </template>

@@ -56,7 +56,7 @@
             <div class="card-title text-uppercase" style="font-weight: unset;font-size: 1em">HÌNH THỨC THANH TOÁN</div>
             <div class="card-body">
               <div class="mt-1">
-                <span>Thanh toán tiền mặt khi nhận hàng</span>
+                <span>{{typePayment}}</span>
               </div>
             </div>
           </div>
@@ -73,14 +73,14 @@
                   <th class="text-right">Đơn Giá</th>
                   <th class="text-center">Số lượng</th>
                   <!--                  <th class="text-right">Giảm giá</th>-->
-                  <!--                  <th class="text-right">Tạm tính</th>-->
+                  <th class="text-right">Tạm tính</th>
                   </thead>
                   <tbody>
                   <template v-for="(item, index) in currentOrder.items">
                     <DetailProductComponent :key="'item' + index" :product="item"></DetailProductComponent>
                   </template>
                   <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                       <span class="float-right" style="color: rgb(51, 51, 51); font-size: 1.15em">Tổng tiền hàng</span>
                     </td>
                     <td>
@@ -88,14 +88,14 @@
                     </td>
                   </tr>
                   <tr>
-                    <td colspan="2" style="border: unset">
+                    <td colspan="3" style="border: unset">
                       <span class="float-right" style="color: rgb(51, 51, 51); font-size: 1.15em">Giảm giá</span></td>
                     <td style="border: unset">
                       <span style="font-size: 1.15em" class="float-right">{{ currentOrder.discount | currency }}</span>
                     </td>
                   </tr>
                   <tr>
-                    <td colspan="2" style="">
+                    <td colspan="3" style="">
                       <span class="float-right" style="color: rgb(78,78,78);font-size: 1.2em">Tổng kết</span>
                     </td>
                     <td style="">
@@ -123,7 +123,8 @@ export default {
   data() {
     return {
       typePayments: {
-        "COD": "Thanh toán khi nhận hàng"
+        "COD": "Thanh toán tiền mặt khi nhận hàng",
+        "AIRPAY": "Thanh toán ví điện tử trực tuyến AIRPAY",
       },
     }
   },

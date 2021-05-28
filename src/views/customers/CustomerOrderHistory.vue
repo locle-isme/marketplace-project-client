@@ -18,7 +18,7 @@
             <template v-for="order in orders.data">
               <tr :key="'order' + order.id">
                 <td>
-                  <router-link :to="{name:'customer.order.detail', params:{orderID: 1}}">
+                  <router-link :to="{name:'customer.order.detail', params:{orderID: order.id}}">
                     <span style="cursor: pointer" class="text-primary">#{{ order.id }}</span>
                   </router-link>
                 </td>
@@ -48,6 +48,7 @@ export default {
   data() {
     return {
       status_texts: {
+        processing: 'Đơn hàng đang xử lý',
         delivered: 'Giao hàng thành công',
         cancel: 'Đơn hàng đã hủy',
       }

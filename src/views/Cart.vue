@@ -11,28 +11,28 @@
     </div>
     <div v-if="totalCount > 0" class="col-lg-3 col-md-12">
       <div class="row">
-        <div class="delivery-address col">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-flex flex-column">
-                <div class="d-flex justify-content-between">
-                  <div class="font-weight-bold">Địa chỉ nhận hàng</div>
-                  <router-link tag="div" :to="{name:'customer.address'}" class="action-change">Thay đổi</router-link>
-                </div>
-                <div v-if="defaultAddress.name">
-                  <div class="d-flex align-items-center mt-2">
-                    <div class="name-customer mr-1">{{ defaultAddress.name }}</div>
-                    <div class="line-straight"></div>
-                    <div class="phone-customer ml-1">{{ defaultAddress.phone }}</div>
+        <!--        <div class="delivery-address col">
+                  <div class="card">
+                    <div class="card-body">
+                      <div class="d-flex flex-column">
+                        <div class="d-flex justify-content-between">
+                          <div class="font-weight-bold">Địa chỉ nhận hàng</div>
+                          <router-link tag="div" :to="{name:'customer.address'}" class="action-change">Thay đổi</router-link>
+                        </div>
+                        <div v-if="defaultAddress.name">
+                          <div class="d-flex align-items-center mt-2">
+                            <div class="name-customer mr-1">{{ defaultAddress.name }}</div>
+                            <div class="line-straight"></div>
+                            <div class="phone-customer ml-1">{{ defaultAddress.phone }}</div>
+                          </div>
+                          <div class="address-customer d-flex mt-2">
+                            {{ defaultAddress.address }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="address-customer d-flex mt-2">
-                    {{ defaultAddress.address }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+                </div>-->
         <div class="coupon col-12">
           <div class="card">
             <div class="card-body">
@@ -46,6 +46,11 @@
                        @click="showModalCouponGlobal = true">
                     <i class="fa fa-ticket-alt" aria-hidden="true"></i>
                     Chọn hoặc nhập Khuyến mãi
+                  </div>
+                  <div class="mt-2" @click="showModalCouponGlobal = true">
+                    <span v-if="couponGlobalInUse" class="badge badge-primary" style="padding: 6px 8px;cursor: pointer">
+                      Giảm {{ couponGlobalDetail.percent }} %
+                  </span>
                   </div>
                 </div>
                 <ModalAddCouponGlobal v-if="showModalCouponGlobal"
@@ -97,13 +102,13 @@
 <script>
 import CartSupplierComponent from "../components/Carts/CartSupplierComponent";
 import ModalAddCouponGlobal from "../components/Carts/ModalAddCouponGlobal";
-import {mapGetters} from "vuex";
-import {ADDRESS_DEFAULT_GET, FETCH_CART, GET_LIST_DISCOUNT_CODE_GLOBAL} from "../store/actions.type";
+import {FETCH_CART, GET_LIST_DISCOUNT_CODE_GLOBAL} from "../store/actions.type";
 import {HandleRedirect} from "../mixins/redirect.handle";
+import {CheckoutMixin} from "../mixins/checkout.mixin";
 
 export default {
 
-  mixins: [HandleRedirect],
+  mixins: [HandleRedirect, CheckoutMixin],
   created() {
     this.loadingData();
   },
@@ -123,103 +128,26 @@ export default {
       //     })
       Promise.all([
         this.$store.dispatch(FETCH_CART),
-        this.$store.dispatch(ADDRESS_DEFAULT_GET),
         this.$store.dispatch(GET_LIST_DISCOUNT_CODE_GLOBAL)
       ]);
     },
 
-
-    totalPriceSupplier(supplier) {
-      const {products} = supplier;
-      let total = products.reduce((accumulator, product) => {
-        return accumulator + this.realPrice(product) * product.quantity;
-      }, 0);
-      return total;
-    },
-
-    realPrice(product) {
-      const {price, discount} = product;
-      return price * (100 - discount) / 100;
-    },
-
-    totalCostCategoryOfSupplier(supplier) {
-      const {products} = supplier;
-      let coupon = this.globalCoupons.data.find(item => item.code == this.couponGlobalInUse);
-      const {childs} = coupon.category || [];
-      return products.reduce((acc, product) => {
-        const {category} = product;
-        let value = (category.id == coupon.category.id || childs.indexOf(category.id) > -1) ? this.realPrice(product) : 0;
-        return acc + value;
-      }, 0)
-    },
-
     orderCart() {
-      console.log('ok');
+      return this.redirect('checkout.payment');
     },
 
   },
   computed: {
-    ...mapGetters(
-        ["cart", "defaultAddress", "couponSupplierInUse",
-          "couponGlobalInUse", "globalCoupons"
-        ]),
-    suppliers() {
-      const {suppliers} = this.cart;
-      return suppliers || [];
-    },
-
-    totalCount() {
-      const {total_count} = this.cart;
-      return total_count;
-    },
-
-    totalPriceDiscountSupplier() {
-      return this.suppliers.reduce((accumulator, supplier) => {
-        let tempCost = this.totalPriceSupplier(supplier);
-        let coupon = this.couponSupplierInUse.find(c => c.supplier_id == supplier.id);
-        let tempDiscountCost = 0;
-        if (coupon && coupon.discount_code) {
-          const {max_price, percent, from_price} = coupon.discount_code;
-          tempDiscountCost = tempCost > from_price && tempCost * percent / 100 > max_price ? max_price : tempCost * percent / 100;
-        }
-        return accumulator + tempDiscountCost;
-      }, 0);
-    },
-
-    totalPriceDiscountCategory() {
-      const {suppliers} = this.cart;
-      let coupon = this.globalCoupons.data.find(item => item.code == this.couponGlobalInUse);
-      if (!coupon) return 0;
-      const {max_price, percent, from_price} = coupon;
-      let supplier = suppliers.find((s) => {
-        let tempCost = this.totalCostCategoryOfSupplier(s);
-        return tempCost > from_price;
-      })
-
-      if (!supplier) return 0;
-      let tempCost = this.totalCostCategoryOfSupplier(supplier);
-      return tempCost * percent / 100 > max_price ? max_price : tempCost * percent / 100;
-    },
-
-    totalDiscountPrice() {
-      return this.totalPriceDiscountSupplier + this.totalPriceDiscountCategory;
-    },
-
-    totalTempPrice() {
-      let total = this.suppliers.reduce((accumulator, supplier) => {
-        return accumulator + this.totalPriceSupplier(supplier);
-      }, 0);
-
-      return total;
-    },
-
-    totalPrice() {
-      return this.totalTempPrice - this.totalDiscountPrice;
-    },
-
     isValidCart() {
-      const {defaultAddress, cart} = this;
-      return defaultAddress && defaultAddress.name && cart && cart.total_count > 0;
+      //const {defaultAddress, cart} = this;
+      //return defaultAddress && defaultAddress.name && cart && cart.total_count > 0;
+      const {cart} = this;
+      return cart && cart.total_count > 0;
+    },
+
+    couponGlobalDetail() {
+      let coupon = this.globalCoupons.data.find(item => item.code == this.couponGlobalInUse);
+      return coupon || {};
     }
   },
   components: {

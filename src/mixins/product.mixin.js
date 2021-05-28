@@ -1,4 +1,10 @@
 export const ProductMixin = {
+    props: {
+        product: {
+            type: Object,
+            required: false
+        }
+    },
     data() {
         return {
             limitedproduct: 30,

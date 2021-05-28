@@ -71,7 +71,7 @@
             </div>
           </div>
 
-          <div class="form-group row">
+          <div v-if="listAddresses.length > 0" class="form-group row">
             <div class="offset-3"></div>
             <div class="col-sm-8 ml-4">
               <label class="form-check-label" style="user-select: none">
@@ -124,7 +124,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["addressErrors"]),
+    ...mapGetters(["addressErrors","listAddresses"]),
     className() {
       return {
         'form-control': true,

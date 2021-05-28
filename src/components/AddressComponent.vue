@@ -23,7 +23,7 @@
     </td>
     <td>
       <div class="float-right btn-group">
-        <button class="btn btn-sm btn-danger" @click="remove()">Xóa</button>
+        <button v-if="!address.active" class="btn btn-sm btn-danger" @click="remove()">Xóa</button>
         <router-link tag="button"
                      :to="{name:'customer.address.edit', params: {addressID: `${address.id}`}}"
                      class="btn btn-sm btn-warning">Chỉnh sửa

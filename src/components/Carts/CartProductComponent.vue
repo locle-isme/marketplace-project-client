@@ -82,7 +82,7 @@ export default {
     removeCartItem() {
       const {id} = this.product;
       this.isLoading = true;
-      this.$store.dispatch(CART_EDIT, {product_id: id, amount: 0})
+      this.$store.dispatch(CART_EDIT, {product_id: id, quantity: 0})
           .then(() => {
             this.isLoading = false;
             this.$toast.success('Xóa sản phẩm thành công', {
@@ -108,7 +108,7 @@ export default {
         return;
       }
       this.quantity = temp;
-      this.$store.dispatch(CART_EDIT, {product_id: id, amount: this.quantity});
+      this.$store.dispatch(CART_EDIT, {product_id: id, quantity: this.quantity});
     }
   },
 

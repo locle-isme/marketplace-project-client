@@ -25,7 +25,7 @@
                 {{ titles[stars - 1] }} !
               </div>
               <div class="form-group">
-                <textarea v-model="comment" name="comment" class="form-control" rows="3"
+                <textarea v-model="comment" name="comment" class="form-control" rows="5"
                           placeholder="Viết đánh giá sản phẩm ..."></textarea>
               </div>
             </div>

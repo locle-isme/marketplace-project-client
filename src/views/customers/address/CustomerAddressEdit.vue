@@ -73,7 +73,7 @@
 
           <div class="form-group row">
             <div class="offset-3"></div>
-            <div class="col-sm-8 ml-4">
+            <div v-if="!isActive" class="col-sm-8 ml-4">
               <label class="form-check-label" style="user-select: none">
                 <input v-model="formData.active" type="checkbox" class="form-check-input" name="active" value="1">Đặt
                 làm địa chỉ mặc định
@@ -108,19 +108,21 @@ export default {
         name: "",
         address: "",
         phone: ""
-      }
+      },
+      isActive: true
     }
   },
 
   created() {
-    this.init();
+    this.loadingData();
   },
   methods: {
-    init() {
+    loadingData() {
       return this.$store.dispatch(FETCH_ADDRESSES, this.addressID)
           .then((data) => {
             //console.log(data);
             this.formData = data;
+            this.isActive = data.active;
           })
           .catch(() => {
             this.$router.push({name: 'customer.address'});
@@ -172,7 +174,7 @@ export default {
   watch: {
     addressID: {
       handler(){
-        this.init()
+        this.loadingData()
       }
     }
   }

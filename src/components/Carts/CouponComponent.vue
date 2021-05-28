@@ -49,13 +49,13 @@ export default {
   methods: {
     selectCoupon() {
       const {id} = this.supplier;
-      const payload = {supplier_id: id, discount_code: this.discount_code};
+      const payload = {supplier_id: id, discount_code: this.discount_code.code};
       this.$store.commit(SET_COUPON_SUPPLIER_IN_USE, payload);
     },
 
     unselectCoupon() {
       const {id} = this.supplier;
-      const payload = {supplier_id: id, discount_code: this.discount_code};
+      const payload = {supplier_id: id, discount_code: this.discount_code.code};
       this.$store.commit(REMOVE_COUPON_SUPPLIER_IN_USE, payload);
     },
     realPrice(product) {
@@ -77,7 +77,7 @@ export default {
     },
     isActive() {
       const {code} = this.discount_code;
-      let temp = this.couponSupplierInUse.find(c => c.discount_code.code == code);
+      let temp = this.couponSupplierInUse.find(c => c.discount_code == code);
       return !!temp || false;
     },
 

@@ -6,21 +6,22 @@
           <img width="100%" height="100%" class="img-thumbnail" :src="firstImages" alt="">
         </div>
         <div class="d-flex flex-column ml-2">
-          <div><span style="font-weight: 600; color: #1f648b;cursor: pointer">{{ product.name }}</span>
+          <div>
+            <span style="font-weight: 600; color: #1f648b;cursor: pointer">{{ product.name }}</span>
           </div>
           <div class="mt-1">
             <span>Cung cấp bởi &nbsp;</span>
             <router-link :to="{name:'store.global', params:{slug: brand.slug}}" tag="span" class="text-primary"
-                         style="cursor: pointer">{{ supplier.name }}
+                         style="cursor: pointer">{{ supplier.nameOfShop }}
             </router-link>
           </div>
         </div>
       </router-link>
     </td>
     <td class="text-right">{{ realPrice | currency }}</td>
-    <td class="text-center">{{ product.amount }}</td>
-<!--    <td class="text-right">0 ₫</td>-->
-<!--    <td class="text-right">{{ product.price | currency }}</td>-->
+    <td class="text-center">{{ product.quantity }}</td>
+    <!--    <td class="text-right">0 ₫</td>-->
+    <td class="text-right">{{ (realPrice * product.quantity) | currency }}</td>
   </tr>
 </template>
 

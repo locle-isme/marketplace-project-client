@@ -1,4 +1,4 @@
-import {FETCH_ORDERS, GET_ORDER} from "./actions.type";
+import {FETCH_ORDERS, GET_ORDER, ORDER_CREATE} from "./actions.type";
 import {OrderService} from "../common/api.service";
 import {SET_LIST_ORDERS, SET_ORDER} from "./mutations.type";
 
@@ -38,6 +38,18 @@ const actions = {
                 const {data} = response;
                 context.commit(SET_ORDER, data);
             })
-    }
+    },
+
+    [ORDER_CREATE](context, formData) {
+        return OrderService.post(formData)
+            .then(response => {
+                const {data, status} = response;
+                if (status == "success") {
+                    return data;
+                } else {
+                    throw data;
+                }
+            })
+    },
 };
 export default {state, getters, mutations, actions}

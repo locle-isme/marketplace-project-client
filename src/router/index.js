@@ -130,7 +130,16 @@ export default new VueRouter({
             meta: {
                 requiresAuth: true
             },
-            component: () => import("@/views/Cart")
+            component: () => import("../views/Cart")
+        },
+
+        {
+            name: 'checkout.payment',
+            path: '/checkout/payment',
+            meta: {
+                requiresAuth: true
+            },
+            component: () => import("../views/Payment")
         },
 
     ],

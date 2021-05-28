@@ -73,9 +73,16 @@ export default {
       return total;
     },
 
+    discount_codes() {
+      const {discount_codes} = this.supplier;
+      return discount_codes;
+    },
+
     discountCodeUse() {
       let temp = this.couponSupplierInUse.find(c => c.supplier_id == this.supplier.id);
-      return temp && temp.discount_code ? temp.discount_code : {};
+      if (!temp) return {};
+      let discount_code = this.discount_codes.find(dc => dc.code == temp.discount_code);
+      return discount_code && discount_code.code ? discount_code : {};
     }
   },
 

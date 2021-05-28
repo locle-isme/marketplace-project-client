@@ -99,19 +99,23 @@ body {
 }
 
 
-.card-empty{
+.card-empty {
     text-align: center;
 }
 
-.card-empty .bg-empty{
+.card-empty .bg-empty {
     width: 210px;
 }
 
-.card-empty .description{
+.card-empty .description {
     font-size: 1.2em;
     margin: 0.5rem 0px;
 }
 
-.card-empty .btn-danger{
+.card-empty .btn-danger {
     cursor: pointer;
+}
+
+.custom-label input[type="radio"]:checked + .radio-fake::before {
+    transform: scale(1);
 }

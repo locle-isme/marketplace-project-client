@@ -181,6 +181,9 @@ export const OrderService = {
     get(id) {
         return ApiService.get('me/orders', id)
     },
+    post(params) {
+        return ApiService.post('me/orders', params)
+    },
 }
 
 export const CartService = {

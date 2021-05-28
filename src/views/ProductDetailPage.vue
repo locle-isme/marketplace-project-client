@@ -172,7 +172,6 @@
     </div>
 
   </div>
-
 </template>
 <script>
 //import ReviewImage from "../components/ReviewImage";
@@ -181,15 +180,16 @@ import ProductReviewComment from "../components/ProductReviewComment";
 import ProductReviewRating from "../components/ProductReviewRating";
 import {mapGetters} from "vuex";
 import {CART_ADD, FETCH_ADDRESSES, FETCH_REVIEWS, GET_PRODUCT} from "../store/actions.type";
-import {ProductMixin} from "../mixins/product.mixin";
 import {HandleFavourite} from "../mixins/favourite.handle";
 import {HandleRedirect} from "../mixins/redirect.handle";
 
 export default {
   props: {},
-  mixins: [ProductMixin, HandleFavourite, HandleRedirect],
+  mixins: [HandleFavourite, HandleRedirect],
   data() {
     return {
+      limitedproduct: 30,
+      defaultImage: 'https://via.placeholder.com/640x480.png/00bb11?text=default',
       id: "",
       isShowMoreContent: false,
       quantity: 1,
@@ -231,7 +231,7 @@ export default {
         })
         return;
       }
-      this.$store.dispatch(CART_ADD, {product_id: id, amount: this.quantity})
+      this.$store.dispatch(CART_ADD, {product_id: id, quantity: this.quantity})
           .then(() => {
             this.$toast.success('Thêm vào giỏ hàng hàng thành công', {
               duration: 5000,
@@ -253,6 +253,51 @@ export default {
 
     product() {
       return this.currentProduct;
+    },
+
+    brand() {
+      const {brand} = this.product;
+      return brand || {};
+    },
+
+    supplier() {
+      const {supplier} = this.product;
+      return supplier || {};
+    },
+
+    images() {
+      const {images} = this.product;
+      return images || [];
+    },
+
+    firstImages() {
+      const {images} = this.product;
+      return images[0] ? images[0].url : this.defaultImage;
+    },
+
+    ratings() {
+      const {ratings} = this.product;
+      return ratings || {};
+    },
+
+    reviews() {
+      const {reviews} = this.listReviews;
+      return reviews || [];
+    },
+
+    realPrice() {
+      const {price, discount} = this.product;
+      return price * (100 - discount) / 100;
+    },
+
+    isLimited() {
+      const {amount} = this.product;
+      return amount && amount < this.limitedproduct ? true : false;
+    },
+
+    isFavourited() {
+      const {favourited} = this.product;
+      return favourited;
     },
 
     classContentToggle() {
