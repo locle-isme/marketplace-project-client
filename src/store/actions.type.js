@@ -27,3 +27,4 @@ export const CART_ADD = "addCart";
 export const CART_EDIT = "editCart";
 export const CART_DELETE = "removeCart";
 export const GET_LIST_DISCOUNT_CODE_GLOBAL = "getListDiscountCodeGlobal";
+export const GET_SUPPLIER = "getSupplier";

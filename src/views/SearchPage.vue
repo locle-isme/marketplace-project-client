@@ -7,17 +7,6 @@
             <!-- LEFT BAR -->
             <div class="filter-search d-none d-xl-block col-xl-3 border-right">
               <div class="row">
-                <!-- DANH MUC SAN PHAM-->
-                <div class="box col-12 border-bottom">
-                  <h6 class="text-uppercase">DANH MỤC SẢN PHẨM</h6>
-                  <ul class="nav">
-                    <li>Quạt điện</li>
-                    <li>Tủ lạnh</li>
-                    <li>Máy hút bụi</li>
-                  </ul>
-                </div>
-                <!-- END DANH MUC SAN PHAM-->
-
                 <!-- DANH GIA-->
                 <div class="box rating col-12 border-bottom">
                   <h6 class="text-uppercase">ĐÁNH GIÁ</h6>
@@ -92,7 +81,7 @@
                         </div>
                       </div>
                     </div>
-                    <button class="btn-sm btn-primary my-2 w-25" @click="setPrices()">Áp dụng</button>
+                    <button class="btn-sm btn-primary my-2 w-25" @click.prevent="approvalPrice()">Áp dụng</button>
                   </div>
                 </div>
                 <!-- END GIÁ-->
@@ -137,7 +126,7 @@
               <div class="row py-3">
                 <div class="col">
                   <div class="title my-2">
-                    <span class="keyword">Kết quả tìm kiếm cho `{{ queryData.q }}`: </span>
+                    <span class="keyword">Kết quả tìm kiếm cho `{{ $route.query.q }}`: </span>
                     <span class="quality">{{ products.total_count }} kết quả</span></div>
                   <div class="sort d-flex align-items-center">
                     <div class="mr-3">Sắp xếp theo:</div>
@@ -190,16 +179,31 @@ export default {
   },
 
   created() {
+    this.initQueryData();
     this.loadingData();
   },
 
   methods: {
     loadingData() {
-      this.$store.dispatch(FETCH_PRODUCTS, this.listConfigs)
-          .then(() => {
-          })
-          .catch(() => {
-          })
+      this.$store.dispatch(FETCH_PRODUCTS, this.listConfigs);
+    },
+
+    initQueryData() {
+      if (this.$route.query.stars) {
+        this.queryData.ratings = this.$route.query.stars.split(",");
+      }
+
+      if (this.$route.query.brands) {
+        this.queryData.brands = this.$route.query.brands.split(",");
+      }
+
+      if (this.$route.query.suppliers) {
+        this.queryData.suppliers = this.$route.query.suppliers.split(",");
+      }
+
+      if (this.$route.query.sortBy) {
+        this.queryData.sortBy = this.$route.query.sortBy;
+      }
     },
 
     resetCurrentPage() {
@@ -214,15 +218,30 @@ export default {
       this.queryData.sortBy = "default";
     },
 
-    setPrices() {
+    approvalPrice() {
+      const {prices} = this.queryData;
       const {min, max} = this.tempPrice;
-      if (min > max) return;
-      this.queryData.prices.min = parseInt(min) * 1000;
-      this.queryData.prices.max = parseInt(max) * 1000;
+      if (parseInt(min) > parseInt(max)) {
+        this.$toast.error("Giá không hợp lệ", {position: "top-left"});
+        return;
+      }
+
+      prices.min = parseInt(min) * 1000;
+      prices.max = parseInt(max) * 1000;
+      this.resetCurrentPage();
+      this.$router.push({name: 'search', query: this.listConfigs})
     },
 
     formatDataQuery(ar) {
       return ar.join(",");
+    },
+
+    redirect() {
+      this.$router.push({name: 'search', query: this.listConfigs})
+          .then(() => {
+          })
+          .catch(() => {
+          })
     }
   },
 
@@ -230,54 +249,35 @@ export default {
     ...mapGetters(["products", "filters"]),
     listConfigs() {
       const {currentPage} = this;
-      const {ratings, prices, sortBy, brands, suppliers} = this.queryData;
-      const filters = {};
+      const {ratings, sortBy, brands, suppliers} = this.queryData;
+      const _filters = {};
       if (currentPage > 1) {
-        filters.page = currentPage;
+        _filters.page = currentPage;
       }
       if (this.q) {
-        filters.q = this.q;
+        _filters.q = this.q;
       }
 
       if (ratings.length) {
-        filters.stars = this.formatDataQuery(ratings);
+        _filters.stars = this.formatDataQuery(ratings);
       }
 
       if (brands.length) {
-        filters.brands = this.formatDataQuery(brands);
+        _filters.brands = this.formatDataQuery(brands);
       }
 
       if (suppliers.length) {
-        filters.suppliers = this.formatDataQuery(suppliers);
+        _filters.suppliers = this.formatDataQuery(suppliers);
       }
 
-      if (prices.min && prices.max) {
-        filters.price = this.price;
-      }
+      _filters.price = this.price;
 
       if (sortBy) {
-        filters.sortBy = sortBy;
+        _filters.sortBy = sortBy;
       }
 
-
-      return filters;
+      return _filters;
     },
-
-    formQueryStars() {
-      const {ratings} = this.queryData;
-      return ratings.join(",");
-    },
-
-    formQueryBrands() {
-      const {brands} = this.queryData;
-      return brands.join(",");
-    },
-
-    formQuerySuppliers() {
-      const {suppliers} = this.queryData;
-      return suppliers.join(",");
-    },
-
 
     price() {
       const {prices} = this.queryData;
@@ -320,25 +320,29 @@ export default {
       this.resetQueryData();
     },
 
-    listConfigs() {
+    'queryData.ratings'() {
+      this.resetCurrentPage();
+      this.redirect();
+    },
+
+    'queryData.brands'() {
+      this.resetCurrentPage();
+      this.redirect();
+    },
+
+    'queryData.suppliers'() {
+      this.resetCurrentPage();
+      this.redirect();
+    },
+
+    sortBy() {
+      this.resetCurrentPage();
+      this.redirect();
+    },
+
+    '$route.query'() {
       this.loadingData();
-    },
-
-    formQueryStars() {
-      this.resetCurrentPage();
-    },
-
-    formQueryBrands() {
-      this.resetCurrentPage();
-    },
-
-    formQuerySuppliers() {
-      this.resetCurrentPage();
-    },
-
-    price() {
-      this.resetCurrentPage();
-    },
+    }
   },
 
   components: {

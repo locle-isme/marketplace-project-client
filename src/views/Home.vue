@@ -55,12 +55,24 @@ import ProductComponent from "../components/ProductComponent";
 import TagKeyword from "@/components/TagKeyword";
 import PopularCategory from "@/components/PopularCategory";
 import {mapGetters} from "vuex";
+import {FETCH_PRODUCTS} from "../store/actions.type";
 
 export default {
+  created() {
+    this.loadingData();
+  },
   data() {
     return {}
   },
-
+  methods: {
+    loadingData() {
+      this.$store.dispatch(FETCH_PRODUCTS, {})
+          .then(() => {
+          })
+          .catch(() => {
+          })
+    },
+  },
   computed: {
     ...mapGetters(["products"])
   },

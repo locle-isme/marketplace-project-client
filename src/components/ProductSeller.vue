@@ -1,12 +1,11 @@
 <template>
   <div class="card-store d-flex flex-column">
-    <router-link tag="div" :to="{name:'store.global', params:{slug: 'demo1'}}"
-                 class="card-store-info d-flex align-items-center">
+    <div class="card-store-info d-flex align-items-center" @click="redirect('store.global',{slug: supplier.id})">
       <div class="avatar">
         <img :src="supplier.avatar" alt="">
       </div>
-      <span class="name-store">{{ supplier.name }}</span>
-    </router-link>
+      <span class="name-store">{{ supplier.nameOfShop }}</span>
+    </div>
     <div class="seller-detail row">
       <div class="col">
         <div class="d-flex flex-column align-items-center">
@@ -23,18 +22,21 @@
       <!--      </div>-->
     </div>
     <div class="buyer-action d-flex justify-content-center mt-3">
-      <button class="btn btn-sm btn-outline-info">
+      <button class="btn btn-sm btn-outline-info" @click="redirect('store.global',{slug: supplier.id})">
         <i class="fa fa-shopping-bag"></i> Xem shop
       </button>
-      <button class="btn btn-sm btn-outline-info">
-        <i class="fas fa-plus"></i> Theo dõi
-      </button>
+      <!--      <button class="btn btn-sm btn-outline-info">-->
+      <!--        <i class="fas fa-plus"></i> Theo dõi-->
+      <!--      </button>-->
     </div>
   </div>
 </template>
 
 <script>
+import {HandleRedirect} from "../mixins/redirect.handle";
+
 export default {
+  mixins: [HandleRedirect],
   props: {
     supplier: {
       type: Object

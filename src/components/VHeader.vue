@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg bg-primary text-light fixed-top">
+    <nav class="navbar navbar-expand-lg bg-danger text-light fixed-top">
       <div class="container-fluid position-relative">
         <div class="d-flex flex-column w-100">
           <div class="d-flex w-100 justify-content-between align-items-center py-2">
@@ -27,7 +27,7 @@
               <input v-model="keywordSearch" type="text" class="form-control" id="inlineFormInputSearchNav"
                      placeholder="Tìm kiếm sản phẩm ...">
             </div>
-            <button type="submit" class="btn btn-info" style="width: 10rem;" @click.prevent="searchProduct">
+            <button type="submit" class="btn btn-dark" style="width: 10rem;" @click.prevent="searchProduct">
               <i class="fa fa-search" aria-hidden="true"></i> Tìm kiếm
             </button>
           </form>
@@ -169,20 +169,23 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-
+$peach-color: #b11e0f;
+$border-peach-color: #92190e;
+$peach-color2: rgba(177, 30, 15, 0.67);
+$border-peach-color2: rgba(146, 25, 14, 0.76);
 .logo {
   cursor: pointer;
   min-width: 36px;
   min-height: 24px;
   user-select: none;
-  background: url("https://salt.tikicdn.com/ts/upload/ae/f5/15/2228f38cf84d1b8451bb49e2c4537081.png");
+  background: url("http://localhost:8080/images/logo/logo.png");
   background-size: cover;
 }
 
-.cart {
-  z-index: 1111;
+.cart{
   cursor: pointer;
 }
+
 
 .nav-left-bar {
   visibility: hidden;
@@ -271,6 +274,7 @@ export default {
 
     .btn {
       visibility: hidden;
+
     }
   }
 

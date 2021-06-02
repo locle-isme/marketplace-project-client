@@ -188,7 +188,7 @@ export default {
   mixins: [HandleFavourite, HandleRedirect],
   data() {
     return {
-      limitedproduct: 30,
+      limitedProduct: 30,
       defaultImage: 'https://via.placeholder.com/640x480.png/00bb11?text=default',
       id: "",
       isShowMoreContent: false,
@@ -292,7 +292,7 @@ export default {
 
     isLimited() {
       const {amount} = this.product;
-      return amount && amount < this.limitedproduct ? true : false;
+      return amount && amount < this.limitedProduct ? true : false;
     },
 
     isFavourited() {

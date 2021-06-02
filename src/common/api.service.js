@@ -210,3 +210,10 @@ export const DiscountCodeService = {
         return ApiService.get('me/cart/discounts')
     },
 }
+
+export const SupplierService = {
+    get(id) {
+        return ApiService.get('suppliers', id)
+    },
+}
+

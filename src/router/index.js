@@ -14,12 +14,18 @@ export default new VueRouter({
         {
             name: 'search',
             path: '/search',
-            component: () => import("@/views/SearchPage")
+            component: () => import("../views/SearchPage")
+        },
+        {
+            name: 'category',
+            path: '/category/:slug',
+            props: true,
+            component: () => import("../views/CategoryDetail")
         },
         {
             name: 'product.detail',
             path: '/products/:slug',
-            component: () => import("../views/ProductDetailPage")
+            component: () => import("../views/ProductDetail")
         },
 
         {

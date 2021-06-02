@@ -21,7 +21,7 @@ import FilterCurrency from './common/filter.currency'
 import FilterRound from './common/filter.round'
 import FilterDate from './common/filter.date'
 import FilterTimeDate from './common/filter.timeDate'
-
+import FilterYear from './common/filter.year'
 Vue.use(VueToast);
 Vue.use(VueSwal)
 Vue.use(BootstrapVue)
@@ -32,6 +32,7 @@ Vue.filter('currency', FilterCurrency)
 Vue.filter('round', FilterRound)
 Vue.filter('date', FilterDate)
 Vue.filter('time_date', FilterTimeDate)
+Vue.filter('year', FilterYear)
 
 Vue.config.productionTip = false
 

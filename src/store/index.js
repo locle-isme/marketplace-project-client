@@ -8,6 +8,7 @@ import favourite from './favourite.module'
 import review from './review.module'
 import order from './order.module'
 import cart from './cart.module'
+import supplier from './supplier.module'
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -19,5 +20,6 @@ export default new Vuex.Store({
         review,
         order,
         cart,
+        supplier,
     }
 })
