@@ -1,19 +1,35 @@
 <template>
   <div class="row">
     <div class="col">
+
       <div class="card">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item" @click.prevent="redirect('home')">
+              <a href="#">Home</a>
+            </li>
+            <li v-if="currentCategory.parent" class="breadcrumb-item"
+                @click.prevent="redirect('category', {slug: currentCategory.parent.id})">
+              <a href="#">{{ currentCategory.parent.name }}</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ currentCategory.name }}</li>
+          </ol>
+        </nav>
         <div class="card-body">
           <div class="row">
-            <!-- LEFT BAR -->
-            <div class="filter-search d-none d-xl-block col-xl-3 border-right">
+
+            <!-- LEFT BAR d-none d-xl-block  -->
+            <div class="filter-search col-sm-12 col-xl-3 border-right">
               <div class="row">
                 <!-- DANH MUC SAN PHAM-->
                 <div class="box col-12 border-bottom">
                   <h6 class="text-uppercase">DANH MỤC SẢN PHẨM</h6>
                   <ul class="nav">
-                    <li>Quạt điện</li>
-                    <li>Tủ lạnh</li>
-                    <li>Máy hút bụi</li>
+                    <template v-for="category in currentCategory.childs">
+                      <li :key="'ct' + category.id" @click="redirect('category', {slug: category.id})">
+                        {{ category.name }}
+                      </li>
+                    </template>
                   </ul>
                 </div>
                 <!-- END DANH MUC SAN PHAM-->
@@ -137,7 +153,7 @@
               <div class="row py-3">
                 <div class="col">
                   <div class="title my-2">
-                    <span class="keyword">Kết quả tìm kiếm cho `{{ $route.query.q }}`: </span>
+                    <span class="keyword">{{ currentCategory.name }}: </span>
                     <span class="quality">{{ products.total_count }} kết quả</span></div>
                   <div class="sort d-flex align-items-center">
                     <div class="mr-3">Sắp xếp theo:</div>
@@ -170,10 +186,12 @@
 <script>
 import ProductComponent from "../components/ProductComponent";
 import PaginateComponent from "../components/PaginateComponent";
-import {FETCH_PRODUCTS} from "../store/actions.type";
+import {FETCH_PRODUCTS, GET_CURRENT_CATEGORY} from "../store/actions.type";
 import {mapGetters} from "vuex";
+import {HandleRedirect} from "../mixins/redirect.handle";
 
 export default {
+  mixins: [HandleRedirect],
   props: {
     slug: {
       type: [String, Number],
@@ -197,12 +215,24 @@ export default {
 
   created() {
     this.initQueryData();
-    this.loadingData();
+    this.runPromises();
   },
 
   methods: {
-    loadingData() {
-      this.$store.dispatch(FETCH_PRODUCTS, this.listConfigs);
+    runPromises() {
+      Promise.all([
+        this.loadingCategory(),
+        this.loadingData()
+      ]).catch((err) => {
+        console.log(err)
+      })
+    },
+    async loadingData() {
+      return this.$store.dispatch(FETCH_PRODUCTS, this.listConfigs);
+    },
+
+    async loadingCategory() {
+      return this.$store.dispatch(GET_CURRENT_CATEGORY, this.slug)
     },
 
     initQueryData() {
@@ -252,18 +282,10 @@ export default {
     formatDataQuery(ar) {
       return ar.join(",");
     },
-
-    redirect() {
-      this.$router.push({name: 'search', query: this.listConfigs})
-          .then(() => {
-          })
-          .catch(() => {
-          })
-    }
   },
 
   computed: {
-    ...mapGetters(["products", "filters"]),
+    ...mapGetters(["products", "filters", "currentCategory"]),
     listConfigs() {
       const {currentPage} = this;
       const {ratings, sortBy, brands, suppliers} = this.queryData;
@@ -335,6 +357,7 @@ export default {
   watch: {
     slug() {
       this.resetQueryData();
+      this.runPromises();
     },
 
     'queryData.ratings'() {
@@ -375,6 +398,32 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+$breadcrumbColor: rgba(255, 32, 30, 0.73);
+$white: #fff;
+$black: #000;
+.breadcrumb {
+  background: var(--danger);
+
+  .breadcrumb-item {
+    a {
+      font-weight: 600;
+      color: $white;
+    }
+
+    &.active {
+      font-weight: 550;
+      color: $black;
+    }
+  }
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    float: left;
+    padding-right: 0.5rem;
+    color: #f4ffe6;
+    content: "/";
+  }
+}
+
 .box {
   padding: 10px 10px;
 

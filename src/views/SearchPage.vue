@@ -2,6 +2,14 @@
   <div class="row">
     <div class="col">
       <div class="card">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item" @click.prevent="redirect('home')">
+              <a href="#">Home</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page"> Từ khóa: `{{ $route.query.q }}`</li>
+          </ol>
+        </nav>
         <div class="card-body">
           <div class="row">
             <!-- LEFT BAR -->

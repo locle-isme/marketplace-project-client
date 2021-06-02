@@ -22,4 +22,5 @@ export const REMOVE_COUPON_SUPPLIER_IN_USE = "removeCouponSupplierInUse";
 export const SET_COUPON_GLOBAL = "setCouponGlobal";
 export const SET_COUPON_GLOBAL_IN_USE = "setCouponGlobalInUse";
 export const REMOVE_COUPON_GLOBAL_IN_USE = "removeCouponGlobalInUse";
-export const SET_SUPPLIER = "getSupplier";
+export const SET_SUPPLIER = "setSupplier";
+export const SET_CURRENT_CATEGORY = "setCurrentSupplier";
