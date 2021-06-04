@@ -5,14 +5,11 @@ export const CheckoutMixin = {
         totalPriceSupplier(supplier) {
             const {products} = supplier;
             let total = products.reduce((accumulator, product) => {
-                return accumulator + this.realPrice(product) * product.quantity;
+                const {is_available, grand_total, quantity} = product;
+                let tempCost = is_available ? grand_total*quantity : 0;
+                return accumulator + tempCost;
             }, 0);
             return total;
-        },
-
-        realPrice(product) {
-            const {price, discount} = product;
-            return price * (100 - discount) / 100;
         },
 
         totalCostCategoryOfSupplier(supplier) {
@@ -20,9 +17,11 @@ export const CheckoutMixin = {
             let coupon = this.globalCoupons.data.find(item => item.code == this.couponGlobalInUse);
             const {childs} = coupon.category || [];
             return products.reduce((acc, product) => {
-                const {category} = product;
-                let value = (category.id == coupon.category.id || childs.indexOf(category.id) > -1) ? this.realPrice(product) : 0;
-                return acc + value;
+                const {category, is_available, grand_total, quantity} = product;
+                let tempCost =
+                    (category.id == coupon.category.id || childs.indexOf(category.id) > -1) && is_available
+                        ? grand_total*quantity : 0;
+                return acc + tempCost;
             }, 0)
         },
     },
@@ -87,6 +86,14 @@ export const CheckoutMixin = {
             return this.totalTempPrice - this.totalDiscountPrice;
         },
 
+        isAvailable() {
+            return this.suppliers.every((supplier) => {
+                return supplier.products.every(product => {
+                    const {is_available} = product;
+                    return is_available;
+                })
+            })
+        }
 
 
     },

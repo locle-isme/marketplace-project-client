@@ -218,6 +218,9 @@ export const SupplierService = {
 }
 
 export const CategoryService = {
+    query(params = {}) {
+        return ApiService.query('categories', params)
+    },
     get(id) {
         return ApiService.get('categories', id)
     },

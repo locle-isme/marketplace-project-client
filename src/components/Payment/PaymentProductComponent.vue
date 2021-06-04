@@ -21,6 +21,12 @@ import {ProductMixin} from "../../mixins/product.mixin";
 
 export default {
   mixins: [ProductMixin],
+  props: {
+    product: {
+      type: Object,
+      required: true
+    }
+  },
   computed: {
     totalPrice() {
       const {quantity} = this.product;

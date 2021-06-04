@@ -77,6 +77,12 @@
 import {mapGetters} from "vuex";
 
 export default {
+  props: {
+    slug: {
+      type: [String, Number],
+      required: true,
+    }
+  },
   data() {
     return {}
   },

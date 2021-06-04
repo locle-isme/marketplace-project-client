@@ -1,11 +1,13 @@
 <template>
   <div class="coupon-item d-flex" :class="classCouponItem">
-    <div class="avatar">
+    <div class="avatar align-self-center">
       <img class="img-thumbnail" :src="supplier.avatar" alt="">
     </div>
     <div class="description d-flex flex-grow-1 justify-content-between align-items-center">
       <div class="d-flex flex-column">
-        <div class="coupon-name">Giảm {{ discount_code.percent }}%, Đơn tổi thiểu {{ discount_code.from_price | currency }} <br>
+        <div class="coupon-name">Giảm {{ discount_code.percent }}%, Đơn tổi thiểu {{
+            discount_code.from_price | currency
+          }} <br>
           Giảm tối đa {{ discount_code.max_price | currency }}
         </div>
         <span class="date">HSD: {{ discount_code.end_date | time_date }}</span>
@@ -58,10 +60,7 @@ export default {
       const payload = {supplier_id: id, discount_code: this.discount_code.code};
       this.$store.commit(REMOVE_COUPON_SUPPLIER_IN_USE, payload);
     },
-    realPrice(product) {
-      const {price, discount} = product;
-      return price * (100 - discount) / 100;
-    },
+
   },
   computed: {
     ...mapGetters(["couponSupplierInUse"]),
@@ -84,19 +83,40 @@ export default {
     totalPrice() {
       const {products} = this.supplier;
       let total = products.reduce((accumulator, product) => {
-        return accumulator + this.realPrice(product) * product.quantity;
+        const {grand_total, is_available} = product;
+        let tempCost = is_available ? grand_total * product.quantity : 0;
+        return accumulator + tempCost;
       }, 0);
       return total;
     },
   },
-  watch: {
-
-  },
+  watch: {},
   name: "CouponComponent"
 }
 </script>
 <style lang="scss">
 .coupon-item {
+  @media (max-width: 991px) {
+    .avatar {
+      margin-right: 1rem;
+      width: 90px;
+      height: auto;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .avatar {
+      width: 120px;
+      height: auto;
+    }
+  }
+
+  .avatar {
+    img{
+      object-fit: cover;
+    }
+  }
+
   .description {
     .btn {
       &:disabled {

@@ -18,15 +18,18 @@
         </div>
       </router-link>
     </td>
-    <td class="text-right">{{ realPrice | currency }}</td>
-    <td class="text-center">{{ product.quantity }}</td>
+    <td class="text-right">{{ grandTotal | currency }}</td>
+    <td class="text-center">{{ quantity }}</td>
     <!--    <td class="text-right">0 ₫</td>-->
     <td class="text-right">{{ (realPrice * product.quantity) | currency }}</td>
   </tr>
 </template>
 
 <script>
+import {ProductMixin} from "../../mixins/product.mixin";
+
 export default {
+  mixins:[ProductMixin],
   props: {
     product: {
       type: Object,
@@ -40,41 +43,10 @@ export default {
     }
   },
   computed: {
-    brand() {
-      const {brand} = this.product;
-      return brand || {};
+    quantity() {
+      const {quantity} = this.product;
+      return quantity || 0;
     },
-
-    supplier() {
-      const {supplier} = this.product;
-      return supplier || {};
-    },
-
-    images() {
-      const {images} = this.product;
-      return images || [];
-    },
-
-    firstImages() {
-      const {images} = this.product;
-      return images[0] ? images[0].url : this.defaultImage;
-    },
-
-    ratings() {
-      const {ratings} = this.product;
-      return ratings || {};
-    },
-
-    reviews() {
-      const {reviews} = this.listReviews;
-      return reviews || [];
-    },
-
-    realPrice() {
-      const {price, discount} = this.product;
-      return price * (100 - discount) / 100;
-    },
-
   },
   name: "DetailProductComponent"
 }

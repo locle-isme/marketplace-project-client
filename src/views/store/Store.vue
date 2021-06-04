@@ -1,7 +1,7 @@
 <template>
   <div>
     <StoreHeader></StoreHeader>
-    <router-view></router-view>
+    <router-view :slug="slug"></router-view>
   </div>
 </template>
 <script>

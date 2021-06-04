@@ -1,7 +1,7 @@
 <template>
   <div class="coupon-item d-flex" :class="classCouponItem">
     <div class="avatar">
-      <img class="img-thumbnail" src="" alt="">
+      <img class="img-thumbnail" :src="category.image" alt="">
     </div>
     <div class="description d-flex flex-grow-1 justify-content-between align-items-center">
       <div class="d-flex flex-column">
@@ -50,16 +50,13 @@ export default {
       this.$store.commit(REMOVE_COUPON_GLOBAL_IN_USE);
     },
 
-    realPrice(product) {
-      const {price, discount} = product;
-      return price * (100 - discount) / 100;
-    },
-
     totalCostCategoryOfSupplier(supplier) {
       const {products} = supplier;
       return products.reduce((acc, product) => {
-        const {category} = product;
-        let value = (category.id == this.category.id || this.categoryChilds.indexOf(category.id) > -1) ? this.realPrice(product) : 0;
+        const {category, grand_total, is_available, quantity} = product;
+        let value =
+            (category.id == this.category.id || this.categoryChilds.indexOf(category.id) > -1) && is_available
+                ? grand_total*quantity : 0;
         return acc + value;
       }, 0)
     }
@@ -94,9 +91,7 @@ export default {
       })
     },
   },
-  watch: {
-
-  },
+  watch: {},
   name: "CouponGlobalComponent"
 }
 </script>

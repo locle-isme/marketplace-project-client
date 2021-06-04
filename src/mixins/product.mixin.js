@@ -1,13 +1,13 @@
 export const ProductMixin = {
     props: {
-        product: {
-            type: Object,
-            required: false
-        }
+        // product: {
+        //     type: Object,
+        //     required: false
+        // }
     },
     data() {
         return {
-            limitedproduct: 30,
+            minProducts: 25,
             defaultImage: 'https://via.placeholder.com/640x480.png/00bb11?text=default',
         }
     },
@@ -47,9 +47,35 @@ export const ProductMixin = {
             return price * (100 - discount) / 100;
         },
 
+        grandTotal() {
+            const {grand_total} = this.product;
+            return grand_total;
+        },
+
+        discount() {
+            const {discount} = this.product;
+            return discount;
+        },
+
+
+        price() {
+            const {price} = this.product;
+            return price;
+        },
+
+        amount() {
+            const {amount} = this.product;
+            return amount;
+        },
+
         isLimited() {
             const {amount} = this.product;
-            return amount && amount < this.limitedproduct ? true : false;
+            return amount && amount < this.minProducts ? true : false;
+        },
+
+        isAvailable() {
+            const {is_available} = this.product;
+            return is_available;
         },
 
         isFavourited() {

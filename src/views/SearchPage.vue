@@ -13,7 +13,7 @@
         <div class="card-body">
           <div class="row">
             <!-- LEFT BAR -->
-            <div class="filter-search d-none d-xl-block col-xl-3 border-right">
+            <div class="filter-search col-xl-3 border-right">
               <div class="row">
                 <!-- DANH GIA-->
                 <div class="box rating col-12 border-bottom">
@@ -169,12 +169,12 @@ import ProductComponent from "../components/ProductComponent";
 import PaginateComponent from "../components/PaginateComponent";
 import {FETCH_PRODUCTS} from "../store/actions.type";
 import {mapGetters} from "vuex";
+import {PageMixin} from "../mixins/page.mixin";
 
 export default {
+  mixins: [PageMixin],
   data() {
     return {
-      currentPage: 1,
-      limit: 20,
       tempPrice: {min: 0, max: 0},
       queryData: {
         ratings: [],
@@ -212,10 +212,6 @@ export default {
       if (this.$route.query.sortBy) {
         this.queryData.sortBy = this.$route.query.sortBy;
       }
-    },
-
-    resetCurrentPage() {
-      this.currentPage = 1;
     },
 
     resetQueryData() {
@@ -297,10 +293,6 @@ export default {
       return sortBy;
     },
 
-    pages() {
-      const {total_count} = this.products;
-      return Math.ceil(total_count / this.limit) || 0;
-    },
 
     brands() {
       const {brands} = this.filters;

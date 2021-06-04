@@ -23,4 +23,7 @@ export const SET_COUPON_GLOBAL = "setCouponGlobal";
 export const SET_COUPON_GLOBAL_IN_USE = "setCouponGlobalInUse";
 export const REMOVE_COUPON_GLOBAL_IN_USE = "removeCouponGlobalInUse";
 export const SET_SUPPLIER = "setSupplier";
+export const SET_SUPPLIER_CATEGORIES = "setSupplierCategories";
+export const SET_SUPPLIER_CATEGORY_CHILDS = "setSupplierCategoryChilds";
+export const SET_SUPPLIER_PRODUCTS = "setSupplierProducts";
 export const SET_CURRENT_CATEGORY = "setCurrentSupplier";

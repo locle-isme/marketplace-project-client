@@ -81,7 +81,7 @@
         </div>
         <div class="purchase col mt-3">
           <button class="purchase-btn btn btn-block btn-danger text-uppercase" @click="orderCart()"
-                  :disabled="!isValidCart">Tiến hành đặt hàng
+                  :disabled="!isDisabled">Tiến hành đặt hàng
           </button>
         </div>
       </div>
@@ -138,11 +138,10 @@ export default {
 
   },
   computed: {
-    isValidCart() {
-      //const {defaultAddress, cart} = this;
-      //return defaultAddress && defaultAddress.name && cart && cart.total_count > 0;
-      const {cart} = this;
-      return cart && cart.total_count > 0;
+
+    isDisabled() {
+      const {cart, isAvailable} = this;
+      return cart && cart.total_count > 0 && isAvailable;
     },
 
     couponGlobalDetail() {

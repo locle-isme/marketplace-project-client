@@ -29,3 +29,6 @@ export const CART_DELETE = "removeCart";
 export const GET_LIST_DISCOUNT_CODE_GLOBAL = "getListDiscountCodeGlobal";
 export const GET_SUPPLIER = "getSupplier";
 export const GET_CURRENT_CATEGORY = "getCurrentSupplier";
+export const FETCH_SUPPLIER_PRODUCTS = "fetchSupplierProducts";
+export const FETCH_SUPPLIER_CATEGORIES = "fetchSupplierCategories";
+export const FETCH_SUPPLIER_CATEGORY_CHILDS = "fetchSupplierCategoryChilds";

@@ -15,16 +15,18 @@
                     :rating_average="ratings.rating_average"></ReviewRating>
     </div>
     <div class="d-flex align-items-center">
-      <div class="price">{{ realPrice | currency }}</div>
-      <div v-if="product.discount > 0" class="discount text-light ml-1">- {{ product.discount }}%</div>
+      <div class="price">{{ grandTotal | currency }}</div>
+      <div v-if="discount > 0" class="discount text-light ml-1">- {{discount }}%</div>
     </div>
   </router-link>
 </template>
 
 <script>
 import ReviewRating from "./ReviewRating";
+import {ProductMixin} from "../mixins/product.mixin";
 
 export default {
+  mixins: [ProductMixin],
   props: {
     favourite: {
       type: Object
@@ -43,25 +45,10 @@ export default {
   },
 
   computed: {
-    firstImages() {
-      const {images} = this.product;
-      return images[0] ? images[0].url : this.defaultImage;
-    },
-
-    realPrice() {
-      const {price, discount} = this.product;
-      return price * (100 - discount) / 100;
-    },
-
     product() {
       const {product} = this.favourite;
       return product;
-    },
-
-    ratings() {
-      const {ratings} = this.product;
-      return ratings || {};
-    },
+    }
   },
   components: {
     ReviewRating

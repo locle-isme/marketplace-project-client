@@ -8,33 +8,35 @@
         <div class="d-flex flex-column">
           <div class="name" @click="redirect('product.detail', {slug: product.id})">{{ product.name }}
           </div>
-          <div class="note" v-if="isLimited">Còn {{ product.amount }} sản phẩm</div>
-          <div class="quality-a">
+          <div class="note" v-if="isLimited && isAvailable">Còn {{ product.amount }} sản phẩm</div>
+          <div v-if="isAvailable" class="quality-a">
             <div class="btn-group">
               <button :class="classQuantityBtn" :disabled="isLoading" @click="changeQuantity(-1)">-</button>
               <input v-model="quantity" type="text" class="quality-input">
-              <button :class="classQuantityBtn" :disabled="isLoading" @click="changeQuantity(1)">+</button>
+              <button :class="classQuantityBtn" :disabled="isDisabledUpQuantityBtn" @click="changeQuantity(1)">+</button>
             </div>
+
           </div>
+          <div v-else class="note">Sản phẩm không sẵn có</div>
         </div>
       </div>
       <div class="detail">
         <div class="price d-flex flex-column align-items-center">
-          <div class="real-price">{{ realPrice |currency }}</div>
+          <div class="real-price">{{ grandTotal |currency }}</div>
           <div class="d-flex align-items-center">
-            <del class="root-price">{{ product.price | currency }}</del>
-            <div class="line-straight" v-if="product.discount > 0"></div>
-            <div class="discount" v-if="product.discount > 0">-{{ product.discount }}%</div>
-
+            <del v-if="discount > 0" class="root-price">{{ price | currency }}</del>
+            <div class="line-straight" v-if="discount > 0"></div>
+            <div class="discount" v-if="discount > 0">-{{ discount }}%</div>
           </div>
           <div class="actions d-flex">
             <div class="remove">
-              <button class="btn btn-sm btn-warning" @click="removeCartItem()" :disabled="isLoading">
+              <button class="btn btn-sm btn-light text-warning" @click="removeCartItem()" :disabled="isLoading">
                 <i class="fa fa-recycle"></i>
               </button>
             </div>
             <div class="buy-later">
-              <button class="btn btn-sm" :class="{'btn-light': !isFavourited, 'btn-danger': isFavourited}" :disabled="isLoading">
+              <button class="btn btn-sm" :class="{'btn-light': !isFavourited, 'btn-danger': isFavourited}"
+                      :disabled="isLoading">
                 <i class="fa fa-heart" :class="{'text-white': isFavourited}" @click="handleAddFavourite()"></i></button>
             </div>
           </div>
@@ -71,7 +73,8 @@ export default {
   },
 
   created() {
-    this.quantity = this.product.quantity;
+    const {quantity} = this.product;
+    this.quantity = quantity;
   },
 
   methods: {
@@ -95,12 +98,13 @@ export default {
     changeQuantity(n) {
       let temp = this.quantity + n;
       const {amount, id} = this.product;
+      const {isAvailable} = this;
       if (temp <= 0) {
         this.removeCartItem();
         return;
       }
 
-      if (temp > amount) {
+      if (isAvailable && temp > amount) {
         this.$toast.error('Số lượng mua không hợp lệ', {
           duration: 5000,
           position: 'top-left'
@@ -117,14 +121,23 @@ export default {
       return {
         'quality-btn': true,
       }
+    },
+
+    isDisabledUpQuantityBtn() {
+      const {amount} = this.product;
+      const {quantity} = this;
+      return quantity >= amount || this.isLoading;
     }
   },
 
   watch: {
     quantity(qty) {
+      const {isAvailable} = this;
+      const {amount} = this.product;
       if (typeof qty != "number") this.quantity = 1;
-      if (qty > this.product.amount) {
-        this.$toast.error('Số lượng mua không hợp lệ', {
+      if (isAvailable && qty > amount) {
+        this.changeQuantity(-(qty - amount));
+        this.$toast.error('Chúng tôi vừa cập nhật giỏ hàng của bạn, hãy kiểm tra lại', {
           duration: 5000,
           position: 'top-left'
         })

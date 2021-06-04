@@ -1,10 +1,11 @@
 import {ProductService} from "../common/api.service";
-import {FETCH_PRODUCTS, GET_PRODUCT} from "./actions.type";
-import {SET_LIST_FILTERS, SET_LIST_PRODUCTS, SET_PRODUCT} from "./mutations.type";
+import {FETCH_PRODUCTS, FETCH_SUPPLIER_PRODUCTS, GET_PRODUCT} from "./actions.type";
+import {SET_LIST_FILTERS, SET_LIST_PRODUCTS, SET_PRODUCT, SET_SUPPLIER_PRODUCTS} from "./mutations.type";
 
 const state = {
     currentProduct: {images: []},
     products: {data: [], total_count: 0},
+    supplierProducts: {data: [], total_count: 0},
     filters: {
         brands: {data: [], total_count: 0},
         suppliers: {data: [], total_count: 0},
@@ -17,6 +18,10 @@ const getters = {
     },
     products(state) {
         return state.products || {data: [], total_count: 0};
+    },
+
+    supplierProducts(state) {
+        return state.supplierProducts;
     },
 
     filters(state) {
@@ -38,6 +43,9 @@ const mutations = {
     [SET_LIST_FILTERS](state, list) {
         state.filters = list;
     },
+    [SET_SUPPLIER_PRODUCTS](state, list) {
+        state.supplierProducts = list;
+    },
 };
 const actions = {
     [FETCH_PRODUCTS](context, params) {
@@ -47,6 +55,20 @@ const actions = {
                 if (status == "success") {
                     const {products, filters} = data;
                     context.commit(SET_LIST_PRODUCTS, products);
+                    context.commit(SET_LIST_FILTERS, filters);
+                    return data;
+                } else {
+                    throw data;
+                }
+            })
+    },
+    [FETCH_SUPPLIER_PRODUCTS](context, params) {
+        return ProductService.query(params)
+            .then((response) => {
+                const {status, data} = response;
+                if (status == "success") {
+                    const {products, filters} = data;
+                    context.commit(SET_SUPPLIER_PRODUCTS, products);
                     context.commit(SET_LIST_FILTERS, filters);
                     return data;
                 } else {

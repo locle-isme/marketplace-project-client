@@ -1,7 +1,7 @@
 <template>
   <div class="cart-product row">
     <div class="d-flex flex-column w-100">
-      <div class="seller">
+      <div class="seller" @click="redirect('store.global', {slug: supplier.id})">
         <b-icon icon="shop" aria-hidden="true" font-scale="1.5"></b-icon>
         {{ supplier.nameOfShop }}
       </div>
@@ -31,8 +31,10 @@ import ModalAddCouponSupplier from "./ModalAddCouponSupplier";
 import CartProductComponent from "./CartProductComponent";
 import {mapGetters} from "vuex";
 import {REMOVE_COUPON_SUPPLIER_IN_USE} from "../../store/mutations.type";
+import {HandleRedirect} from "../../mixins/redirect.handle";
 
 export default {
+  mixins: [HandleRedirect],
   props: {
     supplier: {
       type: Object,

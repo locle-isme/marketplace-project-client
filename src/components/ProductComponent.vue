@@ -12,8 +12,8 @@
                     :rating_average="ratings.rating_average"></ReviewRating>
     </div>
     <div class="d-flex align-items-center">
-      <div class="price">{{ realPrice | currency }}</div>
-      <div v-if="product.discount > 0" class="discount text-light ml-1">- {{ product.discount }}%</div>
+      <div class="price">{{ grandTotal | currency }}</div>
+      <div v-if="discount > 0" class="discount text-light ml-1">- {{ discount }}%</div>
     </div>
   </router-link>
 </template>

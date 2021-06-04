@@ -4,14 +4,10 @@ import {SupplierService} from "../common/api.service";
 
 const state = {
     currentSupplier: {},
-    supplierProducts: []
 };
 const getters = {
     currentSupplier(state) {
         return state.currentSupplier;
-    },
-    supplierProducts(state) {
-        return state.supplierProducts;
     },
 };
 const mutations = {
@@ -31,6 +27,6 @@ const actions = {
                     throw data;
                 }
             })
-    }
+    },
 };
 export default {state, getters, mutations, actions};

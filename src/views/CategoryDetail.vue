@@ -189,9 +189,10 @@ import PaginateComponent from "../components/PaginateComponent";
 import {FETCH_PRODUCTS, GET_CURRENT_CATEGORY} from "../store/actions.type";
 import {mapGetters} from "vuex";
 import {HandleRedirect} from "../mixins/redirect.handle";
+import {PageMixin} from "../mixins/page.mixin";
 
 export default {
-  mixins: [HandleRedirect],
+  mixins: [HandleRedirect, PageMixin],
   props: {
     slug: {
       type: [String, Number],
@@ -200,8 +201,6 @@ export default {
   },
   data() {
     return {
-      currentPage: 1,
-      limit: 20,
       tempPrice: {min: 0, max: 0},
       queryData: {
         ratings: [],
@@ -328,10 +327,6 @@ export default {
       return sortBy;
     },
 
-    pages() {
-      const {total_count} = this.products;
-      return Math.ceil(total_count / this.limit) || 0;
-    },
 
     brands() {
       const {brands} = this.filters;
