@@ -23,8 +23,11 @@ export const LoginMixin = {
                         button: "Thoát!",
                     });
                     this.$emit('close');
-                    this.redirect('home');
-
+                    if (this.hasHistory) {
+                        this.$router.go(-1);
+                    } else {
+                        this.redirect('home');
+                    }
                 })
                 .catch(() => {
                     this.$swal({
@@ -37,5 +40,9 @@ export const LoginMixin = {
         },
     },
 
-    computed: {},
+    computed: {
+        hasHistory() {
+            return window.history.length > 2
+        }
+    },
 }

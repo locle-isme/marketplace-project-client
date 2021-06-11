@@ -52,9 +52,9 @@
           <div class="col-12 col-sm-6 col-md-2">
             <h6 class="text-uppercase">Kết nối với chúng tôi</h6>
             <div>
-              <a href=""><i class="fab fa-facebook fa-3x text-primary"></i></a>
-              <a href=""><i class="fab fa-youtube fa-3x text-danger"></i></a>
+              <a href="https://www.facebook.com/profile.php"><i class="fab fa-facebook fa-3x text-primary"></i></a>
               <a href=""><i class="fab fa-twitter fa-3x text-info"></i></a>
+              <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"><i class="fab fa-youtube fa-3x text-danger"></i></a>
             </div>
           </div>
         </div>

@@ -3,11 +3,10 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import VueSwal from 'vue-swal'
-import VueToast from 'vue-toast-notification';
+import VueToast from 'vue-toast-notification'
 // Import one of the available themes
 //import 'vue-toast-notification/dist/theme-default.css';
 import 'vue-toast-notification/dist/theme-sugar.css';
-
 
 import {ApiService} from "./common/api.service";
 import {BootstrapVue, BootstrapVueIcons} from "bootstrap-vue"
@@ -22,6 +21,7 @@ import FilterRound from './common/filter.round'
 import FilterDate from './common/filter.date'
 import FilterTimeDate from './common/filter.timeDate'
 import FilterYear from './common/filter.year'
+
 Vue.use(VueToast);
 Vue.use(VueSwal)
 Vue.use(BootstrapVue)

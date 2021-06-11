@@ -119,3 +119,10 @@ body {
 .custom-label input[type="radio"]:checked + .radio-fake::before {
     transform: scale(1);
 }
+
+.limit-line{
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}

@@ -1,42 +1,12 @@
 <template>
   <div>
+    <CategoryOverview></CategoryOverview>
     <div class="row">
       <div class="col">
         <div class="card position-relative">
-          <div class="card-title text-uppercase">Danh mục nổi bật</div>
-          <div class="feature-category card-body">
-            <div class="row row-cols-lg-10-md-6-xs-4">
-              <template v-for="i in 20">
-                <PopularCategory :key="i"></PopularCategory>
-              </template>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col">
-        <div class="card position-relative">
-          <div class="card-title text-uppercase">Tìm kiếm nổi bật</div>
-          <div class="feature-search card-body">
-            <div class="d-flex flex-wrap">
-              <template v-for="i in 20">
-                <TagKeyword :key="i"></TagKeyword>
-              </template>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="col">
-        <div class="card position-relative">
-          <div class="card-title text-uppercase">Gợi ý hôm nay</div>
-          <div class="suggestion-today card-body" style="padding: 0rem 1.25rem">
-            <div class="row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
+          <div class="card-title text-uppercase">SẢN PHẨM BÁN CHẠY</div>
+          <div class="suggestion-today card-body" style="padding: 0 1.25rem">
+            <div class="row row-cols-lg-5-md-3-xs-2" style="margin: 0 -18px">
               <template v-for="(product, index) in products.data">
                 <ProductComponent :key="index" :product="product"></ProductComponent>
               </template>
@@ -51,16 +21,14 @@
   </div>
 </template>
 <script>
+import CategoryOverview from "../components/Home/category/CategoryOverview";
 import ProductComponent from "../components/ProductComponent";
-import TagKeyword from "@/components/TagKeyword";
-import PopularCategory from "@/components/PopularCategory";
 import {mapGetters} from "vuex";
 import {FETCH_PRODUCTS} from "../store/actions.type";
 
 export default {
   created() {
-    console.log("loaded home");
-    console.log(this.products.data.length);
+
     this.loadingData();
   },
   data() {
@@ -80,9 +48,8 @@ export default {
   },
 
   components: {
+    CategoryOverview,
     ProductComponent,
-    TagKeyword,
-    PopularCategory,
   }
 }
 </script>

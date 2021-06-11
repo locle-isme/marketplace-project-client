@@ -8,17 +8,17 @@
             <li class="nav-item">
               <div class="nav-link">Kênh người bán</div>
             </li>
-            <li class="nav-item">
+            <li class="nav-item social">
               <div class="nav-link"> Kết nối
-                <i class="fab fa-facebook"></i>&nbsp;
-                <i class="fab fa-twitter"></i>&nbsp;
-                <i class="fab fa-youtube"></i>&nbsp;
+                <a href="https://www.facebook.com/profile.php"> <i class="fab fa-facebook"></i>&nbsp;</a>
+                <a href=""><i class="fab fa-twitter"></i>&nbsp;</a>
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"> <i class="fab fa-youtube"></i>&nbsp;</a>
               </div>
             </li>
           </ul>
           <ul class="navbar-nav">
             <li class="nav-item">
-              <div class="nav-link"><i class="fas fa-bell"></i> Thông báo</div>
+              <div class="nav-link" @click="goNotification"><i class="fas fa-bell"></i> Thông báo</div>
             </li>
             <li class="nav-item">
               <div class="nav-link"><i class="fa fa-life-ring"></i> Hổ trợ</div>
@@ -30,13 +30,20 @@
               <div class="nav-link" @click="goLogin"><i class="fas fa-bell"></i> Đăng nhập</div>
             </li>
             <li v-if="isAuthenticated" class="nav-item">
-              <div class="nav-link d-flex" @click="goProfile">
+              <div class="nav-link d-flex" @click="goProfile" style="cursor: pointer">
                 <div class="avatar">
                   <div class="placeholder">
-                    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0" class="taka-svg-icon icon-headshot"><g><circle cx="7.5" cy="4.5" fill="none" r="3.8" stroke-miterlimit="10"></circle><path d="m1.5 14.2c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke-linecap="round" stroke-miterlimit="10"></path></g></svg>
+                    <svg enable-background="new 0 0 15 15" viewBox="0 0 15 15" x="0" y="0"
+                         class="taka-svg-icon icon-headshot">
+                      <g>
+                        <circle cx="7.5" cy="4.5" fill="none" r="3.8" stroke-miterlimit="10"></circle>
+                        <path d="m1.5 14.2c0-3.3 2.7-6 6-6s6 2.7 6 6" fill="none" stroke-linecap="round"
+                              stroke-miterlimit="10"></path>
+                      </g>
+                    </svg>
                   </div>
                 </div>
-                <div class="ml-1 username">{{ user.name}}</div>
+                <div class="ml-1 username">{{ user.name }}</div>
               </div>
             </li>
           </ul>
@@ -49,7 +56,7 @@
           <div class="form-search d-flex">
             <input v-model="keywordSearch" type="text" class="form-control input-keyword"
                    placeholder="Tìm kiếm sản phẩm ...">
-            <button class="btn btn-dark btn-submit" @click.prevent="handleSearchProduct">
+            <button class="btn btn-danger btn-submit" @click.prevent="handleSearchProduct">
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
           </div>

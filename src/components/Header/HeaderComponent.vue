@@ -229,46 +229,62 @@ $border-peach-color2: rgba(146, 25, 14, 0.76);
   }
 
   .navbar-nav {
-    .nav-link {
-      cursor: pointer;
-      .avatar{
-        width: 1.375rem;
-        height: 1.375rem;
-        .placeholder{
-          width: 100%;
-          position: relative;
-          padding-top: 100%;
-          background-color: #f5f5f5;
-          border-radius: 50%;
-          overflow: hidden;
+    .nav-item {
+      .nav-link {
+        cursor: pointer;
 
-          .taka-svg-icon{
-            display: inline-block;
-            width: 1em;
-            height: 1em;
-            fill: currentColor;
+        .avatar {
+          width: 1.375rem;
+          height: 1.375rem;
+
+          .placeholder {
+            width: 100%;
             position: relative;
-            &.icon-headshot{
-              font-size: .9375rem;
-              line-height: .9375rem;
+            padding-top: 100%;
+            background-color: #f5f5f5;
+            border-radius: 50%;
+            overflow: hidden;
+
+            .taka-svg-icon {
+              display: inline-block;
+              width: 1em;
+              height: 1em;
+              fill: currentColor;
+              position: relative;
+
+              &.icon-headshot {
+                font-size: .9375rem;
+                line-height: .9375rem;
+              }
+            }
+
+            .icon-headshot {
+              stroke: #c6c6c6;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              -webkit-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%);
+              font-size: 1.5rem;
+              font-weight: 400;
+              line-height: 2rem;
+              -webkit-font-smoothing: antialiased;
+              -moz-osx-font-smoothing: grayscale;
             }
           }
-          .icon-headshot{
-            stroke: #c6c6c6;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            -webkit-transform: translate(-50%,-50%);
-            transform: translate(-50%,-50%);
-            font-size: 1.5rem;
-            font-weight: 400;
-            line-height: 2rem;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+        }
+      }
+
+      &.social {
+        .nav-link {
+          a{
+            color: #fff;
+            margin-right: 2px;
           }
         }
       }
     }
+
   }
 }
 

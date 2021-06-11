@@ -27,6 +27,10 @@ export const HeaderMixin = {
 
         goProfile(){
             this.redirect('customer')
+        },
+
+        goNotification(){
+            this.redirect('customer.notification')
         }
     },
 

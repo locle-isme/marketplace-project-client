@@ -12,7 +12,7 @@ import supplier from './supplier.module'
 import category from './category.module'
 Vue.use(Vuex);
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     modules:{
         auth,
         address,
@@ -24,4 +24,5 @@ export default new Vuex.Store({
         supplier,
         category,
     }
-})
+});
+export default store

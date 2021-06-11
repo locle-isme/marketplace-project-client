@@ -100,8 +100,8 @@
   </div>
 </template>
 <script>
-import CartSupplierComponent from "../components/Carts/CartSupplierComponent";
-import ModalAddCouponGlobal from "../components/Carts/ModalAddCouponGlobal";
+import CartSupplierComponent from "../components/Cart/CartSupplierComponent";
+import ModalAddCouponGlobal from "../components/Cart/ModalAddCouponGlobal";
 import {FETCH_CART, GET_LIST_DISCOUNT_CODE_GLOBAL} from "../store/actions.type";
 import {HandleRedirect} from "../mixins/redirect.handle";
 import {CheckoutMixin} from "../mixins/checkout.mixin";
