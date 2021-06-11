@@ -1,0 +1,41 @@
+import {LOGIN} from "../store/actions.type";
+import {HandleRedirect} from "./redirect.handle";
+
+export const LoginMixin = {
+    mixins: [HandleRedirect],
+    data() {
+        return {
+            formDataLogin: {
+                email: "choeger@example.net",
+                password: "Demopass69"
+            },
+        }
+    },
+
+    methods: {
+        login() {
+            this.$store.dispatch(LOGIN, this.formDataLogin)
+                .then(() => {
+                    this.$swal({
+                        title: "Thành công!",
+                        text: "Đăng nhập thành công!",
+                        icon: "success",
+                        button: "Thoát!",
+                    });
+                    this.$emit('close');
+                    this.redirect('home');
+
+                })
+                .catch(() => {
+                    this.$swal({
+                        title: "Thất Bại!",
+                        text: "Sai email hoặc mật khẩu!",
+                        icon: "error",
+                        button: "Thoát!",
+                    });
+                })
+        },
+    },
+
+    computed: {},
+}

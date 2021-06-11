@@ -189,146 +189,20 @@
 </template>
 
 <script>
-import {LOGIN, REGISTER} from "../store/actions.type";
-import {mapGetters} from 'vuex'
+import {LoginMixin} from "../../mixins/login.mixin";
+import {RegisterMixin} from "../../mixins/register.mixin";
 
 export default {
-  name: "VAuth",
+  mixins: [LoginMixin, RegisterMixin],
   data() {
     return {
       nameTab: "login",
-      formDataLogin: {
-        email: "choeger@example.net",
-        password: "Demopass69"
-      },
-
-
-      formDataRegister: {
-        name: "Ảo thật đấy",
-        email: "choeger@example.net",
-        password: "Demopass69",
-        password_confirmation: "Demopass69",
-        sex: "male",
-        birthday: "1990-05-05"
-        // day: 0,
-        // month: 0,
-        // year: 0
-      }
     }
   },
 
-  methods: {
-    login() {
-      this.$store.dispatch(LOGIN, this.formDataLogin)
-          .then(() => {
-            this.$swal({
-              title: "Thành công!",
-              text: "Đăng nhập thành công!",
-              icon: "success",
-              button: "Thoát!",
-            });
-            this.$emit('close')
-          })
-          .catch(() => {
-            this.$swal({
-              title: "Thất Bại!",
-              text: "Sai email hoặc mật khẩu!",
-              icon: "error",
-              button: "Thoát!",
-            });
-          })
-    },
+  methods: {},
 
-    /*register() {
-      const {day, month, year} = this.formDataRegister;
-      this.formDataRegister.date = `${year}-${month}-${day}`;
-      let formData = JSON.parse(JSON.stringify(this.formDataRegister));
-      delete formData.day;
-      delete formData.month;
-      delete formData.year;
-      console.log(formData)
-    }*/
-
-    register() {
-      this.$store.dispatch(REGISTER, this.formDataRegister)
-          .then(() => {
-            this.nameTab = "login";
-            this.$swal({
-              title: "Tạo tài khoản thành công!",
-              text: "Vui lòng đăng nhập để tiếp tục sử dụng",
-              icon: "success",
-              button: "Thoát!",
-            });
-          })
-    }
-  },
-
-  computed: {
-    className() {
-      return {
-        'form-control': true,
-        'is-invalid': !!this.errors.name,
-        'is-valid': !this.errors.name && this.formDataRegister.name != ""
-      }
-    },
-
-    classEmail() {
-      return {
-        'form-control': true,
-        'is-invalid': !!this.errors.email,
-        'is-valid': !this.errors.email && this.formDataRegister.email != ""
-      }
-    },
-
-    classPassword() {
-      return {
-        'form-control': true,
-        'is-invalid': !!this.errors.password,
-        'is-valid': !this.errors.password && this.formDataRegister.password != ""
-      }
-    },
-
-    classPasswordConfirmation() {
-      return {
-        'form-control': true,
-        'is-invalid': !!this.errors.password_confirmation,
-        'is-valid': !this.errors.password_confirmation && this.formDataRegister.password_confirmation != ""
-      }
-    },
-
-    classBirthday() {
-      return {
-        'form-control': true,
-        'is-invalid': !!this.errors.birthday,
-        'is-valid': !this.errors.birthday && this.formDataRegister.birthday != ""
-      }
-    },
-
-    classSex() {
-      return {
-        'form-check-input': true,
-        'is-invalid': !!this.errors.sex,
-        //'is-valid': !this.errors.sex && this.formDataRegister.sex != ""
-      }
-    },
-    ...mapGetters(["errors"])
-    /*daysInMonth() {
-      const {month, year} = this.formDataRegister;
-      let monthsHas30days = [4, 6, 9, 11];
-      if (month == 2 && (((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0))) return 29;
-      else if (month == 2) return 28;
-      else if (monthsHas30days.includes(month)) return 30;
-      return 31;
-    },
-
-    monthsInYear() {
-      return 12;
-    },
-
-    offsetYear() {
-      return 120;
-    }*/
-  },
+  computed: {},
 
   watch: {
     /*formDataRegister: {

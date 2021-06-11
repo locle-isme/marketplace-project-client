@@ -59,6 +59,8 @@ import {FETCH_PRODUCTS} from "../store/actions.type";
 
 export default {
   created() {
+    console.log("loaded home");
+    console.log(this.products.data.length);
     this.loadingData();
   },
   data() {

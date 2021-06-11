@@ -148,6 +148,18 @@ export default new VueRouter({
             component: () => import("../views/Payment")
         },
 
+        {
+            name: 'login',
+            path: '/auth/login',
+            component: () => import("../views/auth/LoginPage")
+        },
+
+        {
+            name: 'register',
+            path: '/auth/register',
+            component: () => import("../views/auth/RegisterPage")
+        },
+
     ],
 
     scrollBehavior() {
