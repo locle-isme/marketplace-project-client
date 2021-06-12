@@ -7,14 +7,14 @@
     </td>
   </tr>
   <template v-for="product in products">
-    <PaymentProductComponent :key="'product' + product.id" :product="product"></PaymentProductComponent>
+    <ProductItem :key="'product' + product.id" :product="product"></ProductItem>
   </template>
   </tbody>
 </template>
 
 <script>
-import PaymentProductComponent from "./PaymentProductComponent";
 
+import ProductItem from "./ProductItem";
 export default {
   props: {
     supplier: {
@@ -28,9 +28,8 @@ export default {
       return products;
     }
   },
-  name: "PaymentSupplierComponent",
   components: {
-    PaymentProductComponent
+    ProductItem,
   }
 }
 </script>

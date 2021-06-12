@@ -101,7 +101,6 @@ export default {
     }
   },
 
-  name: "RatingComponent"
 }
 </script>
 

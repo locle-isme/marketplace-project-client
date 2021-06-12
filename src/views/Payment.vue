@@ -16,8 +16,8 @@
               </tr>
               </thead>
               <template v-for="supplier in suppliers">
-                <PaymentSupplierComponent :key="'pm_sp' + supplier.id" :supplier="supplier"
-                                          @loadingData="loadingData"></PaymentSupplierComponent>
+                <SupplierItem :key="'pm_sp' + supplier.id" :supplier="supplier"
+                                          @loadingData="loadingData"></SupplierItem>
               </template>
               <tbody>
               <tr>
@@ -147,8 +147,8 @@ import {FETCH_ADDRESSES, FETCH_CART, ORDER_CREATE} from "../store/actions.type";
 import {mapGetters} from "vuex";
 import {HandleRedirect} from "../mixins/redirect.handle";
 import {CheckoutMixin} from "../mixins/checkout.mixin";
-import PaymentSupplierComponent from "../components/Payment/PaymentSupplierComponent";
 
+import SupplierItem from "../components/Payment/SupplierItem";
 export default {
   mixins: [HandleRedirect, CheckoutMixin],
   created() {
@@ -221,7 +221,7 @@ export default {
     }
   },
   components: {
-    PaymentSupplierComponent
+    SupplierItem,
   },
   name: "Payment"
 }

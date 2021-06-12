@@ -114,7 +114,6 @@ export default {
     }
   },
 
-  name: "EditRatingComponent"
 }
 </script>
 

@@ -10,7 +10,7 @@
           <table class="table mt-3">
             <tbody>
             <template v-for="address in listAddresses">
-              <AddressComponent :key="address.id" @removeAddress="removeAddress" :address="address"></AddressComponent>
+              <AddressItem :key="address.id" @removeAddress="removeAddress" :address="address"></AddressItem>
             </template>
             </tbody>
           </table>
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import AddressComponent from "../../../components/AddressComponent";
+import AddressItem from "../../../components/Customer/address/AddressItem";
 import {mapGetters} from "vuex";
 import {FETCH_ADDRESSES, ADDRESS_DELETE} from "../../../store/actions.type";
 
@@ -60,7 +60,7 @@ export default {
   },
 
   components: {
-    AddressComponent
+    AddressItem
   },
 }
 </script>

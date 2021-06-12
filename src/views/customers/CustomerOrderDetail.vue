@@ -77,7 +77,7 @@
                   </thead>
                   <tbody>
                   <template v-for="(item, index) in currentOrder.items">
-                    <DetailProductComponent :key="'item' + index" :product="item"></DetailProductComponent>
+                    <DetailProductItem :key="'item' + index" :product="item"></DetailProductItem>
                   </template>
                   <tr>
                     <td colspan="3">
@@ -115,7 +115,7 @@
 </template>
 
 <script>
-import DetailProductComponent from "../../components/Orders/DetailProductComponent";
+import DetailProductItem from "../../components/Customer/order/DetailProductItem";
 import {mapGetters} from "vuex";
 import {GET_ORDER} from "../../store/actions.type";
 
@@ -162,9 +162,8 @@ export default {
   },
 
   components: {
-    DetailProductComponent
+    DetailProductItem
   },
-  name: "CustomerOrderDetail"
 }
 </script>
 

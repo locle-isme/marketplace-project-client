@@ -1,12 +1,12 @@
 <template>
   <div>
-    <StoreHeader></StoreHeader>
+    <HeaderComponent></HeaderComponent>
     <router-view :slug="slug"></router-view>
   </div>
 </template>
 <script>
 
-import StoreHeader from "../../components/StoreHeader";
+import HeaderComponent from "../../components/Store/HeaderComponent";
 import {GET_SUPPLIER} from "../../store/actions.type";
 
 export default {
@@ -32,7 +32,7 @@ export default {
   },
 
   components: {
-    StoreHeader
+    HeaderComponent
   },
 
   watch: {

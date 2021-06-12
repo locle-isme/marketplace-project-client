@@ -53,13 +53,13 @@
             <img src="images/logo/logo.png" alt="">
 
           </div>
-          <div class="form-search d-flex">
+          <form class="form-search d-flex">
             <input v-model="keywordSearch" type="text" class="form-control input-keyword"
                    placeholder="Tìm kiếm sản phẩm ...">
-            <button class="btn btn-danger btn-submit" @click.prevent="handleSearchProduct">
+            <button type="submit" class="btn btn-danger btn-submit" @click.prevent="handleSearchProduct">
               <i class="fa fa-search" aria-hidden="true"></i>
             </button>
-          </div>
+          </form>
 
           <router-link tag="div" :to="{name:'checkout.cart'}" class="cart position-relative">
             <b-icon icon="cart" font-scale="2" aria-hidden="true"></b-icon>

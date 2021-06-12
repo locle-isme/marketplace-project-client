@@ -33,7 +33,6 @@ export default {
       return this.realPrice * quantity;
     }
   },
-  name: "PaymentProductComponent"
 }
 </script>
 

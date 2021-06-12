@@ -29,7 +29,7 @@
   </div>
 </template>
 <script>
-import {HandleRedirect} from "../mixins/redirect.handle";
+import {HandleRedirect} from "../../mixins/redirect.handle";
 import {mapGetters} from "vuex";
 
 export default {

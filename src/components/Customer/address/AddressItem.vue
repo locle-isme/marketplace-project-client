@@ -46,6 +46,6 @@ export default {
       }
     }
   },
-  name: "AddressComponent",
+
 }
 </script>

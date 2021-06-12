@@ -8,7 +8,7 @@
     </div>
     <div class="col-lg-9">
       <div class="d-flex flex-column">
-        <ReviewCommentRatingTitle :star="review.star"></ReviewCommentRatingTitle>
+        <CommentRatingTitle :star="review.star"></CommentRatingTitle>
         <div class="content d-flex flex-column">
           <div class="comment">{{ review.comment }}</div>
           <div class="created-date"><span>Nhận xét vào {{ review.updated_at | date }}</span></div>
@@ -18,8 +18,8 @@
   </div>
 </template>
 <script>
-import ReviewCommentRatingTitle from "./ReviewCommentRatingTitle";
 
+import CommentRatingTitle from "../../CommentRatingTitle";
 export default {
   props: {
     review: {
@@ -43,7 +43,7 @@ export default {
     },
   },
   components: {
-    ReviewCommentRatingTitle
+    CommentRatingTitle
   }
 }
 </script>

@@ -18,20 +18,20 @@
 
         <div v-if="typeSelect == 'reviewed'" class="list-reviewed">
           <template v-for="review in reviews">
-            <VReviewed :review="review" :key="review.id" @handleRating="handleEditRating"></VReviewed>
+            <ReviewedComponent :review="review" :key="review.id" @handleRating="handleEditRating"></ReviewedComponent>
           </template>
-          <EditRatingComponent v-if="modalEditRatingShow" :review="currentReview"
+          <EditReview v-if="modalEditRatingShow" :review="currentReview"
                                @exit="modalEditRatingShow = false"
-                               @handleSubmitReview="handleSubmitEditReview"></EditRatingComponent>
+                               @handleSubmitReview="handleSubmitEditReview"></EditReview>
         </div>
 
         <div v-else class="list-already-review">
           <template v-for="product in products">
-            <AlreadyReview :key="product.id" :product="product" @handleRating="handleCreateRating"></AlreadyReview>
+            <NotReviewComponent :key="product.id" :product="product" @handleRating="handleCreateRating"></NotReviewComponent>
           </template>
 
-          <RatingComponent v-if="modalRatingShow" :product="currentProductRating"
-                           @exit="modalRatingShow = false" @handleSubmitReview="handleSubmitReview"></RatingComponent>
+          <CreateReview v-if="modalRatingShow" :product="currentProductRating"
+                           @exit="modalRatingShow = false" @handleSubmitReview="handleSubmitReview"></CreateReview>
         </div>
 
       </div>
@@ -40,10 +40,10 @@
 </template>
 
 <script>
-import VReviewed from "../../components/VReviewed";
-import AlreadyReview from "../../components/AlreadyReview";
-import RatingComponent from "../../components/RatingComponent";
-import EditRatingComponent from "../../components/EditRatingComponent";
+import ReviewedComponent from "../../components/Customer/review/ReviewedComponent";
+import NotReviewComponent from "../../components/Customer/review/NotReviewComponent";
+import EditReview from "../../components/Customer/review/EditReview";
+import CreateReview from "../../components/Customer/review/CreateReview";
 import {FETCH_REVIEWS, GET_LIST_WAITING_FOR_REVIEW, REVIEW_CREATE, REVIEW_EDIT} from "../../store/actions.type";
 import {mapGetters} from "vuex";
 
@@ -166,10 +166,10 @@ export default {
     },
   },
   components: {
-    VReviewed,
-    AlreadyReview,
-    RatingComponent,
-    EditRatingComponent
+    ReviewedComponent,
+    NotReviewComponent,
+    EditReview,
+    CreateReview,
   }
 }
 </script>

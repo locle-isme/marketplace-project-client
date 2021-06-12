@@ -26,10 +26,11 @@
 </template>
 
 <script>
-import {ProductMixin} from "../../mixins/product.mixin";
+
+import {ProductMixin} from "../../../mixins/product.mixin";
 
 export default {
-  mixins:[ProductMixin],
+  mixins: [ProductMixin],
   props: {
     product: {
       type: Object,
@@ -48,7 +49,6 @@ export default {
       return quantity || 0;
     },
   },
-  name: "DetailProductComponent"
 }
 </script>
 

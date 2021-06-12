@@ -22,8 +22,9 @@
 </template>
 
 <script>
-import ReviewRating from "./ReviewRating";
-import {ProductMixin} from "../mixins/product.mixin";
+
+import ReviewRating from "../../ReviewRating";
+import {ProductMixin} from "../../../mixins/product.mixin";
 
 export default {
   mixins: [ProductMixin],
@@ -53,7 +54,6 @@ export default {
   components: {
     ReviewRating
   },
-  name: "FavouriteComponent"
 }
 </script>
 

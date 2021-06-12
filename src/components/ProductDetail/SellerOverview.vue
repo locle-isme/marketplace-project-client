@@ -9,9 +9,9 @@
     <div class="seller-detail row">
       <div class="col">
         <div class="d-flex flex-column align-items-center">
-          <div class="rate">4.8/5.0 <i class="fas fa-star text-warning"></i>
+          <div class="rate">4.8 <i class="fas fa-star text-warning"></i>
           </div>
-          <span class="review">(88)</span>
+          <small class="review">(88 đánh giá)</small>
         </div>
       </div>
       <!--      <div class="col">-->
@@ -33,7 +33,8 @@
 </template>
 
 <script>
-import {HandleRedirect} from "../mixins/redirect.handle";
+
+import {HandleRedirect} from "../../mixins/redirect.handle";
 
 export default {
   mixins: [HandleRedirect],
@@ -42,9 +43,6 @@ export default {
       type: Object
     },
   },
-
-
-  name: "ProductSeller"
 }
 </script>
 
@@ -53,7 +51,7 @@ export default {
 .card-store {
   background: #fff;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;
-  padding: 10px 12px;
+  padding: 20px 18px;
   border-radius: 5px;
 
   .card-store-info {
@@ -95,7 +93,7 @@ export default {
     }
 
     .review {
-      font-size: 0.8em;
+      color: rgba(88, 88, 88, 0.61);
     }
   }
 

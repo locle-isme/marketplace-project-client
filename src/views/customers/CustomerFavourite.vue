@@ -5,9 +5,9 @@
       <div class="card-body">
         <div class="row row-cols-lg-4-sm-2" style="margin: 0px -18px">
           <template v-for="favourite in listFavourites.data">
-            <FavouriteComponent @removeFavourite="handleRemoveFavourite" :key="'fv'+favourite.id"
+            <FavouriteItem @removeFavourite="handleRemoveFavourite" :key="'fv'+favourite.id"
                                 :favourite="favourite">
-            </FavouriteComponent>
+            </FavouriteItem>
           </template>
         </div>
         <div v-if="total_count == 0" class="card-empty">
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import FavouriteComponent from "../../components/FavouriteComponent";
+import FavouriteItem from "../../components/Customer/favourite/FavouriteItem";
 import {mapGetters} from "vuex";
 import {FAVOURITE_DELETE, FETCH_FAVOURITES} from "../../store/actions.type";
 import {HandleRedirect} from "../../mixins/redirect.handle";
@@ -60,7 +60,7 @@ export default {
   },
 
   components: {
-    FavouriteComponent
+    FavouriteItem
   },
   name: "CustomerFavourite"
 }

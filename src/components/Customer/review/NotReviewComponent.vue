@@ -55,7 +55,7 @@ export default {
       return supplier || {};
     },
   },
-  name: "AlreadyReview",
+
 }
 </script>
 

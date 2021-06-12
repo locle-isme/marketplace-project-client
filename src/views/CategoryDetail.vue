@@ -398,6 +398,7 @@ $white: #fff;
 $black: #000;
 .breadcrumb {
   background: var(--danger);
+  border-radius: unset;
 
   .breadcrumb-item {
     a {
