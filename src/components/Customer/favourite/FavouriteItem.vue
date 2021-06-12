@@ -1,5 +1,5 @@
 <template>
-  <router-link tag="div" :to="{name:'product.detail', params:{slug: product.id}}" class="favourite-item col"
+  <router-link tag="div" :to="{name:'product.detail', params:{slug: product.slug}}" class="favourite-item col"
                style="padding: 1rem">
     <div class="d-flex flex-column">
       <div style="z-index: 111">

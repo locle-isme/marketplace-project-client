@@ -1,7 +1,7 @@
 <template>
   <tr class="item-product" style="background: rgba(33,238,224,0.1);padding-bottom: 10px">
     <td>
-      <router-link tag="div" :to="{name:'product.detail', params:{slug: product.id}}" class="d-flex">
+      <router-link tag="div" :to="{name:'product.detail', params:{slug: product.slug}}" class="d-flex">
         <div class="image-detail">
           <img width="100%" height="100%" class="img-thumbnail" :src="firstImages" alt="">
         </div>

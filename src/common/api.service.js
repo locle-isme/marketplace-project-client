@@ -226,3 +226,9 @@ export const CategoryService = {
     },
 }
 
+
+export const RecommendProductService = {
+    query(params = {}) {
+        return ApiService.query('recommendations', params)
+    },
+}

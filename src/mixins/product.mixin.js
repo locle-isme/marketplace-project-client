@@ -81,6 +81,11 @@ export const ProductMixin = {
         isFavourited() {
             const {favourited} = this.product;
             return favourited;
+        },
+
+        slug() {
+            const {slug} = this.product;
+            return slug;
         }
     }
 

@@ -144,8 +144,7 @@
         </div>
       </div>
     </div>
-
-
+    <SlideComponent :currentProduct="product"></SlideComponent>
     <ReviewComponent :reviews="reviews" :supplier="supplier" :ratings="ratings"></ReviewComponent>
 
   </div>
@@ -154,6 +153,7 @@
 //import ReviewImage from "../components/ReviewImage";
 import SellerOverview from "../components/ProductDetail/SellerOverview";
 import ReviewComponent from "../components/ProductDetail/review/ReviewComponent";
+import SlideComponent from "../components/ProductDetail/recommend/SlideComponent";
 import {mapGetters} from "vuex";
 import {CART_ADD, FETCH_ADDRESSES, FETCH_REVIEWS, GET_PRODUCT} from "../store/actions.type";
 import {HandleFavourite} from "../mixins/favourite.handle";
@@ -256,10 +256,10 @@ export default {
   components: {
     //ProductReviewRating,
     //ReviewImage,
-
     //ProductReviewComment,
     ReviewComponent,
     SellerOverview,
+    SlideComponent,
   },
   watch: {
     '$route.params': {

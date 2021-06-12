@@ -5,7 +5,7 @@
         <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-            <router-link tag="div" :to="{name:'product.detail', params:{slug: product.id}}" class="modal-title h5">
+            <router-link tag="div" :to="{name:'product.detail', params:{slug: product.slug}}" class="modal-title h5">
               Đánh giá sản phẩm "{{ product.name }}"
             </router-link>
             <button @click="$emit('exit')" type="button" class="close" data-dismiss="modal">&times;</button>

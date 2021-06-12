@@ -6,7 +6,7 @@
     <div class="content d-flex flex-nowrap">
       <div class="description">
         <div class="d-flex flex-column">
-          <div class="name" @click="redirect('product.detail', {slug: product.id})">{{ product.name }}
+          <div class="name" @click="redirect('product.detail', {slug: product.slug})">{{ product.name }}
           </div>
           <div class="note" v-if="isLimited && isAvailable">Còn {{ product.amount }} sản phẩm</div>
           <div v-if="isAvailable" class="quality-a">

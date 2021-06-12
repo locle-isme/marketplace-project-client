@@ -10,6 +10,7 @@ import order from './order.module'
 import cart from './cart.module'
 import supplier from './supplier.module'
 import category from './category.module'
+import recommend from './recommend.module'
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
@@ -23,6 +24,7 @@ const store = new Vuex.Store({
         cart,
         supplier,
         category,
+        recommend,
     }
 });
 export default store
