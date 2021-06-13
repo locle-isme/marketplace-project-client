@@ -1,6 +1,6 @@
 <template>
   <div class="card-store d-flex flex-column">
-    <div class="card-store-info d-flex align-items-center" @click="redirect('store.global',{slug: supplier.id})">
+    <div class="card-store-info d-flex align-items-center" @click="goStore">
       <div class="avatar">
         <img :src="supplier.avatar" alt="">
       </div>
@@ -9,9 +9,9 @@
     <div class="seller-detail row">
       <div class="col">
         <div class="d-flex flex-column align-items-center">
-          <div class="rate">4.8 <i class="fas fa-star text-warning"></i>
+          <div class="rate">{{ ratings.rating_average | round }} <i class="fas fa-star text-warning"></i>
           </div>
-          <small class="review">(88 đánh giá)</small>
+          <small class="review">({{ ratings.rating_count }} đánh giá)</small>
         </div>
       </div>
       <!--      <div class="col">-->
@@ -22,7 +22,7 @@
       <!--      </div>-->
     </div>
     <div class="buyer-action d-flex justify-content-center mt-3">
-      <button class="btn btn-sm btn-outline-info" @click="redirect('store.global',{slug: supplier.id})">
+      <button class="btn btn-sm btn-outline-info" @click="redirect('store.global',{slug: supplier.slug})">
         <i class="fa fa-shopping-bag"></i> Xem shop
       </button>
       <!--      <button class="btn btn-sm btn-outline-info">-->
@@ -43,6 +43,20 @@ export default {
       type: Object
     },
   },
+
+  methods: {
+    goStore() {
+      const {slug} = this.supplier;
+      this.redirect('store.global', {slug: slug})
+    }
+  },
+
+  computed:{
+    ratings(){
+      const {ratings} = this.supplier;
+      return ratings;
+    }
+  }
 }
 </script>
 

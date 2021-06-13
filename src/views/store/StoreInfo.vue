@@ -35,6 +35,20 @@
               <div class="box-info">
                 <div class="d-flex">
                   <div class="info-label">
+                    <span><i class="far fa-calendar-minus"></i>&nbsp;&nbsp;Đánh giá</span>
+                  </div>
+                  <div class="info-value d-flex align-items-center">
+                    <!--                    <span>{{ratings.rating_count}} <i class="fas fa-star text-warning"></i></span>-->
+                    <!--                    <small class="review ml-2">({{ratings.rating_average}} đánh giá)</small>-->
+                    <ReviewRating :rating_count="ratings.rating_count"
+                                  :rating_average="ratings.rating_average"></ReviewRating>
+                  </div>
+                </div>
+              </div>
+
+              <div class="box-info">
+                <div class="d-flex">
+                  <div class="info-label">
                     <span><i class="fas fa-cube"></i>&nbsp;&nbsp;Sản phẩm</span>
                   </div>
                   <div class="info-value">
@@ -75,6 +89,7 @@
 </template>
 <script>
 import {mapGetters} from "vuex";
+import ReviewRating from "../../components/ReviewRating";
 
 export default {
   props: {
@@ -94,7 +109,16 @@ export default {
     cancellation_info() {
       const {cancellation_info} = this.currentSupplier;
       return cancellation_info || {};
+    },
+
+    ratings() {
+      const {ratings} = this.currentSupplier;
+      return ratings || {};
     }
+  },
+
+  components: {
+    ReviewRating
   }
 }
 </script>

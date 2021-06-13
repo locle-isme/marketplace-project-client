@@ -1,13 +1,14 @@
 <template>
   <div>
     <HeaderComponent></HeaderComponent>
-    <router-view :slug="slug"></router-view>
+    <router-view></router-view>
   </div>
 </template>
 <script>
 
 import HeaderComponent from "../../components/Store/HeaderComponent";
 import {GET_SUPPLIER} from "../../store/actions.type";
+import {mapGetters} from "vuex";
 
 export default {
   props: {
@@ -27,12 +28,16 @@ export default {
 
   methods: {
     loadingData() {
-      this.$store.dispatch(GET_SUPPLIER, this.slug)
+      return this.$store.dispatch(GET_SUPPLIER, this.slug)
     },
   },
 
+  computed: {
+    ...mapGetters(["currentSupplier"]),
+  },
+
   components: {
-    HeaderComponent
+    HeaderComponent,
   },
 
   watch: {

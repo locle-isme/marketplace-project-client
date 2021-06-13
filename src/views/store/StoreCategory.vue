@@ -1,42 +1,12 @@
 <template>
-  <!--  <div>
-      <div class="row">
-        <div class="col">
-          <div class="card position-relative">
-            <div class="card-title text-uppercase">Danh mục sản phẩm</div>
-            <div class="feature-category card-body">
-              <div class="row row-cols-lg-4-sm-2">
-                <template v-for="i in 5">
-                  <PopularCategory :key="i"></PopularCategory>
-                </template>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col">
-          <div class="card position-relative">
-            <div class="card-title text-uppercase">Tất cả sản phẩm: <span style="color: #3e3e3e; font-size: 1.2rem">34 kết quả</span></div>
-            <div class="suggestion-today card-body" style="padding: 0rem 1.25rem">
-              <div class="row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
-                <template v-for="product in []">
-                  <ProductComponent :key="product" :product="product"></ProductComponent>
-                </template>
-              </div>
-              <div class="my-4 d-flex float-right">
-                <PaginateComponent></PaginateComponent>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>-->
   <div class="row">
     <div class="col">
 
       <div class="card">
+        <BreadCrumb :supplierCategories="supplierCategories"
+                    :currentCategoryID="currentCategoryID"></BreadCrumb>
         <div class="card-body">
+
           <div class="row">
 
             <!-- LEFT BAR d-none d-xl-block  -->
@@ -45,23 +15,8 @@
                 <!-- DANH MUC SAN PHAM-->
                 <div class="box col-12 border-bottom">
                   <h6 class="text-uppercase">DANH MỤC SẢN PHẨM</h6>
-                  <ul class="nav">
-                    <template v-for="category in supplierCategories">
-                      <li :class="classCategory(category)" :key="'ct' + category.id"
-                          @click.prevent="changeIsShowCategoryChilds(category.id)">
-                        {{ category.name }}
-                        <ol v-if="isShowCategoryChilds == category.id">
-                          <template v-for="childCategory in category.childs">
-                            <li :class="classCategory(childCategory)" v-if="compareCategory(category,childCategory)"
-                                :key="'child_ct' + childCategory.id"
-                                @click.stop="changeCategoryParentID(childCategory.id)">
-                              {{ childCategory.name }}
-                            </li>
-                          </template>
-                        </ol>
-                      </li>
-                    </template>
-                  </ul>
+                  <ListCategory @changeCurrentCategoryID="changeCurrentCategoryID"
+                                :categories="supplierCategories" :currentCategoryID.sync="currentCategoryID"></ListCategory>
                 </div>
                 <!-- END DANH MUC SAN PHAM-->
               </div>
@@ -93,7 +48,8 @@
                 </template>
               </div>
               <div v-if="isLoadMore" class="my-4 d-flex justify-content-center">
-                <button class="btn btn-sm btn-info btn-block" style="width: 260px;" @click="loadMorePage()">Xem thêm
+                <button class="btn btn-sm btn-info btn-block" style="width: 260px;" @click="loadMorePage()">
+                  Xem thêm
                 </button>
               </div>
             </div>
@@ -108,29 +64,20 @@
 // import PopularCategory from "../../components/PopularCategory";
 import {HandleRedirect} from "../../mixins/redirect.handle";
 import {PageMixin} from "../../mixins/page.mixin";
-import ProductComponent from "../../components/ProductComponent";
 import {mapGetters} from "vuex";
-import {
-  FETCH_SUPPLIER_CATEGORIES,
-  //FETCH_SUPPLIER_CATEGORY_CHILDS,
-  FETCH_SUPPLIER_PRODUCTS
-} from "../../store/actions.type";
-
+import {FETCH_SUPPLIER_CATEGORIES, FETCH_SUPPLIER_PRODUCTS} from "../../store/actions.type";
+import ProductComponent from "../../components/ProductComponent";
+import ListCategory from "../../components/Store/category/ListCategory";
+import BreadCrumb from "../../components/Store/category/BreadCrumb";
 export default {
   mixins: [HandleRedirect, PageMixin],
-  props: {
-    slug: {
-      type: [String, Number],
-      required: true,
-    }
-  },
+  props: {},
   data() {
     return {
-      isShowCategoryChilds: null,
+      currentCategoryID: null,
       queryDataCategory: {
         supplier: "",
-        parent_id: "",
-        old_parent_id: "",
+        parent_id: "null",
       },
       queryDataProduct: {
         suppliers: "",
@@ -141,15 +88,12 @@ export default {
   },
 
   created() {
-    this.queryDataProduct.suppliers = this.slug;
-    this.queryDataCategory.supplier = this.slug;
     this.loadingData();
   },
   methods: {
     async loadingData() {
       return Promise.all([
         this.loadingDataCategories(),
-        //this.loadingDataChildsCategories(),
         this.loadingDataProducts(),
       ])
     },
@@ -158,42 +102,21 @@ export default {
     },
 
     async loadingDataCategories() {
-      return this.$store.dispatch(FETCH_SUPPLIER_CATEGORIES, this.listOldCategoryConfigs);
-    },
-    // async loadingDataChildsCategories() {
-    //   return this.$store.dispatch(FETCH_SUPPLIER_CATEGORY_CHILDS, this.listCategoryConfigs);
-    // },
-
-
-    changeIsShowCategoryChilds(_id) {
-      this.isShowCategoryChilds = _id;
-      this.changeCategoryParentID(_id);
-    },
-    changeCategoryParentID(_id) {
-      // this.queryDataCategory.old_parent_id = this.queryDataCategory.parent_id;
-      // this.queryDataCategory.parent_id = _id;
-      this.queryDataProduct.category = _id;
-
+      return this.$store.dispatch(FETCH_SUPPLIER_CATEGORIES, this.listCategoryConfigs);
     },
 
     changeSortBy(_key) {
       this.queryDataProduct.sortBy = _key;
     },
 
-    compareCategory(parentCategory, childCategory) {
-      const {parent} = childCategory;
-      return parent && parent.id == parentCategory.id;
-    },
+    changeCurrentCategoryID(categoryID) {
+      this.currentCategoryID = categoryID;
+    }
 
-    classCategory(_category) {
-      return {
-        active: _category.id == this.categoryID || _category.id == this.oldParentCategoryID,
-      }
-    },
   },
   computed: {
-    ...mapGetters(["currentSupplier", "supplierCategories",
-      "supplierCategoryChilds", "supplierProducts", "filters"]),
+    ...mapGetters(["supplierCategories", "currentSupplier",
+      "supplierProducts", "filters"]),
     sortSettings() {
       const {sort_settings} = this.filters;
       return sort_settings;
@@ -204,10 +127,6 @@ export default {
       return sortBy;
     },
 
-    categoryID() {
-      const {category} = this.queryDataProduct;
-      return category;
-    },
     products() {
       return this.supplierProducts;
     },
@@ -219,17 +138,13 @@ export default {
 
     listProductConfigs() {
       let filters = {};
-      const {offset, sortBy, categoryID} = this;
-      if (this.slug) {
-        filters.suppliers = this.slug;
-      }
+      const {offset, sortBy, currentCategoryID, currentSupplierID} = this;
+      filters.suppliers = currentSupplierID;
       if (sortBy) {
         filters.sortBy = sortBy;
       }
 
-      if (categoryID) {
-        filters.category = categoryID;
-      }
+      filters.category = currentCategoryID;
 
       if (offset) {
         filters.offset = offset;
@@ -237,45 +152,28 @@ export default {
       return filters;
     },
 
-    // listCategoryConfigs() {
-    //   let filters = {};
-    //   const {categoryID, slug} = this;
-    //
-    //   if (slug) {
-    //     filters.supplier = slug;
-    //   }
-    //
-    //   filters.parent_id = categoryID;
-    //   return filters;
-    // },
-    listOldCategoryConfigs() {
-      let filters = {};
-      const {slug, oldParentCategoryID} = this;
-      if (slug) {
-        filters.supplier = slug;
-      }
 
-      filters.parent_id = oldParentCategoryID;
-      return filters;
+    listCategoryConfigs() {
+      const {queryDataCategory, currentSupplierID} = this;
+      return {
+        ...queryDataCategory,
+        supplier: currentSupplierID
+      };
     },
 
-    oldParentCategoryID() {
-      const {old_parent_id} = this.queryDataCategory;
-      return old_parent_id;
-    },
     description() {
-      const {categoryID} = this;
-      if (!categoryID) {
+      const {currentCategoryID} = this;
+      if (!currentCategoryID) {
         return "Tất cả sản phẩm: ";
       }
 
       let category;
       this.supplierCategories.some((c) => {
-        if (c.id == categoryID) {
+        if (c.id == currentCategoryID) {
           category = c;
           return true;
         }
-        category = c.childs.find((e) => e.id == categoryID);
+        category = c.childs.find((e) => e.id == currentCategoryID);
         return category ? true : false;
       });
 
@@ -284,6 +182,11 @@ export default {
       }
       return `${category.name}: `;
     },
+
+    currentSupplierID() {
+      const {id} = this.currentSupplier;
+      return id;
+    }
   },
 
   watch: {
@@ -291,19 +194,26 @@ export default {
       this.resetCurrentPage();
       this.loadingDataProducts();
     },
-    categoryID() {
+    currentCategoryID() {
       this.resetCurrentPage();
       this.loadingDataProducts();
       //this.loadingData();
     },
     currentPage() {
       this.loadingDataProducts();
+    },
+
+    currentSupplierID() {
+      this.resetCurrentPage();
+      this.loadingData();
     }
   }
   ,
   components: {
     //PopularCategory,
     ProductComponent,
+    ListCategory,
+    BreadCrumb,
   }
 }
 </script>
