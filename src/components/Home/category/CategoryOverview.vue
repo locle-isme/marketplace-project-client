@@ -4,13 +4,20 @@
       <div class="card-category card">
         <div class="card-title text-uppercase">Danh mục sản phẩm</div>
         <div class="card-body p-0">
-          <div class="category-contains">
-            <ul class="navbar-nav">
-              <template v-for="i in 5">
-                <GroupCategory :key="'grct' + i"></GroupCategory>
-              </template>
-            </ul>
-          </div>
+          <!--          <div class="category-contains">-->
+
+          <!--            <ul class="navbar-nav">-->
+          <carousel :perPage="perPage" :navigationEnabled="true" :navigationPrevLabel="prevBtn"
+                    :navigationNextLabel="nextBtn" :paginationEnabled="false">
+            <template v-for="(categoryGroup,index) in categoryGroups">
+              <slide :key="'grct' + index">
+                <GroupCategory :categoryGroup="categoryGroup"></GroupCategory>
+              </slide>
+            </template>
+          </carousel>
+          <!--            </ul>-->
+
+          <!--          </div>-->
         </div>
       </div>
     </div>
@@ -19,21 +26,59 @@
 
 <script>
 import GroupCategory from "./GroupCategory";
+import {Carousel, Slide} from 'vue-carousel';
+import {mapGetters} from "vuex";
+import _ from "lodash"
 
 export default {
   data() {
     return {
-      settings: {
-        "infinite": true,
-        "slidesToShow": 3,
-        "speed": 500,
-        "rows": 2,
-        "slidesPerRow": 1
-      },
+      nextBtn: '<i class="fa fa-chevron-right" aria-hidden="true"></i>',
+      prevBtn: '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
+      limit: 10
     }
   },
+
+  mounted() {
+    window.addEventListener('resize', () => {
+      let w = window.innerWidth;
+      let temp;
+      if (w >= 1200) temp = 10;
+      else if (w >= 992) temp = 6;
+      else temp = 3;
+      this.limit = temp;
+    });
+  },
+
+  computed: {
+    ...mapGetters(["homeCategories"]),
+    perPage() {
+      const {lengthCategoryGroups, limit} = this;
+      return lengthCategoryGroups > limit ? limit : lengthCategoryGroups;
+    },
+
+    categoryGroups() {
+      const {homeCategories} = this;
+      return _.chunk(homeCategories, 2);
+    },
+
+    lengthCategoryGroups() {
+      const {categoryGroups} = this;
+      return categoryGroups.length;
+    }
+
+    /*
+       limit() {
+         let w = window.innerWidth;
+         return w > 768 ? 10 : 3;
+       }
+       */
+
+  },
   components: {
-    GroupCategory
+    GroupCategory,
+    Carousel,
+    Slide,
   },
   name: "CategoryOverview"
 }
@@ -42,58 +87,10 @@ export default {
 <style lang="scss">
 .card-category {
   .card-body {
-    position: relative;
     width: 100%;
-    height: 100%;
-
-    .category-contains {
-      height: 100%;
-      overflow: hidden;
-
-      .navbar-nav {
-        transform: translate(0px, 0px);
-        transition: all 500ms ease 0s;
-        flex-direction: row;
-        width: 130%;
-
-        .nav-item {
-          padding: 0px;
-          width: calc(100% / 13);
-
-          .category-item {
-            width: 100%;
-            padding: 10px 20px;
-            border-bottom: solid 1px rgba(0, 0, 0, .05);
-            border-right: solid 1px rgba(0, 0, 0, .05);
-            cursor: pointer;
-
-            .contain-image {
-              background: rgba(206, 206, 206, 0.46);
-              width: 80px;
-              height: 80px;
-              margin-bottom: 0.8rem;
-              border-radius: 50%;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              z-index: 11;
-
-              .image {
-                width: 90%;
-                height: 55%;
-
-                img {
-                  object-fit: cover;
-                  width: 100%;
-                  height: 100%;
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-
+    min-height: 200px;
   }
 }
+
+
 </style>

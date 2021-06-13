@@ -33,3 +33,4 @@ export const FETCH_SUPPLIER_PRODUCTS = "fetchSupplierProducts";
 export const FETCH_SUPPLIER_CATEGORIES = "fetchSupplierCategories";
 export const FETCH_SUPPLIER_CATEGORY_CHILDS = "fetchSupplierCategoryChilds";
 export const FETCH_RECOMMEND_PRODUCTS = "fetchRecommendProducts";
+export const FETCH_HOME_CATEGORIES = "fetchHomeCategories";

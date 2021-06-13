@@ -4,10 +4,12 @@
       <div class="card">
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item" @click="redirect('home')">
-              <div style="cursor: pointer"  class="text-primary">Home</div>
+            <li class="breadcrumb-item" @click.prevent="goHome">
+              <a href="#">Home</a>
             </li>
-            <li class="breadcrumb-item active" aria-current="page"> Từ khóa: `{{ $route.query.q }}`</li>
+            <li class="breadcrumb-item active">
+              <a href="#" style="pointer-events: none;">Từ khóa: `{{ $route.query.q }}`</a>
+            </li>
           </ol>
         </nav>
         <div class="card-body">
@@ -170,9 +172,10 @@ import PaginateComponent from "../components/PaginateComponent";
 import {FETCH_PRODUCTS} from "../store/actions.type";
 import {mapGetters} from "vuex";
 import {PageMixin} from "../mixins/page.mixin";
+import {HandleRedirect} from "../mixins/redirect.handle";
 
 export default {
-  mixins: [PageMixin],
+  mixins: [PageMixin, HandleRedirect],
   data() {
     return {
       tempPrice: {min: 0, max: 0},
@@ -233,19 +236,19 @@ export default {
       prices.min = parseInt(min) * 1000;
       prices.max = parseInt(max) * 1000;
       this.resetCurrentPage();
-      this.$router.push({name: 'search', query: this.listConfigs})
+      this.goSearch();
     },
 
     formatDataQuery(ar) {
       return ar.join(",");
     },
 
-    redirect() {
-      this.$router.push({name: 'search', query: this.listConfigs})
-          .then(() => {
-          })
-          .catch(() => {
-          })
+    goHome() {
+      this.redirect('home');
+    },
+
+    goSearch() {
+      this.redirect('search',{},  this.listConfigs);
     }
   },
 
@@ -322,22 +325,22 @@ export default {
 
     'queryData.ratings'() {
       this.resetCurrentPage();
-      this.redirect();
+      this.goSearch();
     },
 
     'queryData.brands'() {
       this.resetCurrentPage();
-      this.redirect();
+      this.goSearch();
     },
 
     'queryData.suppliers'() {
       this.resetCurrentPage();
-      this.redirect();
+      this.goSearch();
     },
 
     sortBy() {
       this.resetCurrentPage();
-      this.redirect();
+      this.goSearch();
     },
 
     '$route.query'() {
@@ -354,6 +357,37 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+$breadcrumbColor: rgba(255, 32, 30, 0.73);
+$white: #fff;
+$black: #000;
+.breadcrumb {
+  background: var(--danger);
+  border-radius: unset;
+
+  .breadcrumb-item {
+    a {
+      font-weight: 600;
+      color: $white;
+    }
+
+    &.active {
+      font-weight: 550;
+
+      a {
+        cursor: unset;
+        color: $black;
+      }
+    }
+  }
+
+  .breadcrumb-item + .breadcrumb-item::before {
+    float: left;
+    padding-right: 0.5rem;
+    color: #f4ffe6;
+    content: "/";
+  }
+}
+
 .box {
   padding: 10px 10px;
 

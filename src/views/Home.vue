@@ -24,11 +24,10 @@
 import CategoryOverview from "../components/Home/category/CategoryOverview";
 import ProductComponent from "../components/ProductComponent";
 import {mapGetters} from "vuex";
-import {FETCH_PRODUCTS} from "../store/actions.type";
+import {FETCH_HOME_CATEGORIES, FETCH_PRODUCTS} from "../store/actions.type";
 
 export default {
   created() {
-
     this.loadingData();
   },
   data() {
@@ -36,12 +35,23 @@ export default {
   },
   methods: {
     loadingData() {
-      this.$store.dispatch(FETCH_PRODUCTS, {})
+      Promise.all([
+        this.loadingCategories(),
+        this.loadingProducts(),
+      ])
           .then(() => {
           })
           .catch(() => {
           })
     },
+
+    loadingCategories() {
+      return this.$store.dispatch(FETCH_HOME_CATEGORIES);
+    },
+
+    loadingProducts() {
+      this.$store.dispatch(FETCH_PRODUCTS, {});
+    }
   },
   computed: {
     ...mapGetters(["products"])

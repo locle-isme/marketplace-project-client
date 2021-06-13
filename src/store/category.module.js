@@ -1,12 +1,23 @@
-import {FETCH_SUPPLIER_CATEGORIES, FETCH_SUPPLIER_CATEGORY_CHILDS, GET_CURRENT_CATEGORY} from "./actions.type";
+import {
+    FETCH_HOME_CATEGORIES,
+    FETCH_SUPPLIER_CATEGORIES,
+    FETCH_SUPPLIER_CATEGORY_CHILDS,
+    GET_CURRENT_CATEGORY
+} from "./actions.type";
 import {CategoryService} from "../common/api.service";
-import {SET_CURRENT_CATEGORY, SET_SUPPLIER_CATEGORIES, SET_SUPPLIER_CATEGORY_CHILDS} from "./mutations.type";
+import {
+    SET_CURRENT_CATEGORY,
+    SET_LIST_HOME_CATEGORIES,
+    SET_SUPPLIER_CATEGORIES,
+    SET_SUPPLIER_CATEGORY_CHILDS
+} from "./mutations.type";
 
 
 const state = {
     currentCategory: {childs: []},
     supplierCategories: [],
     supplierCategoryChilds: [],
+    homeCategories: [],
 };
 const getters = {
     currentCategory(state) {
@@ -18,7 +29,11 @@ const getters = {
 
     supplierCategoryChilds(state) {
         return state.supplierCategoryChilds;
-    }
+    },
+
+    homeCategories(state) {
+        return state.homeCategories;
+    },
 };
 const mutations = {
     [SET_CURRENT_CATEGORY](state, category) {
@@ -30,6 +45,10 @@ const mutations = {
 
     [SET_SUPPLIER_CATEGORY_CHILDS](state, categories) {
         state.supplierCategoryChilds = categories;
+    },
+
+    [SET_LIST_HOME_CATEGORIES](state, categories) {
+        state.homeCategories = categories;
     },
 
 };
@@ -66,6 +85,19 @@ const actions = {
                 const {status, data} = response;
                 if (status == "success") {
                     context.commit(SET_SUPPLIER_CATEGORY_CHILDS, data);
+                    return data;
+                } else {
+                    throw data;
+                }
+            })
+    },
+
+    [FETCH_HOME_CATEGORIES](context) {
+        return CategoryService.query({parent_id: ""})
+            .then((response) => {
+                const {status, data} = response;
+                if (status == "success") {
+                    context.commit(SET_LIST_HOME_CATEGORIES, data);
                     return data;
                 } else {
                     throw data;

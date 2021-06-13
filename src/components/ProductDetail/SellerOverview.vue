@@ -54,7 +54,7 @@ export default {
   computed:{
     ratings(){
       const {ratings} = this.supplier;
-      return ratings;
+      return ratings || {};
     }
   }
 }

@@ -120,9 +120,10 @@ body {
     transform: scale(1);
 }
 
-.limit-line{
+.limit-line {
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
     overflow: hidden;
 }
+

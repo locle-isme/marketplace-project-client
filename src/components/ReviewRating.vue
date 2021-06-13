@@ -16,7 +16,7 @@
         <i class="fas fa-star text-warning"></i>
       </div>
     </div>
-    <div class="review" :style="{fontSize: `${fontSize}em`}">[{{ rating_count }}]</div>
+    <div class="review" :style="{fontSize: `${fontSize}em`}">[{{ rating_count }} đánh giá]</div>
   </div>
 </template>
 <script>
@@ -27,10 +27,10 @@ export default {
       default: 0.8
     },
     rating_count: {
-      type: Number,
+      type: [String, Number],
     },
     rating_average: {
-      type: String
+      type: [String, Number]
     }
   },
 
