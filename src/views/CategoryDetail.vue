@@ -3,18 +3,7 @@
     <div class="col">
 
       <div class="card">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item" @click.prevent="redirect('home')">
-              <a href="#">Home</a>
-            </li>
-            <li v-if="currentCategory.parent" class="breadcrumb-item"
-                @click.prevent="redirect('category', {slug: currentCategory.parent.id})">
-              <a href="#">{{ currentCategory.parent.name }}</a>
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">{{ currentCategory.name }}</li>
-          </ol>
-        </nav>
+        <BreadCrumb :currentCategory="currentCategory"></BreadCrumb>
         <div class="card-body">
           <div class="row">
 
@@ -26,7 +15,7 @@
                   <h6 class="text-uppercase">DANH MỤC SẢN PHẨM</h6>
                   <ul class="nav">
                     <template v-for="category in currentCategory.childs">
-                      <li :key="'ct' + category.id" @click="redirect('category', {slug: category.id})">
+                      <li :key="'ct' + category.id" @click="redirect('category', {slug: category.slug})">
                         {{ category.name }}
                       </li>
                     </template>
@@ -186,6 +175,7 @@
 <script>
 import ProductComponent from "../components/ProductComponent";
 import PaginateComponent from "../components/PaginateComponent";
+import BreadCrumb from "../components/Category/BreadCrumb";
 import {FETCH_PRODUCTS, GET_CURRENT_CATEGORY} from "../store/actions.type";
 import {mapGetters} from "vuex";
 import {HandleRedirect} from "../mixins/redirect.handle";
@@ -213,18 +203,30 @@ export default {
   },
 
   created() {
-    this.initQueryData();
     this.runPromises();
   },
 
   methods: {
-    runPromises() {
-      Promise.all([
-        this.loadingCategory(),
-        this.loadingData()
-      ]).catch((err) => {
-        console.log(err)
-      })
+     async runPromises() {
+      // Promise.all([
+      //   this.loadingCategory(),
+      //   this.loadingData()
+      // ]).catch((err) => {
+      //   console.log(err)
+      // })
+
+      this.initQueryData();
+      try {
+        await this.loadingCategory();
+      } catch (err) {
+        console.log(err);
+      }
+
+      try {
+        await this.loadingData();
+      } catch (err) {
+        console.log(err);
+      }
     },
     async loadingData() {
       return this.$store.dispatch(FETCH_PRODUCTS, this.listConfigs);
@@ -293,7 +295,7 @@ export default {
         _filters.page = currentPage;
       }
       if (this.slug) {
-        _filters.category = this.slug;
+        _filters.category = this.currentCategory.id;
       }
 
       if (ratings.length) {
@@ -386,7 +388,8 @@ export default {
 
   components: {
     ProductComponent,
-    PaginateComponent
+    PaginateComponent,
+    BreadCrumb,
   }
 }
 </script>
@@ -408,7 +411,10 @@ $black: #000;
 
     &.active {
       font-weight: 550;
-      color: $black;
+      a{
+        cursor: unset;
+        color: $black;
+      }
     }
   }
 

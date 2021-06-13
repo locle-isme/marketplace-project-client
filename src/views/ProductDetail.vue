@@ -12,21 +12,7 @@
         </div>
         <div class="card-body">
           <div class="row">
-            <div class="product-image col-xl-4 col-lg-12 border-right mb-4">
-              <div class="d-flex flex-column align-items-center">
-                <div class="img-thumbnail">
-                  <img width="100%" height="100%" :src="firstImages" alt="">
-                </div>
-                <div class="d-flex flex-wrap review-image justify-content-center position-relative">
-                  <template v-for="(image, index) in images.slice(0,7)">
-                    <div :key="index" class="view-photo">
-                      <img :src="image.url" alt="">
-                      <span v-if="images.length > 6">Xem thêm 69 hình</span>
-                    </div>
-                  </template>
-                </div>
-              </div>
-            </div>
+            <AlbumOverview :images="images"></AlbumOverview>
             <div class="product-content col-xl-8 col-lg-12 position-relative">
               <div class="d-flex flex-column">
                 <div class="brand"><span>Thương hiệu:</span> <a href="#"><span>{{ brand.name }}</span></a></div>
@@ -152,6 +138,7 @@
 <script>
 //import ReviewImage from "../components/ReviewImage";
 import SellerOverview from "../components/ProductDetail/SellerOverview";
+import AlbumOverview from "../components/ProductDetail/album_image/AlbumOverview";
 import ReviewComponent from "../components/ProductDetail/review/ReviewComponent";
 import SlideComponent from "../components/ProductDetail/recommend/SlideComponent";
 import {mapGetters} from "vuex";
@@ -166,7 +153,6 @@ export default {
   data() {
     return {
       minProducts: 25,
-      defaultImage: 'https://via.placeholder.com/640x480.png/00bb11?text=default',
       id: "",
       isShowMoreContent: false,
       quantity: 1,
@@ -257,9 +243,10 @@ export default {
     //ProductReviewRating,
     //ReviewImage,
     //ProductReviewComment,
-    ReviewComponent,
     SellerOverview,
+    AlbumOverview,
     SlideComponent,
+    ReviewComponent,
   },
   watch: {
     '$route.params': {
@@ -270,12 +257,6 @@ export default {
   }
 }
 </script>
-
-
-
-
-
-
 
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -313,44 +294,6 @@ export default {
     &.active {
       color: #dc3545;
       box-shadow: rgb(238 160 160) 0px 2px 6px 0px;
-    }
-  }
-}
-
-.review-image {
-  margin-top: 10px;
-
-  .view-photo {
-    position: relative;
-    width: 64px;
-    height: 64px;
-    border-radius: 4px;
-    margin-right: 8px;
-    margin-top: 8px;
-    overflow: hidden;
-    opacity: 0.85;
-    cursor: pointer;
-
-    &.active {
-      box-shadow: rgb(120 120 120) 0px 2px 6px 0px;
-    }
-
-    &:last-child {
-      span {
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        display: flex;
-        align-items: center;
-        text-align: center;
-        top: 0;
-        left: 0;
-        color: #fff;
-        font-size: 11px;
-        background-color: rgba(0, 0, 0, 0.7);
-        user-select: none;
-        padding: 0px 2px;
-      }
     }
   }
 }
