@@ -11,10 +11,12 @@ import cart from './cart.module'
 import supplier from './supplier.module'
 import category from './category.module'
 import recommend from './recommend.module'
+import brand from './brand.module'
+
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
-    modules:{
+    modules: {
         auth,
         address,
         product,
@@ -25,6 +27,7 @@ const store = new Vuex.Store({
         supplier,
         category,
         recommend,
+        brand
     }
 });
 export default store

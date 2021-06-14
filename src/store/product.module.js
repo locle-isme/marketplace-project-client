@@ -1,5 +1,6 @@
 import {ProductService} from "../common/api.service";
 import {
+    FETCH_BRAND_PRODUCTS,
     FETCH_CATEGORY_PRODUCTS,
     FETCH_PRODUCTS,
     FETCH_SUPPLIER_PRODUCTS,
@@ -7,6 +8,7 @@ import {
 } from "./actions.type";
 
 import {
+    SET_BRAND_PRODUCTS,
     SET_CATEGORY_PRODUCTS,
     SET_LIST_FILTERS,
     SET_LIST_PRODUCTS,
@@ -19,6 +21,7 @@ const state = {
     products: {data: [], total_count: 0},
     supplierProducts: {data: [], total_count: 0},
     categoryProducts: {data: [], total_count: 0},
+    brandProducts: {data: [], total_count: 0},
     filters: {
         brands: {data: [], total_count: 0},
         suppliers: {data: [], total_count: 0},
@@ -41,6 +44,10 @@ const getters = {
         return state.categoryProducts;
     },
 
+    brandProducts(state) {
+        return state.brandProducts;
+    },
+
     filters(state) {
         return state.filters || {
             brands: {data: [], total_count: 0},
@@ -54,17 +61,25 @@ const mutations = {
     [SET_PRODUCT](state, product) {
         state.currentProduct = product;
     },
+
     [SET_LIST_PRODUCTS](state, list) {
         state.products = list;
     },
+
     [SET_LIST_FILTERS](state, list) {
         state.filters = list;
     },
+
     [SET_SUPPLIER_PRODUCTS](state, list) {
         state.supplierProducts = list;
     },
+
     [SET_CATEGORY_PRODUCTS](state, list) {
         state.categoryProducts = list;
+    },
+
+    [SET_BRAND_PRODUCTS](state, list) {
+        state.brandProducts = list;
     },
 };
 const actions = {
@@ -82,6 +97,7 @@ const actions = {
                 }
             })
     },
+
     [FETCH_SUPPLIER_PRODUCTS](context, params) {
         return ProductService.query(params)
             .then((response) => {
@@ -112,6 +128,21 @@ const actions = {
             })
     },
 
+    [FETCH_BRAND_PRODUCTS](context, params) {
+        return ProductService.query(params)
+            .then((response) => {
+                const {status, data} = response;
+                if (status == "success") {
+                    const {products, filters} = data;
+                    context.commit(SET_BRAND_PRODUCTS, products);
+                    context.commit(SET_LIST_FILTERS, filters);
+                    return data;
+                } else {
+                    throw data;
+                }
+            })
+    },
+
 
     [GET_PRODUCT](context, id) {
         return ProductService.get(id)
@@ -124,6 +155,7 @@ const actions = {
                     throw data;
                 }
             })
-    }
+    },
+
 };
 export default {state, getters, mutations, actions}

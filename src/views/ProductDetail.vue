@@ -15,7 +15,8 @@
             <AlbumOverview :images="images"></AlbumOverview>
             <div class="product-content col-xl-8 col-lg-12 position-relative">
               <div class="d-flex flex-column">
-                <div class="brand"><span>Thương hiệu:</span> <a href="#"><span>{{ brand.name }}</span></a></div>
+                <div class="brand"><span>Thương hiệu:</span>&nbsp;<span class="text-info" style="cursor: pointer"
+                                                                        @click="goBrand"> {{ brand.name }}</span></div>
                 <div class="name-product">{{ currentProduct.name }}</div>
 
                 <div class="row">
@@ -164,6 +165,11 @@ export default {
     this.loadingData();
   },
   methods: {
+
+    goBrand() {
+      const {brand} = this;
+      this.redirect('brand', {slug: brand.slug});
+    },
     loadingData() {
       const {slug} = this.$route.params;
       this.$store.dispatch(GET_PRODUCT, slug)

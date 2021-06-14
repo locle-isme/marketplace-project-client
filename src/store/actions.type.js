@@ -35,3 +35,5 @@ export const FETCH_SUPPLIER_CATEGORIES = "fetchSupplierCategories";
 export const FETCH_SUPPLIER_CATEGORY_CHILDS = "fetchSupplierCategoryChilds";
 export const FETCH_RECOMMEND_PRODUCTS = "fetchRecommendProducts";
 export const FETCH_HOME_CATEGORIES = "fetchHomeCategories";
+export const GET_CURRENT_BRAND = "getCurrentBrand";
+export const FETCH_BRAND_PRODUCTS = "fetchBrandProducts";

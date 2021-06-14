@@ -22,6 +22,12 @@ const routes = [
         component: () => import("../views/CategoryDetail")
     },
     {
+        name: 'brand',
+        path: '/brand/:slug',
+        props: true,
+        component: () => import("../views/BrandDetail")
+    },
+    {
         name: 'product.detail',
         path: '/products/:slug',
         props: true,

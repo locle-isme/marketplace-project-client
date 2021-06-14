@@ -20,7 +20,7 @@ export const ApiService = {
         return Vue.axios.get(`${resource}`, {params})
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[RWV] ApiService ${error}`)
+                throw new Error(`[LVT] ApiService ${error}`)
             })
     },
 
@@ -28,7 +28,7 @@ export const ApiService = {
         return Vue.axios.get(`${resource}/${slug}`)
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[RWV] ApiService ${error}`)
+                throw new Error(`[LVT] ApiService ${error}`)
             })
     },
 
@@ -36,7 +36,7 @@ export const ApiService = {
         return Vue.axios.post(`${resource}`, params)
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[RWV] ApiService ${error}`)
+                throw new Error(`[LVT] ApiService ${error}`)
             })
     },
 
@@ -44,7 +44,7 @@ export const ApiService = {
         return Vue.axios.put(`${resource}/${slug}`, params)
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[RWV] ApiService ${error}`)
+                throw new Error(`[LVT] ApiService ${error}`)
             })
     },
 
@@ -52,7 +52,7 @@ export const ApiService = {
         return Vue.axios.put(`${resource}`, params)
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[RWV] ApiService ${error}`)
+                throw new Error(`[LVT] ApiService ${error}`)
             })
     },
 
@@ -60,7 +60,7 @@ export const ApiService = {
         return Vue.axios.delete(`${resource}/${slug}`)
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[RWV] ApiService ${error}`)
+                throw new Error(`[LVT] ApiService ${error}`)
             })
     },
 
@@ -70,7 +70,7 @@ export const ApiService = {
         })
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[RWV] ApiService ${error}`)
+                throw new Error(`[LVT] ApiService ${error}`)
             })
     }
 }
@@ -230,5 +230,11 @@ export const CategoryService = {
 export const RecommendProductService = {
     query(params = {}) {
         return ApiService.query('recommendations', params)
+    },
+}
+
+export const BrandService = {
+    get(slug) {
+        return ApiService.get('brands', slug)
     },
 }
