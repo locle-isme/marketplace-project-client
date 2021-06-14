@@ -1,11 +1,24 @@
 import {ProductService} from "../common/api.service";
-import {FETCH_PRODUCTS, FETCH_SUPPLIER_PRODUCTS, GET_PRODUCT} from "./actions.type";
-import {SET_LIST_FILTERS, SET_LIST_PRODUCTS, SET_PRODUCT, SET_SUPPLIER_PRODUCTS} from "./mutations.type";
+import {
+    FETCH_CATEGORY_PRODUCTS,
+    FETCH_PRODUCTS,
+    FETCH_SUPPLIER_PRODUCTS,
+    GET_PRODUCT
+} from "./actions.type";
+
+import {
+    SET_CATEGORY_PRODUCTS,
+    SET_LIST_FILTERS,
+    SET_LIST_PRODUCTS,
+    SET_PRODUCT,
+    SET_SUPPLIER_PRODUCTS
+} from "./mutations.type";
 
 const state = {
     currentProduct: {images: []},
     products: {data: [], total_count: 0},
     supplierProducts: {data: [], total_count: 0},
+    categoryProducts: {data: [], total_count: 0},
     filters: {
         brands: {data: [], total_count: 0},
         suppliers: {data: [], total_count: 0},
@@ -22,6 +35,10 @@ const getters = {
 
     supplierProducts(state) {
         return state.supplierProducts;
+    },
+
+    categoryProducts(state) {
+        return state.categoryProducts;
     },
 
     filters(state) {
@@ -45,6 +62,9 @@ const mutations = {
     },
     [SET_SUPPLIER_PRODUCTS](state, list) {
         state.supplierProducts = list;
+    },
+    [SET_CATEGORY_PRODUCTS](state, list) {
+        state.categoryProducts = list;
     },
 };
 const actions = {
@@ -76,6 +96,23 @@ const actions = {
                 }
             })
     },
+
+    [FETCH_CATEGORY_PRODUCTS](context, params) {
+        return ProductService.query(params)
+            .then((response) => {
+                const {status, data} = response;
+                if (status == "success") {
+                    const {products, filters} = data;
+                    context.commit(SET_CATEGORY_PRODUCTS, products);
+                    context.commit(SET_LIST_FILTERS, filters);
+                    return data;
+                } else {
+                    throw data;
+                }
+            })
+    },
+
+
     [GET_PRODUCT](context, id) {
         return ProductService.get(id)
             .then((response) => {

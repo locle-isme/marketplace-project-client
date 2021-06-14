@@ -26,7 +26,6 @@ export default {
   components: {
     CategoryItem,
   },
-  name: "GroupCategory",
 }
 </script>
 

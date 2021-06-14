@@ -24,11 +24,11 @@
 export default {
   props: {
     pages: {
-      type: Number,
+      type: [Number, String],
       required: true
     },
     currentPage: {
-      type: Number,
+      type: [Number, String],
       required: false,
       default: 1
     },
@@ -46,7 +46,7 @@ export default {
 
   methods: {
     updatePage(_page) {
-      if (_page == this.currentPage) return;
+      if (this.currentPage == _page) return;
       this.$emit('update:currentPage', _page);
     },
 

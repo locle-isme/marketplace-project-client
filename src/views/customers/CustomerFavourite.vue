@@ -11,7 +11,7 @@
           </template>
         </div>
         <div v-if="total_count == 0" class="card-empty">
-          <img class="bg-empty" src="images/cart/add_to_cart.png" alt="">
+          <img class="bg-empty" src="/images/cart/add_to_cart.png" alt="">
           <p class="description">Bạn không có sản phẩm yêu thích nào</p>
           <button class="btn btn-sm btn-danger" @click="redirect('home')">Thêm ngay</button>
         </div>

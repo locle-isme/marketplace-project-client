@@ -12,6 +12,7 @@ import HeaderForPC from "./HeaderForPC";
 import {HandleRedirect} from "../../mixins/redirect.handle";
 import {mapGetters} from "vuex";
 import EventBus from "../../common/EventBus";
+import {FETCH_HOME_CATEGORIES} from "../../store/actions.type";
 
 export default {
   mixins: [HandleRedirect],
@@ -20,6 +21,7 @@ export default {
   },
 
   created() {
+    this.loadingCategories();
     EventBus.$on('search.product', this.searchProduct);
   },
 
@@ -34,11 +36,17 @@ export default {
   },
 
   methods: {
+
+    loadingCategories() {
+      return this.$store.dispatch(FETCH_HOME_CATEGORIES);
+    },
+
     searchProduct(_keyword) {
       this.redirect('search', {}, {
         q: _keyword
       });
-    }
+    },
+
   },
 
   computed: {

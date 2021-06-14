@@ -90,7 +90,7 @@
       <div class="card">
         <div class="card-body">
           <div class="card-empty">
-            <img class="bg-empty" src="images/cart/undraw_empty_cart_co35.png" alt="">
+            <img class="bg-empty" src="/images/cart/undraw_empty_cart_co35.png" alt="">
             <p class="description">Giỏ hàng của bạn còn trống</p>
             <button class="btn btn-sm btn-danger" @click="redirect('home')">Mua sắm ngay</button>
           </div>

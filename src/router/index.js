@@ -24,6 +24,7 @@ const routes = [
     {
         name: 'product.detail',
         path: '/products/:slug',
+        props: true,
         component: () => import("../views/ProductDetail")
     },
 
@@ -190,6 +191,7 @@ const scrollBehavior = () => {
 const router = new VueRouter({
     routes,
     scrollBehavior,
+    mode: "history",
 })
 
 router.beforeEach((to, from, next) => {

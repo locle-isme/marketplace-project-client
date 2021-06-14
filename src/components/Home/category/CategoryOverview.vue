@@ -80,7 +80,6 @@ export default {
     Carousel,
     Slide,
   },
-  name: "CategoryOverview"
 }
 </script>
 

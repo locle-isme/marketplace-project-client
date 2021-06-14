@@ -50,7 +50,7 @@
         </div>
         <div class="d-flex mt-3 align-items-center justify-content-between">
           <div class="taka-logo" @click="goHome">
-            <img src="images/logo/logo.png" alt="">
+            <img src="/images/logo/logo.png" alt="">
 
           </div>
           <form class="form-search d-flex">

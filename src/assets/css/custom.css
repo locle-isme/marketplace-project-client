@@ -127,3 +127,13 @@ body {
     overflow: hidden;
 }
 
+
+.line-between {
+    width: 38px;
+    height: 2px;
+    font-size: 0px;
+    display: inline-block;
+    background: rgb(154, 154, 154);
+    margin: 0px 12px;
+    vertical-align: middle;
+}

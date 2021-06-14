@@ -30,7 +30,6 @@ export default {
       return `http://localhost:8000/${image}`;
     }
   },
-  name: "CategoryItem"
 }
 </script>
 
@@ -44,12 +43,15 @@ export default {
     border-bottom: solid 1px rgba(0, 0, 0, .05);
     border-right: solid 1px rgba(0, 0, 0, .05);
     cursor: pointer;
-
+    &:hover{
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      //box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    }
     .image-avatar {
       width: 83px;
       height: 83px;
       //box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-      box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+
       img{
         width: 100%;
         object-fit: contain;
