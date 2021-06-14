@@ -32,3 +32,4 @@ export const SET_LIST_RECOMMEND_PRODUCTS = "setListRecommendProducts"
 export const SET_LIST_HOME_CATEGORIES = "setListHomeCategories";
 export const SET_CURRENT_BRAND= "setCurrentBrand";
 export const SET_BRAND_PRODUCTS = "setBrandProducts";
+export const SET_HOME_PRODUCTS = "setHomeProducts";

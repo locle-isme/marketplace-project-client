@@ -7,12 +7,12 @@
           <div class="card-title text-uppercase">SẢN PHẨM BÁN CHẠY</div>
           <div class="suggestion-today card-body" style="padding: 0 1.25rem">
             <div class="row row-cols-lg-5-md-3-xs-2" style="margin: 0 -18px">
-              <template v-for="(product, index) in products.data">
+              <template v-for="(product, index) in homeProducts.data">
                 <ProductComponent :key="index" :product="product"></ProductComponent>
               </template>
             </div>
             <div class="my-4 d-flex justify-content-center">
-              <button class="btn btn-sm btn-info btn-block" style="width: 260px">Xem thêm</button>
+              <button v-show="isShowViewMoreBtn" class="btn btn-sm btn-info btn-block btn-view-more" @click="loadMorePage">Xem thêm</button>
             </div>
           </div>
         </div>
@@ -24,9 +24,11 @@
 import CategoryOverview from "../components/Home/category/CategoryOverview";
 import ProductComponent from "../components/ProductComponent";
 import {mapGetters} from "vuex";
-import { FETCH_PRODUCTS} from "../store/actions.type";
+import {FETCH_HOME_PRODUCTS} from "../store/actions.type";
+import {PageMixin} from "../mixins/page.mixin";
 
 export default {
+  mixins: [PageMixin],
   created() {
     this.loadingData();
   },
@@ -46,11 +48,26 @@ export default {
 
 
     loadingProducts() {
-      this.$store.dispatch(FETCH_PRODUCTS, {});
+      const {offset} = this;
+      this.$store.dispatch(FETCH_HOME_PRODUCTS, {offset});
     }
   },
   computed: {
-    ...mapGetters(["products"])
+    ...mapGetters(["homeProducts"]),
+    totalCount() {
+      const {total_count} = this.homeProducts;
+      return total_count;
+    },
+    isShowViewMoreBtn() {
+      const {offset, totalCount} = this;
+      return offset < totalCount;
+    }
+  },
+
+  watch: {
+    currentPage() {
+      this.loadingProducts();
+    },
   },
 
   components: {
@@ -62,6 +79,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+.btn-view-more {
+  width: 260px;
+}
 
 .feature-category {
   overflow-y: auto;
