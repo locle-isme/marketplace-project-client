@@ -1,5 +1,6 @@
 import {LOGIN} from "../store/actions.type";
 import {HandleRedirect} from "./redirect.handle";
+import {mapGetters} from "vuex";
 
 export const LoginMixin = {
     mixins: [HandleRedirect],
@@ -41,6 +42,7 @@ export const LoginMixin = {
     },
 
     computed: {
+        ...mapGetters(["isLoading"]),
         hasHistory() {
             return window.history.length > 2
         }

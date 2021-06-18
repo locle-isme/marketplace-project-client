@@ -3,6 +3,7 @@
     <div class="col-lg-5">
       <div class="card position-relative">
         <div class="card-body">
+          <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
           <div class="d-flex align-items-center mb-3">
             <div><i class="far fa-3x fa-user-circle"></i></div>
             <div class="ml-3 d-flex flex-column">

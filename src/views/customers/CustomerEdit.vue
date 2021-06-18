@@ -1,5 +1,6 @@
 <template>
   <div class="col-xl-9 col-md-12">
+    <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
     <div class="card">
       <div class="card-title">Thông tin tài khoản</div>
       <div class="card-body">
@@ -191,7 +192,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["user", "errors"]),
+    ...mapGetters(["user", "errors","isLoading"]),
     className() {
       return {
         'form-control': true,

@@ -1,16 +1,15 @@
 <template>
   <div class="row">
     <div class="col">
-
       <div class="card">
         <BreadCrumb :supplierCategories="supplierCategories"
                     :currentCategoryID="currentCategoryID"></BreadCrumb>
         <div class="card-body">
-
           <div class="row">
 
             <!-- LEFT BAR d-none d-xl-block  -->
             <div class="filter-search col-sm-12 col-xl-3 border-right">
+              <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
               <div class="row">
                 <!-- DANH MUC SAN PHAM-->
                 <div class="box col-12 border-bottom">
@@ -24,6 +23,7 @@
             <!-- END LEFT BAR -->
             <!-- RIGHT BAR -->
             <div class="right-bar col-xl-9 col-lg-12">
+              <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
               <div class="row py-3">
                 <div class="col">
                   <div class="title my-2">
@@ -115,7 +115,7 @@ export default {
 
   },
   computed: {
-    ...mapGetters(["supplierCategories", "currentSupplier",
+    ...mapGetters(["supplierCategories", "currentSupplier", "isLoading",
       "supplierProducts", "filters"]),
     sortSettings() {
       const {sort_settings} = this.filters;

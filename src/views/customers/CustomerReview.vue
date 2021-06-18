@@ -16,24 +16,26 @@
           </li>
         </ul>
 
-        <div v-if="typeSelect == 'reviewed'" class="list-reviewed">
+        <transition-group name="fade" tag="div" v-if="typeSelect == 'reviewed'" class="list-reviewed">
           <template v-for="review in reviews">
             <ReviewedComponent :review="review" :key="review.id" @handleRating="handleEditRating"></ReviewedComponent>
           </template>
-          <EditReview v-if="modalEditRatingShow" :review="currentReview"
-                               @exit="modalEditRatingShow = false"
-                               @handleSubmitReview="handleSubmitEditReview"></EditReview>
-        </div>
-
-        <div v-else class="list-already-review">
+        </transition-group>
+        <transition-group v-else name="fade" tag="div" class="list-already-review">
           <template v-for="product in products">
-            <NotReviewComponent :key="product.id" :product="product" @handleRating="handleCreateRating"></NotReviewComponent>
+            <NotReviewComponent :key="product.id" :product="product"
+                                @handleRating="handleCreateRating"></NotReviewComponent>
           </template>
-
+        </transition-group>
+        <transition name="slideLeft">
           <CreateReview v-if="modalRatingShow" :product="currentProductRating"
-                           @exit="modalRatingShow = false" @handleSubmitReview="handleSubmitReview"></CreateReview>
-        </div>
-
+                        @exit="modalRatingShow = false" @handleSubmitReview="handleSubmitReview"></CreateReview>
+        </transition>
+        <transition name="slideRight">
+          <EditReview v-if="modalEditRatingShow" :review="currentReview"
+                      @exit="modalEditRatingShow = false"
+                      @handleSubmitReview="handleSubmitEditReview"></EditReview>
+        </transition>
       </div>
     </div>
   </div>
@@ -182,6 +184,10 @@ export default {
     .nav-link {
       cursor: pointer;
     }
+  }
+
+  .card-body {
+    min-height: 200px;
   }
 }
 

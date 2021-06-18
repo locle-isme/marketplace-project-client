@@ -1,4 +1,5 @@
 <template>
+
   <router-link tag="div" :to="{name:'product.detail', params:{slug: product.slug}}" class="product-item col"
                style="padding: 1rem">
     <div class="d-flex flex-column">

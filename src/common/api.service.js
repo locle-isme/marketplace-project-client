@@ -3,12 +3,44 @@ import axios from "axios"
 import VueAxios from "vue-axios";
 import {BASE_URL} from "./config";
 import JwtService from "./jwt.service"
+import {GET_IS_LOADING} from "../store/actions.type";
+import store from "../store";
 
 export const ApiService = {
     init() {
         Vue.use(VueAxios, axios);
         Vue.axios.defaults.baseURL = BASE_URL;
         Vue.axios.defaults.headers.post['Content-Type'] = 'application/json';
+
+        // Add a request interceptor
+        Vue.axios.interceptors.request.use(async function (config) {
+            // const {url} = config;
+            // let listBlock = ["me/",'categories'];
+            // if (listBlock.includes(url)){
+            //
+            // }
+            // Do something before request is sent
+            await store.dispatch(GET_IS_LOADING, true);
+            return config;
+        }, async function (error) {
+            // Do something with request error
+            await store.dispatch(GET_IS_LOADING, true)
+            return Promise.reject(error);
+        });
+
+        Vue.axios.interceptors.response.use(async function (response) {
+            // Any status code that lie within the range of 2xx cause this function to trigger
+            // Do something with response data
+            await store.dispatch(GET_IS_LOADING, false)
+            return response;
+
+        }, async function (error) {
+            // Any status codes that falls outside the range of 2xx cause this function to trigger
+            // Do something with response error
+            await store.dispatch(GET_IS_LOADING, false)
+            return Promise.reject(error);
+        });
+
     },
 
     setHeader() {

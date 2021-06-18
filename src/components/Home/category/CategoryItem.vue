@@ -60,6 +60,7 @@ export default {
 
     .name-category {
       margin-top: 0.775rem;
+      min-height: 42px;
     }
   }
 }

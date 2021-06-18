@@ -5,14 +5,17 @@
       <div class="col">
         <div class="card position-relative">
           <div class="card-title text-uppercase">SẢN PHẨM BÁN CHẠY</div>
-          <div class="suggestion-today card-body" style="padding: 0 1.25rem">
-            <div class="row row-cols-lg-5-md-3-xs-2" style="margin: 0 -18px">
+          <div class="suggestion-today card-body" style="padding: 0 1.25rem;min-height: 200px;">
+            <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
+            <transition-group name="fade" tag="div" class="row row-cols-lg-5-md-3-xs-2" style="margin: 0 -18px">
               <template v-for="(product, index) in homeProducts.data">
                 <ProductComponent :key="index" :product="product"></ProductComponent>
               </template>
-            </div>
+            </transition-group>
             <div class="my-4 d-flex justify-content-center">
-              <button v-show="isShowViewMoreBtn" class="btn btn-sm btn-info btn-block btn-view-more" @click="loadMorePage">Xem thêm</button>
+              <button v-show="isShowViewMoreBtn" class="btn btn-sm btn-info btn-block btn-view-more"
+                      @click="loadMorePage">Xem thêm
+              </button>
             </div>
           </div>
         </div>
@@ -53,7 +56,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["homeProducts"]),
+    ...mapGetters(["homeProducts","isLoading"]),
     totalCount() {
       const {total_count} = this.homeProducts;
       return total_count;

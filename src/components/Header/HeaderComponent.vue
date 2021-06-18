@@ -142,7 +142,7 @@ $border-peach-color2: rgba(146, 25, 14, 0.76);
     width: 100%;
     height: 100%;
     z-index: 1;
-    background: rgba(128, 128, 128, 0.3);
+    //background: rgba(128, 128, 128, 0.3);
   }
 
   .email {

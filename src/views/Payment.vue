@@ -1,5 +1,7 @@
 <template>
   <div class="payment row">
+    <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
+
     <div class="col-12">
       <div class="card">
         <div class="card-title text-uppercase">1. Sản phẩm</div>
@@ -204,7 +206,7 @@ export default {
   computed: {
     ...mapGetters([
       "cart", "couponGlobalInUse", "globalCoupons",
-      "couponSupplierInUse", "listAddresses"
+      "couponSupplierInUse", "listAddresses", "isLoading"
     ]),
 
     defaultAddress() {

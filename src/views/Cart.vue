@@ -1,5 +1,6 @@
 <template>
   <div class="row">
+    <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
     <div v-if="totalCount > 0" class="col-lg-9 col-md-12">
       <div class="card position-relative" style="background-color: unset; border: none">
         <div class="card-title text-uppercase">GIỎ HÀNG</div>
@@ -105,6 +106,7 @@ import ModalAddCouponGlobal from "../components/Cart/ModalAddCouponGlobal";
 import {FETCH_CART, GET_LIST_DISCOUNT_CODE_GLOBAL} from "../store/actions.type";
 import {HandleRedirect} from "../mixins/redirect.handle";
 import {CheckoutMixin} from "../mixins/checkout.mixin";
+import {mapGetters} from "vuex";
 
 export default {
 
@@ -115,7 +117,6 @@ export default {
 
   data() {
     return {
-      isLoading: true,
       showModalCouponGlobal: false
     }
   },
@@ -138,7 +139,7 @@ export default {
 
   },
   computed: {
-
+    ...mapGetters(["isLoading"]),
     isDisabled() {
       const {cart, isAvailable} = this;
       return cart && cart.total_count > 0 && isAvailable;

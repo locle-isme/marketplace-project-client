@@ -32,7 +32,12 @@
         </div>
       </div>
     </nav>
-    <div class="nav-left-bar d-flex position-fixed" :class="{show: statusShowNavBar}">
+    <transition
+        name="fade"
+        enter-active-class="fadeInLeft"
+        leave-active-class="fadeOutLeft"
+    >
+    <div v-if="statusShowNavBar" class="nav-left-bar d-flex position-fixed" :class="{show: statusShowNavBar}">
       <div class="inner menu">
         <div class="d-flex justify-content-between align-items-center p-3 bg-info text-light">
           <div><i class="fas fa-user-alt" style="font-size: 2em"></i></div>
@@ -55,7 +60,7 @@
             <li v-if="isAuthenticated" @click="redirect('customer.notification')"><i class="sub-title far fa-bell"></i>
               Thông báo
             </li>
-            <li @click="setStatusShowCategoryList()"><i class="sub-title fa fa-list"></i> Danh mục sản phẩm</li>
+<!--            <li @click="setStatusShowCategoryList()"><i class="sub-title fa fa-list"></i> Danh mục sản phẩm</li>-->
           </ul>
           <div class="sub-head text-uppercase">Khuyến mãi hot</div>
           <ul class="nav">
@@ -88,6 +93,7 @@
       </div>
       <div class="overlay" @click="setStatusShowNavBar()"></div>
     </div>
+    </transition>
     <VAuth v-if="statusShowVAuth" @close="statusShowVAuth = false"></VAuth>
   </div>
 </template>

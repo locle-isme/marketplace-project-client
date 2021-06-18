@@ -1,3 +1,5 @@
+import {mapGetters} from "vuex";
+
 export const SearchMixin = {
     data() {
         return {
@@ -80,6 +82,7 @@ export const SearchMixin = {
 
     },
     computed: {
+        ...mapGetters(["isLoading"]),
         price() {
             const {prices} = this.queryData;
             return `${prices.min},${prices.max}`;
@@ -119,5 +122,6 @@ export const SearchMixin = {
             const {suppliers} = this.filters;
             return suppliers;
         },
+
     }
 }

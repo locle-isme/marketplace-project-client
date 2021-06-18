@@ -11,6 +11,7 @@
           </div>
         </div>
         <div class="card-body">
+          <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
           <div class="row">
             <AlbumOverview :images="images"></AlbumOverview>
             <div class="product-content col-xl-8 col-lg-12 position-relative">
@@ -83,6 +84,7 @@
       <div class="card position-relative">
         <div class="card-title text-uppercase">Thông tin chi tiết</div>
         <div class="card-body">
+          <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
           <div class="table-responsive">
             <table class="product-detail table">
               <tbody>
@@ -113,6 +115,7 @@
       <div class="card position-relative">
         <div class="card-title text-uppercase">Mô tả sản phẩm</div>
         <div class="card-body">
+          <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
           <div class="product-description position-relative">
             <div :class="classContentToggle" v-html="currentProduct.description">
 
@@ -171,11 +174,16 @@ export default {
       this.redirect('brand', {slug: brand.slug});
     },
     loadingData() {
-      const {slug} = this.$route.params;
-      this.$store.dispatch(GET_PRODUCT, slug)
+
+      this.loadingProducts()
           .then(() => {
             this.$store.dispatch(FETCH_REVIEWS, {product_id: this.currentProduct.id});
           })
+    },
+
+    loadingProducts() {
+      const {slug} = this.$route.params;
+      return this.$store.dispatch(GET_PRODUCT, slug);
     },
 
     changeQuantity(n) {
@@ -217,7 +225,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["currentProduct", "isAuthenticated", "defaultAddress", "listReviews", "isAuthenticated"]),
+    ...mapGetters([
+      "currentProduct", "isAuthenticated",
+      "defaultAddress", "isLoading",
+      "listReviews"]),
 
 
     product() {
@@ -282,6 +293,8 @@ export default {
 }
 
 .user-action {
+  cursor: pointer;
+
   top: -35px;
   right: -30px;
 
@@ -295,7 +308,6 @@ export default {
     align-items: center;
     margin: 10px;
     box-shadow: rgb(120 120 120) 0px 2px 6px 0px;
-    cursor: pointer;
 
     &.active {
       color: #dc3545;

@@ -3,6 +3,7 @@
     <div class="card">
       <div class="card-title">Sổ địa chỉ</div>
       <div class="card-body">
+        <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
         <router-link :to="{name:'customer.address.create'}" class="float-right btn btn-sm btn-primary">Thêm địa chỉ
           mới
         </router-link>
@@ -55,7 +56,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["listAddresses"]),
+    ...mapGetters(["listAddresses","isLoading"]),
 
   },
 

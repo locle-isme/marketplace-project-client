@@ -4,14 +4,17 @@ import router from './router'
 import store from './store'
 import VueSwal from 'vue-swal'
 import VueToast from 'vue-toast-notification'
-// Import one of the available themes
-//import 'vue-toast-notification/dist/theme-default.css';
-import 'vue-toast-notification/dist/theme-sugar.css';
+import VueElementLoading from 'vue-element-loading'
 
-import {ApiService} from "./common/api.service";
+//import 'vue-toast-notification/dist/theme-default.css';
+import 'bootstrap'
 import {BootstrapVue, BootstrapVueIcons} from "bootstrap-vue"
-import {CHECK_AUTH, } from "./store/actions.type";
-import './assets/css/bootstrap.css'
+import {ApiService} from "./common/api.service"
+import {CHECK_AUTH, } from "./store/actions.type"
+
+import 'bootstrap/dist/css/bootstrap.css'
+import 'vue-toast-notification/dist/theme-sugar.css'
+import 'vue2-animate/dist/vue2-animate.min.css'
 import './assets/css/all.css'
 import './assets/css/custom.css'
 
@@ -26,6 +29,8 @@ Vue.use(VueToast);
 Vue.use(VueSwal)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
+
+Vue.component('VueElementLoading', VueElementLoading )
 
 Vue.filter('error', FilterError)
 Vue.filter('currency', FilterCurrency)

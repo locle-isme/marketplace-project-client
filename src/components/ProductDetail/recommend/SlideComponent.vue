@@ -3,6 +3,7 @@
     <div class="card position-relative">
       <div class="card-title text-uppercase">Có thể bạn quan tâm</div>
       <div class="card-body">
+        <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
         <carousel :perPage="5" :navigationEnabled="true" :navigationPrevLabel="prevBtn" :navigationNextLabel="nextBtn">
           <template v-for="product in listRecommends">
             <slide :key="'rcm' + product.id">
@@ -46,7 +47,7 @@ export default {
   methods: {},
 
   computed: {
-    ...mapGetters(["recommendProducts"]),
+    ...mapGetters(["recommendProducts", "isLoading"]),
     listRecommends() {
       const {currentProduct, recommendProducts} = this;
       return recommendProducts.filter(product => product.id != currentProduct.id) || [];

@@ -12,6 +12,7 @@ import supplier from './supplier.module'
 import category from './category.module'
 import recommend from './recommend.module'
 import brand from './brand.module'
+import loading from './loading.module'
 
 Vue.use(Vuex);
 
@@ -27,7 +28,8 @@ const store = new Vuex.Store({
         supplier,
         category,
         recommend,
-        brand
+        brand,
+        loading,
     }
 });
 export default store

@@ -1,6 +1,7 @@
 <template>
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
+      <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
       <li class="breadcrumb-item" @click.prevent="redirect('home')">
         <a href="#">Home</a>
       </li>
@@ -24,6 +25,11 @@ export default {
       type: Object,
       required: true
     },
+
+    isLoading: {
+      type: Boolean,
+      required: true
+    }
   },
 
   data() {

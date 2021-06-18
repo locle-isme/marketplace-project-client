@@ -34,9 +34,6 @@ const actions = {
                     throw data;
                 }
             })
-            .then(() => {
-                return context.dispatch(FETCH_FAVOURITES);
-            })
     },
 
     [FAVOURITE_DELETE](context, params) {
@@ -48,9 +45,6 @@ const actions = {
                 } else {
                     throw data;
                 }
-            })
-            .then(() => {
-                return context.dispatch(FETCH_FAVOURITES);
             })
     },
 }

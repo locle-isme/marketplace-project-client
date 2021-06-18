@@ -3,6 +3,7 @@
     <div class="col">
       <div class="card">
         <div class="card-body">
+          <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
           <div class="row">
             <div class="col-sm-12 col-md-5 border-right">
               <div class="row" style="height: 100%">
@@ -105,7 +106,7 @@ export default {
   methods: {},
 
   computed: {
-    ...mapGetters(["currentSupplier"]),
+    ...mapGetters(["currentSupplier", "isLoading"]),
     cancellation_info() {
       const {cancellation_info} = this.currentSupplier;
       return cancellation_info || {};

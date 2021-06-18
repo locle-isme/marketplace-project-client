@@ -3,6 +3,8 @@
     <div class="card">
       <div class="card-title">Quản lý đơn hàng</div>
       <div class="card-body">
+        <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
+
         <div class="table-xl table-responsive">
           <table class="table mt-3">
             <thead>
@@ -14,7 +16,7 @@
               <th>Trạng thái đơn hàng</th>
             </tr>
             </thead>
-            <tbody>
+            <transition-group name="fade" tag="tbody">
             <template v-for="order in orders.data">
               <tr :key="'order' + order.id">
                 <td>
@@ -28,7 +30,7 @@
                 <td class="text-right">{{ status_text(order.status) }}</td>
               </tr>
             </template>
-            </tbody>
+            </transition-group>
           </table>
         </div>
         <div class="my-4 d-flex float-right">
@@ -68,7 +70,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["orders"]),
+    ...mapGetters(["orders","isLoading"]),
 
   },
   name: "CustomerOrderHistory",

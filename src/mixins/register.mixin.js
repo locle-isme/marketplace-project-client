@@ -34,7 +34,7 @@ export const RegisterMixin = {
     },
 
     computed: {
-        ...mapGetters(["errors"]),
+        ...mapGetters(["errors","isLoading"]),
         className() {
             return {
                 'form-control': true,

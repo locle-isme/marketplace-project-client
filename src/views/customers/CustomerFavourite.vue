@@ -3,13 +3,15 @@
     <div class="card">
       <div class="card-title">Sản phẩm yêu thích</div>
       <div class="card-body">
-        <div class="row row-cols-lg-4-sm-2" style="margin: 0px -18px">
+        <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
+        <transition-group name="fade" tag="div" class="row row-cols-lg-4-sm-2" style="margin: 0px -18px">
           <template v-for="favourite in listFavourites.data">
             <FavouriteItem @removeFavourite="handleRemoveFavourite" :key="'fv'+favourite.id"
                                 :favourite="favourite">
             </FavouriteItem>
           </template>
-        </div>
+        </transition-group>
+
         <div v-if="total_count == 0" class="card-empty">
           <img class="bg-empty" src="/images/cart/add_to_cart.png" alt="">
           <p class="description">Bạn không có sản phẩm yêu thích nào</p>
@@ -47,11 +49,12 @@ export default {
               duration: 5000,
               position: 'top-left'
             })
+            this.loadingData();
           });
     }
   },
   computed: {
-    ...mapGetters(["listFavourites"]),
+    ...mapGetters(["listFavourites", "isLoading"]),
     total_count() {
       const {total_count} = this.listFavourites;
       return total_count;

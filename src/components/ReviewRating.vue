@@ -1,5 +1,5 @@
 <template>
-  <div class="review-rating d-flex align-items-center">
+  <div class="review-rating d-flex flex-wrap align-items-center">
     <div class="position-relative">
       <div class="rating-total d-flex">
         <i class="far fa-star text-warning"></i>
@@ -53,8 +53,11 @@ export default {
     overflow: hidden;
   }
 
+  margin-right: 5px;
+
+
   .review {
-    margin-left: 5px;
+
   }
 }
 

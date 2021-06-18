@@ -3,12 +3,13 @@
     <div class="col">
 
       <div class="card">
-        <BreadCrumb :currentCategory="currentCategory"></BreadCrumb>
+        <BreadCrumb :currentCategory="currentCategory" :isLoading="isLoading"></BreadCrumb>
         <div class="card-body">
           <div class="row">
 
             <!-- LEFT BAR d-none d-xl-block  -->
             <div class="filter-search col-sm-12 col-xl-3 border-right">
+              <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
               <div class="row">
                 <!-- DANH MUC SAN PHAM-->
                 <div class="box col-12 border-bottom">
@@ -138,6 +139,7 @@
             <!-- END LEFT BAR -->
             <!-- RIGHT BAR -->
             <div class="right-bar col-xl-9 col-lg-12">
+              <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
               <div class="row py-3">
                 <div class="col">
                   <div class="title my-2">
@@ -155,11 +157,11 @@
                   </div>
                 </div>
               </div>
-              <div class="list-item-result row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
+              <transition-group name="fade" tag="div" class="list-item-result row row-cols-lg-5-md-3-xs-2" style="margin: 0px -18px">
                 <template v-for="(product, index) in products.data">
                   <ProductComponent :key="index" :product="product"></ProductComponent>
                 </template>
-              </div>
+              </transition-group>
               <div class="my-4 d-flex float-right">
                 <PaginateComponent :currentPage.sync="currentPage" :pages="pages"></PaginateComponent>
               </div>
@@ -231,6 +233,7 @@ export default {
 
     goSearchCategory() {
       const {slug} = this;
+      console.log(this.configs);
       this.redirect('category', {slug}, this.configs)
     },
   },
@@ -267,6 +270,7 @@ export default {
     slug() {
       this.resetQueryData();
       this.goSearchCategory();
+      this.runPromises();
     },
 
     ratings() {

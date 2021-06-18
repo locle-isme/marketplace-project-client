@@ -38,3 +38,4 @@ export const FETCH_HOME_CATEGORIES = "fetchHomeCategories";
 export const GET_CURRENT_BRAND = "getCurrentBrand";
 export const FETCH_BRAND_PRODUCTS = "fetchBrandProducts";
 export const FETCH_HOME_PRODUCTS = "fetchHomeProducts";
+export const GET_IS_LOADING = "getIsLoading";

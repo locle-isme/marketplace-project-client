@@ -3,6 +3,7 @@
     <div class="col">
       <div class="store-info card">
         <div class="card-body" style="padding: 0 !important;">
+          <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
           <div class="d-flex flex-column">
             <div class="seller d-flex align-items-center">
               <div class="avatar">
@@ -39,11 +40,11 @@ export default {
       dataLinks: [
         {
           name: 'store.global',
-          description: 'Cửa hàng',
+          description: 'Sản phẩm bán chạy',
         },
         {
           name: 'store.category',
-          description: 'Tất Cả Sản Phẩm',
+          description: 'Danh mục sản phẩm',
         },
         {
           name: 'store.info',
@@ -65,7 +66,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["currentSupplier"]),
+    ...mapGetters(["currentSupplier", "isLoading"]),
     getRouteName() {
       return this.$route.name;
     }

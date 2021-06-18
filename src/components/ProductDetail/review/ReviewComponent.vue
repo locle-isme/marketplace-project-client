@@ -3,6 +3,7 @@
     <div class="card position-relative">
       <div class="card-title text-uppercase">Đánh giá sản phẩm</div>
       <div class="card-body">
+        <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
         <div v-if="!reviews.length" class="d-flex justify-content-center align-items-center">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="80" height="80"
                viewBox="0 0 80 80">
@@ -76,6 +77,7 @@
 
 import ReviewRating from "./ReviewRating";
 import ReviewComment from "./ReviewComment";
+import {mapGetters} from "vuex";
 
 export default {
   props: {
@@ -93,6 +95,10 @@ export default {
       type: Object,
       required: true,
     }
+  },
+
+  computed:{
+    ...mapGetters(["isLoading"]),
   },
   components: {
     ReviewRating,

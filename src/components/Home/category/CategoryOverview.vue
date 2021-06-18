@@ -4,6 +4,7 @@
       <div class="card-category card">
         <div class="card-title text-uppercase">Danh mục sản phẩm</div>
         <div class="card-body p-0">
+          <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
           <!--          <div class="category-contains">-->
 
           <!--            <ul class="navbar-nav">-->
@@ -11,7 +12,13 @@
                     :navigationNextLabel="nextBtn" :paginationEnabled="false">
             <template v-for="(categoryGroup,index) in categoryGroups">
               <slide :key="'grct' + index">
+                <transition
+                    name="bounce"
+                    enter-active-class="bounceInLeft"
+                    leave-active-class="bounceOutRight"
+                >
                 <GroupCategory :categoryGroup="categoryGroup"></GroupCategory>
+                </transition>
               </slide>
             </template>
           </carousel>
@@ -35,7 +42,7 @@ export default {
     return {
       nextBtn: '<i class="fa fa-chevron-right" aria-hidden="true"></i>',
       prevBtn: '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
-      limit: 10
+      limit: 8
     }
   },
 
@@ -43,7 +50,7 @@ export default {
     window.addEventListener('resize', () => {
       let w = window.innerWidth;
       let temp;
-      if (w >= 1200) temp = 10;
+      if (w >= 1200) temp = 8;
       else if (w >= 992) temp = 6;
       else temp = 3;
       this.limit = temp;
@@ -51,7 +58,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["homeCategories"]),
+    ...mapGetters(["homeCategories","isLoading"]),
     perPage() {
       const {lengthCategoryGroups, limit} = this;
       return lengthCategoryGroups > limit ? limit : lengthCategoryGroups;
