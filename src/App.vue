@@ -2,10 +2,11 @@
   <div id="app">
 <!--    <vue-element-loading :active="isLoading" :is-full-screen="true"/>-->
     <HeaderComponent></HeaderComponent>
-    <div class="container" style="padding-top: 3.2rem">
+    <div class="container" style="padding-top: 3.2rem; padding-bottom: 5rem">
       <router-view></router-view>
     </div>
-    <VFooter></VFooter>
+    <VFooter v-if="false"></VFooter>
+
   </div>
 </template>
 

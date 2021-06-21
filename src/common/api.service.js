@@ -227,7 +227,11 @@ export const CartService = {
     },
     update(params) {
         return ApiService.put(`me/carts`, params)
-    }
+    },
+
+    getCountItems() {
+        return ApiService.get('me/carts/count')
+    },
 }
 
 export const DiscountCodeService = {

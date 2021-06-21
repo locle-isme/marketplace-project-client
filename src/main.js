@@ -10,7 +10,7 @@ import VueElementLoading from 'vue-element-loading'
 import 'bootstrap'
 import {BootstrapVue, BootstrapVueIcons} from "bootstrap-vue"
 import {ApiService} from "./common/api.service"
-import {CHECK_AUTH, } from "./store/actions.type"
+import {CHECK_AUTH, GET_CART_COUNT_ITEMS,} from "./store/actions.type"
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'vue-toast-notification/dist/theme-sugar.css'
@@ -30,7 +30,7 @@ Vue.use(VueSwal)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 
-Vue.component('VueElementLoading', VueElementLoading )
+Vue.component('VueElementLoading', VueElementLoading)
 
 Vue.filter('error', FilterError)
 Vue.filter('currency', FilterCurrency)
@@ -44,12 +44,20 @@ Vue.config.productionTip = false
 
 ApiService.init();
 
-router.beforeEach((to, from, next) => {
-    Promise.all([
-        store.dispatch(CHECK_AUTH)
+router.beforeEach(async (to, from, next) => {
+    try {
+        await Promise.all([
+            store.dispatch(CHECK_AUTH),
+            store.dispatch(GET_CART_COUNT_ITEMS),
             //.then(() => store.dispatch(FETCH_CART))
-            .then(() => next()),
-    ])
+        ]);
+        next();
+    } catch (err) {
+        console.log(err);
+        next();
+    }
+
+
 })
 
 router.beforeEach((to, from, next) => {

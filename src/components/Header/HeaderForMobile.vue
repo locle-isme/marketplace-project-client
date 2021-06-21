@@ -16,7 +16,7 @@
             <router-link tag="div" :to="{name:'checkout.cart'}" class="cart position-relative">
               <b-icon icon="cart" font-scale="2" aria-hidden="true"></b-icon>
               <div class="badge-cart">
-                <span class="count">{{ totalItemCart }}</span></div>
+                <span class="count">{{ countItems }}</span></div>
             </router-link>
           </div>
           <form action="" class="form-search d-flex my-2 justify-content-around w-100"
@@ -105,11 +105,7 @@ import {HeaderMixin} from "../../mixins/header.mixin";
 export default {
   mixins: [HeaderMixin],
   props: {
-    totalItemCart: {
-      type: [String, Number],
-      required: true,
-      default: 0
-    }
+
   },
   data() {
     return {

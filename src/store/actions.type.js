@@ -24,6 +24,7 @@ export const GET_ORDER = "getOrder";
 export const ORDER_CREATE = "createOrder";
 export const FETCH_CART = "fetchCart";
 export const CART_ADD = "addCart";
+export const GET_CART_COUNT_ITEMS = "getCartTotalItems";
 export const CART_EDIT = "editCart";
 export const CART_DELETE = "removeCart";
 export const GET_LIST_DISCOUNT_CODE_GLOBAL = "getListDiscountCodeGlobal";

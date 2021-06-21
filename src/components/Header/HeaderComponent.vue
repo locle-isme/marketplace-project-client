@@ -1,7 +1,7 @@
 <template>
   <div>
-    <HeaderForPC :totalItemCart="totalItemCart"></HeaderForPC>
-    <HeaderForMobile :totalItemCart="totalItemCart"></HeaderForMobile>
+    <HeaderForPC></HeaderForPC>
+    <HeaderForMobile></HeaderForMobile>
   </div>
 </template>
 
@@ -10,7 +10,6 @@
 import HeaderForMobile from "./HeaderForMobile";
 import HeaderForPC from "./HeaderForPC";
 import {HandleRedirect} from "../../mixins/redirect.handle";
-import {mapGetters} from "vuex";
 import EventBus from "../../common/EventBus";
 import {FETCH_HOME_CATEGORIES} from "../../store/actions.type";
 
@@ -50,11 +49,6 @@ export default {
   },
 
   computed: {
-    ...mapGetters(["cart"]),
-    totalItemCart() {
-      const {total_count} = this.cart;
-      return total_count || 0;
-    }
   },
   components: {
     HeaderForMobile,

@@ -17,6 +17,7 @@ export const SET_LIST_WAITING_FOR_REVIEW = "setListWaitingForReview"
 export const SET_LIST_ORDERS = "setListOrders";
 export const SET_ORDER = "setOrder";
 export const SET_CART = "setCart";
+export const SET_CART_COUNT_ITEMS = "setCartCountItems";
 export const SET_COUPON_SUPPLIER_IN_USE = "setCouponSupplierInUse";
 export const REMOVE_COUPON_SUPPLIER_IN_USE = "removeCouponSupplierInUse";
 export const SET_COUPON_GLOBAL = "setCouponGlobal";

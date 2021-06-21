@@ -54,7 +54,7 @@
                           <button @click="changeQuantity(-1)" :disabled="isDisabledAddToCartBtn">
                             <i class="fa fa-minus"></i>
                           </button>
-                          <input v-model="quantity" type="text" :disabled="isDisabledAddToCartBtn">
+                          <input v-model="quantity" type="number" :disabled="isDisabledAddToCartBtn">
                           <button @click="changeQuantity(1)" :disabled="isDisabledAddToCartBtn">
                             <i class="fa fa-plus"></i>
                           </button>
@@ -270,6 +270,19 @@ export default {
       handler() {
         this.loadingData();
       }
+    },
+
+    quantity(v) {
+      if (v == 0 || v == "0") {
+        this.quantity = 1;
+      }
+      if (typeof v == "string") {
+        this.quantity = parseInt(v);
+      }
+
+      if (!v) {
+        this.quantity = 1;
+      }
     }
   }
 }
@@ -368,6 +381,14 @@ export default {
   .detail-mount {
     .up-down-amount-group {
       margin-right: 10px;
+
+      input {
+        &::-webkit-outer-spin-button,
+        &::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
 
       button {
         width: 30px;

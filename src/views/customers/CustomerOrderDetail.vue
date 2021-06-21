@@ -3,7 +3,7 @@
     <div class="card" style="border: unset;background: unset">
       <div class="card-title">
         <span style="font-size: 1em">Chi tiết đơn hàng #310229992 - </span><span
-          style="font-size: 1em">Giao hàng thành công</span></div>
+          style="font-size: 1em">Đang được xử lý</span></div>
       <div class="mt-4"><span style="font-size: 0.8em">Ngày đặt hàng: 13:20 02/06/2020</span></div>
       <div class="row">
         <div class="col">
@@ -13,7 +13,7 @@
               <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
               <div class="d-flex">
                 <span style="min-width: 150px" class="text-dark">14:01 05/06/2020</span>
-                <span style="text-align: justify">Chúng tôi vừa bàn giao đơn hàng của quý khách đến đối tác vận chuyển Tiki Team. Đơn hàng của quý khách sẽ được giao trong ngày hôm nay 05/06/2020</span>
+                <span style="text-align: justify">Đơn hàng của quý khách đang xử lý.</span>
               </div>
             </div>
           </div>

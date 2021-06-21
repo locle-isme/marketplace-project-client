@@ -35,18 +35,17 @@
                   <i class="fa fa-history" aria-hidden="true"></i>
                 </div>
               </td>
-              <td>Đơn hàng #635678450 đã sẵn sàng để giao đến quý khách. Chúng tôi vừa bàn giao đơn hàng của quý khách
-                đến đối tác vận chuyển Tiki Team. Đơn hàng sẽ được giao trước 23:59 ngày 24/03/2021 Chi tiết
+              <td>Đơn hàng #1 đã sẵn sàng để giao đến quý khách.
               </td>
               <td>
-                <button class="btn btn-sm btn-danger">Xóa</button>
+<!--                <button class="btn btn-sm btn-danger">Đã xem</button>-->
               </td>
             </tr>
             </tbody>
           </table>
         </div>
         <div class="my-4 d-flex float-right">
-          <PaginateComponent :currentPage.sync="currentPage" :pages="50"></PaginateComponent>
+          <PaginateComponent :currentPage.sync="currentPage" :pages="1"></PaginateComponent>
         </div>
       </div>
     </div>

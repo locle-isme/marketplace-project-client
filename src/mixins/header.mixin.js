@@ -3,7 +3,7 @@ import {HandleRedirect} from "./redirect.handle";
 import {mapGetters} from "vuex";
 
 export const HeaderMixin = {
-    mixins:[HandleRedirect],
+    mixins: [HandleRedirect],
     data() {
         return {keywordSearch: ""}
     },
@@ -13,28 +13,29 @@ export const HeaderMixin = {
             this.keywordSearch = "";
         },
 
-        goHome(){
+        goHome() {
             this.redirect('home')
         },
 
-        goRegister(){
+        goRegister() {
             this.redirect('register')
         },
 
-        goLogin(){
+        goLogin() {
             this.redirect('login')
         },
 
-        goProfile(){
+        goProfile() {
             this.redirect('customer')
         },
 
-        goNotification(){
+        goNotification() {
             this.redirect('customer.notification')
-        }
+        },
+
     },
 
-    computed:{
-        ...mapGetters(["isAuthenticated", "user"]),
+    computed: {
+        ...mapGetters(["isAuthenticated", "user", "countItems"]),
     }
 }
