@@ -135,9 +135,8 @@
         </div>
       </div>
     </div>
-    <SlideComponent :currentProduct="product"></SlideComponent>
+    <SlideComponent v-if="isAuthenticated" :currentProduct="product"></SlideComponent>
     <ReviewComponent :reviews="reviews" :supplier="supplier" :ratings="ratings"></ReviewComponent>
-
   </div>
 </template>
 <script>

@@ -12,7 +12,8 @@
           </template>
         </carousel>
         <div v-if="lengthListRecommends == 0" class="not-available">
-          <span>Sản phẩm chưa sẵn có</span>
+          <img src="/images/actions/sad_tuzki.gif" alt="">
+          <span class="">Chưa có sản phẩm đề xuất phù hợp tới bạn</span>
         </div>
       </div>
     </div>
@@ -78,8 +79,14 @@ export default {
   height: auto;
   padding: 1.25rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  img{
+    user-select: none;
+    width: 100px;
+    height: auto;
+  }
 }
 
 </style>
