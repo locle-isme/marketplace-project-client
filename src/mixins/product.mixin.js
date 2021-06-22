@@ -68,14 +68,19 @@ export const ProductMixin = {
             return amount;
         },
 
+        max_buy(){
+            const {max_buy} = this.product;
+            return max_buy;
+        },
+
         isLimited() {
             const {amount} = this.product;
             return amount && amount < this.minProducts ? true : false;
         },
 
         isAvailable() {
-            const {is_available} = this.product;
-            return is_available;
+            const {available} = this.product;
+            return available;
         },
 
         isFavourited() {
@@ -86,7 +91,9 @@ export const ProductMixin = {
         slug() {
             const {slug} = this.product;
             return slug;
-        }
+        },
+
+
     }
 
 }

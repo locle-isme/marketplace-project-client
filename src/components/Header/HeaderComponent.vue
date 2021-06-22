@@ -11,7 +11,7 @@ import HeaderForMobile from "./HeaderForMobile";
 import HeaderForPC from "./HeaderForPC";
 import {HandleRedirect} from "../../mixins/redirect.handle";
 import EventBus from "../../common/EventBus";
-import {FETCH_HOME_CATEGORIES} from "../../store/actions.type";
+import {FETCH_HOME_CATEGORIES, GET_CART_COUNT_ITEMS} from "../../store/actions.type";
 
 export default {
   mixins: [HandleRedirect],
@@ -19,8 +19,15 @@ export default {
     return {}
   },
 
-  created() {
-    this.loadingCategories();
+  async created() {
+    try {
+      await Promise.all([
+        this.loadingCategories(),
+        this.loadingCountItems()
+      ])
+    } catch (e) {
+      console.log(e);
+    }
     EventBus.$on('search.product', this.searchProduct);
   },
 
@@ -40,6 +47,10 @@ export default {
       return this.$store.dispatch(FETCH_HOME_CATEGORIES);
     },
 
+    loadingCountItems() {
+      return this.$store.dispatch(GET_CART_COUNT_ITEMS);
+    },
+
     searchProduct(_keyword) {
       this.redirect('search', {}, {
         q: _keyword
@@ -48,8 +59,7 @@ export default {
 
   },
 
-  computed: {
-  },
+  computed: {},
   components: {
     HeaderForMobile,
     HeaderForPC
@@ -279,7 +289,7 @@ $border-peach-color2: rgba(146, 25, 14, 0.76);
 
       &.social {
         .nav-link {
-          a{
+          a {
             color: #fff;
             margin-right: 2px;
           }

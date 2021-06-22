@@ -5,8 +5,8 @@ export const CheckoutMixin = {
         totalPriceSupplier(supplier) {
             const {products} = supplier;
             let total = products.reduce((accumulator, product) => {
-                const {is_available, grand_total, quantity} = product;
-                let tempCost = is_available ? grand_total*quantity : 0;
+                const {available, grand_total, quantity} = product;
+                let tempCost = available ? grand_total*quantity : 0;
                 return accumulator + tempCost;
             }, 0);
             return total;
@@ -17,9 +17,9 @@ export const CheckoutMixin = {
             let coupon = this.globalCoupons.data.find(item => item.code == this.couponGlobalInUse);
             const {childs} = coupon.category || [];
             return products.reduce((acc, product) => {
-                const {category, is_available, grand_total, quantity} = product;
+                const {category, available, grand_total, quantity} = product;
                 let tempCost =
-                    (category.id == coupon.category.id || childs.indexOf(category.id) > -1) && is_available
+                    (category.id == coupon.category.id || childs.indexOf(category.id) > -1) && available
                         ? grand_total*quantity : 0;
                 return acc + tempCost;
             }, 0)
@@ -27,7 +27,7 @@ export const CheckoutMixin = {
     },
     computed: {
         ...mapGetters(
-            ["cart", "defaultAddress", "couponSupplierInUse",
+            ["cart", "defaultAddress", "couponSupplierInUse", "countItems",
                 "couponGlobalInUse", "globalCoupons"
             ]),
         suppliers() {
@@ -36,8 +36,8 @@ export const CheckoutMixin = {
         },
 
         totalCount() {
-            const {total_count} = this.cart;
-            return total_count;
+            const {countItems} = this;
+            return countItems || 0;
         },
 
         totalPriceDiscountSupplier() {
@@ -89,8 +89,8 @@ export const CheckoutMixin = {
         isAvailable() {
             return this.suppliers.every((supplier) => {
                 return supplier.products.every(product => {
-                    const {is_available} = product;
-                    return is_available;
+                    const {available} = product;
+                    return available;
                 })
             })
         }

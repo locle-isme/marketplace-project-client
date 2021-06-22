@@ -4071,6 +4071,10 @@ readers do not read off random characters that represent icons */
 .fa-transgender-alt:before {
   content: "\f225"; }
 
+.fa-trash-o:before {
+  content: "\f014";
+}
+
 .fa-trash:before {
   content: "\f1f8"; }
 

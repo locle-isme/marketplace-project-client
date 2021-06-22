@@ -2,51 +2,57 @@ import {FAVOURITE_CREATE, FAVOURITE_DELETE} from "../store/actions.type";
 import {mapGetters} from "vuex";
 
 export const HandleFavourite = {
-    data(){
+    data() {
         return {
+            favourite: false,
         }
     },
 
-    methods:{
-        handleAddFavourite() {
+    methods: {
+        async handleAddFavourite() {
             const {isAuthenticated} = this;
-            if (!isAuthenticated){
+            if (!isAuthenticated) {
                 this.$toast.error('Vui lòng đăng nhập để tiếp tục', {
                     duration: 5000,
                     position: 'top-left'
                 })
                 return;
             }
-            if (!this.product.favourited) {
-                this.$store.dispatch(FAVOURITE_CREATE, {product_id: this.product.id})
-                    .then(() => {
-                        this.loadingProducts();
-                        this.$toast.success('Đã thích', {
-                            duration: 5000,
-                            position: 'top-left'
-                        })
+
+            if (this.favourite) {
+                try {
+                    await this.$store.dispatch(FAVOURITE_DELETE, {product_id: this.product.id});
+                    this.$toast.success('Đã bỏ thích', {
+                        duration: 5000,
+                        position: 'top-left'
                     })
+                    this.favourite = false;
+                } catch(e){
+                    console.log(e)
+                }
             } else {
-                this.$store.dispatch(FAVOURITE_DELETE, {product_id: this.product.id})
-                    .then(() => {
-                        this.loadingProducts();
-                        this.$toast.success('Đã bỏ thích', {
-                            duration: 5000,
-                            position: 'top-left'
-                        })
-                    });
+                try {
+                    await this.$store.dispatch(FAVOURITE_CREATE, {product_id: this.product.id});
+                    this.$toast.success('Đã thích', {
+                        duration: 5000,
+                        position: 'top-left'
+                    })
+                    this.favourite = true;
+                } catch(e){
+                    console.log(e)
+                }
             }
         }
     },
 
-    computed:{
+    computed: {
         ...mapGetters(["isAuthenticated"]),
         classFavouritedProduct() {
-            const {favourited} = this.product;
+            const {favourite} = this;
             return {
                 'single-action': true,
                 'like-product': true,
-                'active': favourited
+                'active': favourite
             }
         }
     }

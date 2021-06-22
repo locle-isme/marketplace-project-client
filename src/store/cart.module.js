@@ -7,7 +7,7 @@ import {
 } from "./mutations.type";
 import {
     CART_ADD,
-    CART_EDIT,
+    CART_EDIT, CART_REMOVE,
     FETCH_CART,
     GET_CART_COUNT_ITEMS,
     GET_LIST_DISCOUNT_CODE_GLOBAL,
@@ -90,9 +90,14 @@ const actions = {
     [GET_CART_COUNT_ITEMS](context) {
         return CartService.getCountItems()
             .then(response => {
-                const {data} = response;
-                //console.log(data);
-                context.commit(SET_CART_COUNT_ITEMS, data);
+                const {status, data} = response;
+                if (status == 'success') {
+                    context.commit(SET_CART_COUNT_ITEMS, data);
+                    return data;
+                } else {
+                    context.commit(SET_CART_COUNT_ITEMS, {total_count: 0});
+                    throw data;
+                }
             })
     },
 
@@ -106,9 +111,6 @@ const actions = {
                     throw data;
                 }
             })
-            .then(() => {
-                return context.dispatch(FETCH_CART);
-            })
     },
 
     [CART_EDIT](context, params) {
@@ -121,14 +123,22 @@ const actions = {
                     throw data;
                 }
             })
-            .then(() => {
-                return context.dispatch(FETCH_CART);
+    },
+
+    [CART_REMOVE](context, params) {
+        return CartService.delete(params)
+            .then(response => {
+                const {data, status} = response;
+                if (status == 'success') {
+                    return data;
+                } else {
+                    throw data;
+                }
             })
     },
 
     [GET_LIST_DISCOUNT_CODE_GLOBAL](context) {
-        if(context.getters.isAuthenticated)
-        {
+        if (context.getters.isAuthenticated) {
             DiscountCodeService.getListDiscountGlobal()
                 .then(response => {
                     const {data, status} = response;

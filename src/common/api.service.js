@@ -229,6 +229,10 @@ export const CartService = {
         return ApiService.put(`me/carts`, params)
     },
 
+    delete(params) {
+        return ApiService.remove(`me/carts`, params)
+    },
+
     getCountItems() {
         return ApiService.get('me/carts/count')
     },

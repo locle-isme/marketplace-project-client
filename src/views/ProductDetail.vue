@@ -51,7 +51,8 @@
                       <div class="detail-mount d-flex align-items-center flex-wrap">
                         <span>Số lượng:</span>
                         <div class="up-down-amount-group">
-                          <button @click="changeQuantity(-1)" :disabled="isDisabledAddToCartBtn">
+                          <button @click="changeQuantity(-1)"
+                                  :disabled="isDisabledDownQuantity || isDisabledAddToCartBtn">
                             <i class="fa fa-minus"></i>
                           </button>
                           <input v-model="quantity" type="number" :disabled="isDisabledAddToCartBtn">
@@ -146,10 +147,13 @@ import AlbumOverview from "../components/ProductDetail/album_image/AlbumOverview
 import ReviewComponent from "../components/ProductDetail/review/ReviewComponent";
 import SlideComponent from "../components/ProductDetail/recommend/SlideComponent";
 import {mapGetters} from "vuex";
-import {CART_ADD, FETCH_ADDRESSES, FETCH_REVIEWS, GET_PRODUCT} from "../store/actions.type";
+import {CART_ADD, FETCH_ADDRESSES, FETCH_REVIEWS, GET_CART_COUNT_ITEMS, GET_PRODUCT} from "../store/actions.type";
 import {HandleFavourite} from "../mixins/favourite.handle";
 import {HandleRedirect} from "../mixins/redirect.handle";
 import {ProductMixin} from "../mixins/product.mixin";
+
+import firstError from '../common/filter.error'
+import {toastError, toastSuccess} from "../common/toast";
 
 export default {
   props: {},
@@ -168,16 +172,16 @@ export default {
     this.loadingData();
   },
   methods: {
-
     goBrand() {
       const {brand} = this;
       this.redirect('brand', {slug: brand.slug});
     },
     loadingData() {
-
       this.loadingProducts()
           .then(() => {
-            this.$store.dispatch(FETCH_REVIEWS, {product_id: this.currentProduct.id});
+            const {favourited, id} = this.currentProduct;
+            this.favourite = favourited;
+            this.$store.dispatch(FETCH_REVIEWS, {product_id: id});
           })
     },
 
@@ -187,48 +191,34 @@ export default {
     },
 
     changeQuantity(n) {
-      let temp = this.quantity + n;
-      const {amount} = this.product;
-      if (temp <= 0 || temp > amount) {
-        this.$toast.error('Số lượng mua không hợp lệ', {
-          duration: 5000,
-          position: 'top-left'
-        })
-        return;
-      }
-      this.quantity = temp;
+      this.quantity += n;
     },
 
-    addToCart() {
+    async addToCart() {
       const {id} = this.product;
       if (!this.isAuthenticated) {
-        this.$toast.error('Vui lòng đăng nhập để tiếp tục', {
-          duration: 5000,
-          position: 'top-left'
-        })
+        toastError('Vui lòng đăng nhập để tiếp tục');
         return;
       }
-      this.$store.dispatch(CART_ADD, {product_id: id, quantity: this.quantity})
-          .then(() => {
-            this.$toast.success('Thêm vào giỏ hàng hàng thành công', {
-              duration: 5000,
-              position: 'top-left'
-            })
-          })
-          .catch((error) => {
-            console.log(error)
-            this.$toast.error('Có lỗi sảy ra', {
-              duration: 5000,
-              position: 'top-left'
-            })
-          });
+
+
+      try {
+        await this.$store.dispatch(CART_ADD, {product_id: id, quantity: this.quantity});
+        await this.$store.dispatch(GET_CART_COUNT_ITEMS);
+        toastSuccess('Thêm vào giỏ hàng hàng thành công');
+      } catch (errs) {
+        for (let name_err in errs) {
+          toastError(firstError(errs[name_err]));
+        }
+      }
     }
   },
   computed: {
     ...mapGetters([
       "currentProduct", "isAuthenticated",
       "defaultAddress", "isLoading",
-      "listReviews"]),
+      "listReviews"
+    ]),
 
 
     product() {
@@ -252,6 +242,11 @@ export default {
     isDisabledAddToCartBtn() {
       const {isAvailable, amount} = this;
       return !isAvailable || amount <= 0;
+    },
+
+    isDisabledDownQuantity() {
+      const {quantity} = this;
+      return quantity <= 1 ? true : false;
     }
 
 
@@ -273,16 +268,20 @@ export default {
     },
 
     quantity(v) {
-      if (v == 0 || v == "0") {
-        this.quantity = 1;
-      }
+      let tempValue = v;
       if (typeof v == "string") {
-        this.quantity = parseInt(v);
+        tempValue = parseInt(v);
+      }
+
+      if (v === 0 || v === "0") {
+        tempValue = 1;
       }
 
       if (!v) {
-        this.quantity = 1;
+        tempValue = 1;
       }
+
+      this.quantity = tempValue;
     }
   }
 }

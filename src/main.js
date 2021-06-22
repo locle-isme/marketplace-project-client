@@ -10,7 +10,7 @@ import VueElementLoading from 'vue-element-loading'
 import 'bootstrap'
 import {BootstrapVue, BootstrapVueIcons} from "bootstrap-vue"
 import {ApiService} from "./common/api.service"
-import {CHECK_AUTH, GET_CART_COUNT_ITEMS,} from "./store/actions.type"
+import {CHECK_AUTH} from "./store/actions.type"
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'vue-toast-notification/dist/theme-sugar.css'
@@ -48,7 +48,7 @@ router.beforeEach(async (to, from, next) => {
     try {
         await Promise.all([
             store.dispatch(CHECK_AUTH),
-            store.dispatch(GET_CART_COUNT_ITEMS),
+            //store.dispatch(GET_CART_COUNT_ITEMS),
             //.then(() => store.dispatch(FETCH_CART))
         ]);
         next();
@@ -56,9 +56,8 @@ router.beforeEach(async (to, from, next) => {
         console.log(err);
         next();
     }
-
-
 })
+
 
 router.beforeEach((to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {

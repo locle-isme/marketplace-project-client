@@ -1,19 +1,22 @@
 <template>
   <div class="product row flex-nowrap">
     <div class="img justify-content-center">
-      <img :src="firstImages" alt="" @click="redirect('product.detail', {slug: product.id})">
+      <img :src="firstImages" alt="" @click="goProduct()">
     </div>
     <div class="content d-flex flex-nowrap">
       <div class="description">
         <div class="d-flex flex-column">
-          <div class="name" @click="redirect('product.detail', {slug: product.slug})">{{ product.name }}
+          <div class="name" @click="goProduct()">{{ product.name }}
           </div>
           <div class="note" v-if="isLimited && isAvailable">Còn {{ product.amount }} sản phẩm</div>
           <div v-if="isAvailable" class="quality-a">
             <div class="btn-group">
-              <button :class="classQuantityBtn" :disabled="isLoading" @click="changeQuantity(-1)">-</button>
-              <input v-model="quantity" type="text" class="quality-input">
-              <button :class="classQuantityBtn" :disabled="isDisabledUpQuantityBtn" @click="changeQuantity(1)">+</button>
+              <button :class="classQuantityBtn" :disabled="isLoading" @click="changeQuantity(-1)">
+                <i class="fa fa-minus"></i></button>
+              <input v-model="quantity" type="number" class="quality-input">
+              <button :class="classQuantityBtn" :disabled="isDisabledUpQuantityBtn" @click="changeQuantity(1)">
+                <i class="fa fa-plus"></i>
+              </button>
             </div>
 
           </div>
@@ -30,14 +33,13 @@
           </div>
           <div class="actions d-flex">
             <div class="remove">
-              <button class="btn btn-sm btn-light text-warning" @click="removeCartItem()" :disabled="isLoading">
-                <i class="fa fa-recycle"></i>
+              <button class="btn text-info" @click="removeCartItem()" :disabled="isLoading">
+                <img src="/images/actions/trash.svg" alt="">
               </button>
             </div>
             <div class="buy-later">
-              <button class="btn btn-sm" :class="{'btn-light': !isFavourited, 'btn-danger': isFavourited}"
-                      :disabled="isLoading">
-                <i class="fa fa-heart" :class="{'text-white': isFavourited}" @click="handleAddFavourite()"></i></button>
+              <button class="btn" :disabled="isLoading">
+                <i class="fa fa-heart" :class="classIconHeart" @click="handleAddFavourite()"></i></button>
             </div>
           </div>
         </div>
@@ -50,9 +52,11 @@
 
 <script>
 import {ProductMixin} from "../../mixins/product.mixin";
-import {CART_EDIT} from "../../store/actions.type";
+import {CART_EDIT, CART_REMOVE, FETCH_CART, GET_CART_COUNT_ITEMS} from "../../store/actions.type";
 import {HandleFavourite} from "../../mixins/favourite.handle";
 import {HandleRedirect} from "../../mixins/redirect.handle";
+import firstError from "../../common/filter.error"
+import {toastError, toastSuccess} from "../../common/toast";
 
 export default {
   props: {
@@ -73,8 +77,9 @@ export default {
   },
 
   created() {
-    const {quantity} = this.product;
+    const {quantity, favourited} = this.product;
     this.quantity = quantity;
+    this.favourite = favourited;
   },
 
   methods: {
@@ -82,37 +87,60 @@ export default {
       this.$emit('loadingData');
     },
 
-    removeCartItem() {
+    async removeCartItem() {
       const {id} = this.product;
       this.isLoading = true;
-      this.$store.dispatch(CART_EDIT, {product_id: id, quantity: 0})
-          .then(() => {
-            this.isLoading = false;
-            this.$toast.success('Xóa sản phẩm thành công', {
-              duration: 5000,
-              position: 'top-left'
-            })
-          })
+      let result = await this.$swal({
+        //title: 'Are you sure?',
+        text: "Bạn muốn xóa sản phẩm này?",
+        icon: 'warning',
+        buttons: ["Không", "Có"],
+      });
+      if (result) {
+        try {
+          await this.$store.dispatch(CART_REMOVE, {product_id: id});
+          await this.$store.dispatch(GET_CART_COUNT_ITEMS);
+          await this.$store.dispatch(FETCH_CART);
+          toastSuccess('Xóa sản phẩm thành công');
+        } catch (e) {
+          console.log(e)
+          toastError('Có lỗi xảy ra');
+        }
+      }
+      this.isLoading = false;
     },
 
     changeQuantity(n) {
-      let temp = this.quantity + n;
-      const {amount, id} = this.product;
-      const {isAvailable} = this;
-      if (temp <= 0) {
-        this.removeCartItem();
-        return;
+      this.quantity += n;
+    },
+
+    async updateQuantity() {
+      const {quantity} = this;
+      const {amount, max_buy, id} = this.product;
+      if (quantity > max_buy) {
+        console.log('max')
+        this.quantity = max_buy;
+        return toastError(`Sản phẩm có số lượng mua tối đa là ${max_buy}`);
       }
 
-      if (isAvailable && temp > amount) {
-        this.$toast.error('Số lượng mua không hợp lệ', {
-          duration: 5000,
-          position: 'top-left'
-        })
-        return;
+      if (quantity > amount) {
+        this.quantity = amount;
+        return toastError(`Số lượng mua lớn hơn số lượng sản phẩm hiện có`);
       }
-      this.quantity = temp;
-      this.$store.dispatch(CART_EDIT, {product_id: id, quantity: this.quantity});
+
+      try {
+        await this.$store.dispatch(CART_EDIT, {product_id: id, quantity: this.quantity});
+        await this.$store.dispatch(FETCH_CART);
+      } catch (errs) {
+        for (let name_err in errs) {
+          toastError(firstError(errs[name_err]));
+        }
+      }
+    },
+
+    goProduct() {
+      const {slug} = this.product;
+      this.redirect('product.detail', {slug})
     }
   },
 
@@ -123,6 +151,14 @@ export default {
       }
     },
 
+    classIconHeart() {
+      const {favourite} = this;
+      return {
+        'text-dark': !favourite,
+        'text-danger': favourite
+      };
+    },
+
     isDisabledUpQuantityBtn() {
       const {amount} = this.product;
       const {quantity} = this;
@@ -131,20 +167,30 @@ export default {
   },
 
   watch: {
-    quantity(qty) {
+    async quantity(v) {
       const {isAvailable} = this;
-      const {amount} = this.product;
-      if (typeof qty != "number") this.quantity = 1;
-      if (isAvailable && qty > amount) {
-        this.changeQuantity(-(qty - amount));
-        this.$toast.error('Chúng tôi vừa cập nhật giỏ hàng của bạn, hãy kiểm tra lại', {
-          duration: 5000,
-          position: 'top-left'
-        })
+      //const {amount, max_buy} = this.product;
+      let tempValue = v;
+      if (typeof v == "string") {
+        tempValue = parseInt(v);
       }
+
+      if (Number.isNaN(v)) {
+        tempValue = 1;
+      }
+
+      if (v === 0 || v === "0") {
+        await this.removeCartItem();
+      }
+
+      if (!isAvailable) {
+        return;
+      }
+
+      this.quantity = tempValue;
+      await this.updateQuantity();
     }
   },
-  name: "CartProductComponent"
 }
 </script>
 
@@ -248,6 +294,12 @@ export default {
             border: none;
             outline: none;
             text-align: center;
+
+            &::-webkit-outer-spin-button,
+            &::-webkit-inner-spin-button {
+              -webkit-appearance: none;
+              margin: 0;
+            }
           }
 
         }
