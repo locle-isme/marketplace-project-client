@@ -1,11 +1,12 @@
 import {AddressService} from "../common/api.service";
-import {SET_ADDRESSES, SET_ADDRESS_ERRORS, SET_DEFAULT_ADDRESS} from "./mutations.type";
+import {SET_ADDRESSES, SET_ADDRESS_ERRORS, SET_DEFAULT_ADDRESS, SET_CURRENT_ADDRESS} from "./mutations.type";
 import {ADDRESS_CREATE, ADDRESS_DEFAULT_GET, ADDRESS_DELETE, ADDRESS_EDIT, FETCH_ADDRESSES} from "./actions.type";
 
 
 const state = {
     listAddresses: [],
     defaultAddress: {},
+    currentAddress: {},
     addressErrors: {}
 }
 
@@ -16,6 +17,10 @@ const getters = {
     },
     defaultAddress(state) {
         return state.defaultAddress || {};
+    },
+
+    currentAddress(state) {
+        return state.currentAddress || {};
     },
 
     addressErrors(state) {
@@ -34,6 +39,10 @@ const mutations = {
         state.defaultAddress = address;
     },
 
+    [SET_CURRENT_ADDRESS](state, address) {
+        state.currentAddress = address;
+    },
+
     [SET_ADDRESS_ERRORS](state, errors) {
         state.addressErrors = errors;
     },
@@ -46,6 +55,7 @@ const actions = {
             .then((response) => {
                 const {status, data} = response;
                 if (status == "success") {
+                    if (id) context.commit(SET_CURRENT_ADDRESS, data);
                     if (!id) context.commit(SET_ADDRESSES, data);
                     return data;
                 } else {
@@ -81,8 +91,8 @@ const actions = {
 
     },
 
-    [ADDRESS_EDIT](context, address) {
-        return AddressService.update(address.id, address)
+    [ADDRESS_EDIT](context, {id, params}) {
+        return AddressService.update(id, params)
             .then((response) => {
                 const {status, data} = response;
                 if (status == "success") {

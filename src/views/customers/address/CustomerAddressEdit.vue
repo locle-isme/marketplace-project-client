@@ -108,9 +108,10 @@ export default {
       formData: {
         name: "",
         address: "",
-        phone: ""
+        phone: "",
+        active: false
       },
-      isActive: true
+      isActive: false,
     }
   },
 
@@ -118,35 +119,36 @@ export default {
     this.loadingData();
   },
   methods: {
-    loadingData() {
-      return this.$store.dispatch(FETCH_ADDRESSES, this.addressID)
-          .then((data) => {
-            //console.log(data);
-            this.formData = data;
-            this.isActive = data.active;
-          })
-          .catch(() => {
-            this.$router.push({name: 'customer.address'});
-          })
+    async loadingData() {
+      try {
+        await this.$store.dispatch(FETCH_ADDRESSES, this.addressID);
+        this.formData = JSON.parse(JSON.stringify(this.currentAddress));
+        this.isActive = this.formData.active;
+      } catch (e) {
+        console.log(e);
+        await this.$router.push({name: 'customer.address'});
+      }
     },
 
-    editAddress() {
-      this.$store.dispatch(ADDRESS_EDIT, this.formData)
-          .then(() => {
-            return this.$swal({
-              title: "Thành công!",
-              text: "Cập nhật địa chỉ thành công!",
-              icon: "success",
-              button: "Thoát!",
-            })
-          })
-          .then(() => {
-            this.$router.push({name: 'customer.address'})
-          });
+    async editAddress() {
+      const {id, address, name, phone, active} = this.formData;
+      const params = {address, name, phone, active};
+      try {
+        await this.$store.dispatch(ADDRESS_EDIT, {id, params});
+        await this.$swal({
+          title: "Thành công!",
+          text: "Cập nhật địa chỉ thành công!",
+          icon: "success",
+          button: "Thoát!",
+        });
+        await this.$router.push({name: 'customer.address'})
+      } catch (e) {
+        console.log(e);
+      }
     }
   },
   computed: {
-    ...mapGetters(["addressErrors","isLoading"]),
+    ...mapGetters(["addressErrors", "isLoading", "currentAddress"]),
     className() {
       return {
         'form-control': true,
@@ -174,7 +176,7 @@ export default {
 
   watch: {
     addressID: {
-      handler(){
+      handler() {
         this.loadingData()
       }
     }

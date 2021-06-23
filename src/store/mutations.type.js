@@ -3,6 +3,7 @@ export const SET_ERRORS = "setErrors";
 export const SET_ADDRESS_ERRORS = "setAddressErrors";
 export const SET_AUTH = "setAuth";
 export const SET_ADDRESSES = "setAddresses";
+export const SET_CURRENT_ADDRESS = "setCurrentAddress";
 export const SET_DEFAULT_ADDRESS = "setAddress";
 export const SET_PRODUCT = "setProduct";
 export const SET_LIST_PRODUCTS = "setListProducts"

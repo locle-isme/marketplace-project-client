@@ -11,7 +11,7 @@
           <table class="table mt-3">
             <tbody>
             <template v-for="address in listAddresses">
-              <AddressItem :key="address.id" @removeAddress="removeAddress" :address="address"></AddressItem>
+              <AddressItem :key="'adress' + address.id" @removeAddress="removeAddress" :address="address"></AddressItem>
             </template>
             </tbody>
           </table>
@@ -38,7 +38,7 @@ export default {
         title: "Cảnh báo!",
         text: "Bạn có chắc chắn xóa địa chỉ này không!",
         icon: "warning",
-        buttons: true,
+        buttons: ['Thoát','Xóa'],
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
