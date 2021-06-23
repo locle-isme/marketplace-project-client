@@ -19,7 +19,7 @@
               </thead>
               <template v-for="supplier in suppliers">
                 <SupplierItem :key="'pm_sp' + supplier.id" :supplier="supplier"
-                                          @loadingData="loadingData"></SupplierItem>
+                              @loadingData="loadingData"></SupplierItem>
               </template>
               <tbody>
               <tr>
@@ -151,6 +151,9 @@ import {HandleRedirect} from "../mixins/redirect.handle";
 import {CheckoutMixin} from "../mixins/checkout.mixin";
 
 import SupplierItem from "../components/Payment/SupplierItem";
+import {toastError} from "../common/toast";
+import firstError from "../common/filter.error";
+
 export default {
   mixins: [HandleRedirect, CheckoutMixin],
   created() {
@@ -171,7 +174,7 @@ export default {
       ]);
     },
 
-    handleMethodPayment() {
+    async handleMethodPayment() {
       const {defaultAddress} = this;
       const {paymentMethod, addressIDSelected} = this;
       if (!defaultAddress || !defaultAddress.name) {
@@ -184,30 +187,32 @@ export default {
         coupon_global_use: this.couponGlobalInUse,
         coupon_suppliers_use: this.couponSupplierInUse,
       };
-      this.$store.dispatch(ORDER_CREATE, formData)
-          .then(() => {
-            this.$swal({
-              title: "Đặt hàng thành công!",
-              text: "Hệ thống sẽ chuyển hướng đến trang quản đơn hàng...",
-              icon: "success",
-              button: "Thoát!",
-            })
-                .then(() => {
-                  this.redirect("customer.order.history");
-                })
 
-          })
-          .catch(error => {
-            let firstMessage = error[Object.keys(error)[0]][0];
-            this.$toast.error(firstMessage);
-          });
+
+      try {
+        await this.$store.dispatch(ORDER_CREATE, formData)
+        await this.$store.dispatch(FETCH_CART)
+        await this.$swal({
+          title: "Đặt hàng thành công!",
+          text: "Hệ thống sẽ chuyển hướng đến trang quản đơn hàng...",
+          icon: "success",
+          button: "Thoát!",
+        });
+        await this.redirect("customer.order.history");
+      } catch (errs) {
+        for (let name_err in errs) {
+          toastError(firstError(errs[name_err]));
+        }
+      }
     }
-  },
+  }
+  ,
   computed: {
-    ...mapGetters([
-      "cart", "couponGlobalInUse", "globalCoupons",
-      "couponSupplierInUse", "listAddresses", "isLoading"
-    ]),
+    ...
+        mapGetters([
+          "cart", "couponGlobalInUse", "globalCoupons",
+          "couponSupplierInUse", "listAddresses", "isLoading"
+        ]),
 
     defaultAddress() {
       const {addressIDSelected} = this;
@@ -216,15 +221,18 @@ export default {
         address = this.listAddresses[0];
       }
       return address || {};
-    },
+    }
+    ,
 
     attributeDisabledButton() {
       return !this.paymentMethod;
     }
-  },
+  }
+  ,
   components: {
     SupplierItem,
-  },
+  }
+  ,
   name: "Payment"
 }
 </script>

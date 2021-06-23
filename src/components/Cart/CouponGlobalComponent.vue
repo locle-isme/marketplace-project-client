@@ -1,12 +1,12 @@
 <template>
   <div class="coupon-item d-flex" :class="classCouponItem">
-    <div class="avatar">
-      <img class="img-thumbnail" :src="category.image" alt="">
+    <div class="avatar align-self-center">
+      <img class="img-thumbnail" src="/images/logo/coupon-global.png" alt="">
     </div>
     <div class="description d-flex flex-grow-1 justify-content-between align-items-center">
       <div class="d-flex flex-column">
-        <div class="coupon-name">Giảm giá mặt hàng {{ category.name }}</div>
-        <div class="coupon-name py-1">
+        <div class="coupon-name" style="font-size: 1em">Mặt hàng {{ category.name }}</div>
+        <div class="coupon-name">
           Giảm {{ discount_code.percent }}%,
           Đơn tối thiểu {{ discount_code.from_price | currency }},
           Giảm tối đa {{ discount_code.max_price | currency }}.
@@ -53,9 +53,9 @@ export default {
     totalCostCategoryOfSupplier(supplier) {
       const {products} = supplier;
       return products.reduce((acc, product) => {
-        const {category, grand_total, is_available, quantity} = product;
+        const {category, grand_total, available, quantity} = product;
         let value =
-            (category.id == this.category.id || this.categoryChilds.indexOf(category.id) > -1) && is_available
+            (category.id == this.category.id || this.categoryChilds.indexOf(category.id) > -1) && available
                 ? grand_total*quantity : 0;
         return acc + value;
       }, 0)

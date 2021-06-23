@@ -83,8 +83,8 @@ export default {
     totalPrice() {
       const {products} = this.supplier;
       let total = products.reduce((accumulator, product) => {
-        const {grand_total, is_available} = product;
-        let tempCost = is_available ? grand_total * product.quantity : 0;
+        const {grand_total, available} = product;
+        let tempCost = available ? grand_total * product.quantity : 0;
         return accumulator + tempCost;
       }, 0);
       return total;
@@ -100,19 +100,21 @@ export default {
     .avatar {
       margin-right: 1rem;
       width: 90px;
-      height: auto;
+      height: 70px;
     }
   }
 
   @media (min-width: 992px) {
     .avatar {
       width: 120px;
-      height: auto;
+      height: 100px;
     }
   }
 
   .avatar {
     img{
+      width: 100%;
+      height: 100%;
       object-fit: cover;
     }
   }

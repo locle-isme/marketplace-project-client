@@ -46,7 +46,8 @@
                   <div style="cursor: pointer;font-size: 0.98em;color: deepskyblue"
                        @click="showModalCouponGlobal = true">
                     <i class="fa fa-ticket-alt" aria-hidden="true"></i>
-                    Chọn hoặc nhập Khuyến mãi
+<!--                    Chọn hoặc nhập Khuyến mãi-->
+                    Chọn khuyến mãi
                   </div>
                   <div class="mt-2" @click="showModalCouponGlobal = true">
                     <span v-if="couponGlobalInUse" class="badge badge-primary" style="padding: 6px 8px;cursor: pointer">
@@ -54,10 +55,6 @@
                   </span>
                   </div>
                 </div>
-                <ModalAddCouponGlobal v-if="showModalCouponGlobal"
-                                      @exit="showModalCouponGlobal = false">
-
-                </ModalAddCouponGlobal>
               </div>
             </div>
           </div>
@@ -98,6 +95,10 @@
         </div>
       </div>
     </div>
+    <ModalAddCouponGlobal v-if="showModalCouponGlobal"
+                          @exit="showModalCouponGlobal = false">
+
+    </ModalAddCouponGlobal>
   </div>
 </template>
 <script>

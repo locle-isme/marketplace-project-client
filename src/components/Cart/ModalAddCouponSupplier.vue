@@ -11,7 +11,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="list-coupons d-flex flex-column mt-3">
+              <div class="list-coupons custom-scroll d-flex flex-column mt-3">
               <template v-for="discount_code in discount_codes">
                 <CouponComponent :key="'discount_code' + discount_code.code"
                                  :discount_code="discount_code" :supplier="supplier"></CouponComponent>
@@ -95,7 +95,6 @@ export default {
     .list-coupons {
       max-height: 456px;
       overflow-y: auto;
-
       .coupon-item {
         background: #fff;
         box-shadow: rgba(207, 207, 226, 0.2) 0px 7px 29px 0px;
@@ -107,15 +106,6 @@ export default {
           background: rgba(141, 214, 215, 0.5);
           border-color: #44a5ca;
           box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        }
-
-        .avatar {
-          width: 120px;
-
-          img {
-            width: 100%;
-            height: 100%;
-          }
         }
 
         .description {
@@ -135,6 +125,29 @@ export default {
     }
 
   }
+}
 
+.custom-scroll{
+
+  /*
+   *  STYLE 3
+   */
+
+  &::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    background-color: #F5F5F5;
+  }
+
+  &::-webkit-scrollbar
+  {
+    width: 6px;
+    background-color: #F5F5F5;
+  }
+
+  &::-webkit-scrollbar-thumb
+  {
+    background-color: #000000;
+  }
 }
 </style>

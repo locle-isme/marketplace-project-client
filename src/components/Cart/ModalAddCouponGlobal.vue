@@ -11,7 +11,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <div class="list-coupons d-flex flex-column mt-3">
+            <div class="list-coupons custom-scroll d-flex flex-column mt-3">
               <template v-for="discount_code in globalCoupons.data">
                 <CouponGlobalComponent :key="'global_coupon' + discount_code.code"
                                        :discount_code="discount_code">
@@ -47,7 +47,7 @@ export default {
   },
   computed: {
     ...mapGetters(["couponGlobalInUse", "globalCoupons"]),
-    classCouponGlobalItem() {
+    /*classCouponGlobalItem() {
       return {
         'coupon-item': true,
         'd-flex': true,
@@ -55,7 +55,7 @@ export default {
         'align-items-center': true,
         active: this.globalCoupon.code == this.couponGlobalInUse,
       }
-    },
+    },*/
 
     isAvailable() {
       const {from_price} = this

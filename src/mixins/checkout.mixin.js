@@ -17,7 +17,7 @@ export const CheckoutMixin = {
             let coupon = this.globalCoupons.data.find(item => item.code == this.couponGlobalInUse);
             const {childs} = coupon.category || [];
             return products.reduce((acc, product) => {
-                const {category, available, grand_total, quantity} = product;
+                const {category, grand_total, available, quantity} = product;
                 let tempCost =
                     (category.id == coupon.category.id || childs.indexOf(category.id) > -1) && available
                         ? grand_total*quantity : 0;
