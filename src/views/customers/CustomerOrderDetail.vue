@@ -1,10 +1,17 @@
 <template>
   <div class="col-xl-9 col-md-12">
     <div class="card" style="border: unset;background: unset">
-      <div class="card-title">
-        <span style="font-size: 1em">Chi tiết đơn hàng #310229992 - </span><span
-          style="font-size: 1em">Đang được xử lý</span></div>
-      <div class="mt-4"><span style="font-size: 0.8em">Ngày đặt hàng: 13:20 02/06/2020</span></div>
+      <div class="card-title d-flex align-items-center justify-content-between" style="width: 100%">
+        <div>
+          <span style="font-size: 1em">Chi tiết đơn hàng #{{ orderID }} - </span>
+          <span style="font-size: 1em">{{ statusText }}</span>
+        </div>
+        <button v-if="status == 'processing'" class="float-right btn btn-sm btn-danger" @click="cancelOrder()">
+          Hủy đơn
+        </button>
+      </div>
+
+      <div class="mt-4"><span style="font-size: 0.8em">Ngày đặt hàng: {{ createdAt | date }}</span></div>
       <div class="row">
         <div class="col">
           <div class="notification card">
@@ -12,8 +19,8 @@
             <div class="card-body">
               <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
               <div class="d-flex">
-                <span style="min-width: 150px" class="text-dark">14:01 05/06/2020</span>
-                <span style="text-align: justify">Đơn hàng của quý khách đang xử lý.</span>
+                <span style="min-width: 150px" class="text-dark">{{ latestHistory.created_at | date }}</span>
+                <span style="text-align: justify">Đơn hàng của quý khách {{ latestHistory.text }}.</span>
               </div>
             </div>
           </div>
@@ -63,7 +70,7 @@
             <div class="card-body">
               <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
               <div class="mt-1">
-                <span>{{typePayment}}</span>
+                <span>{{ typePayment }}</span>
               </div>
             </div>
           </div>
@@ -84,7 +91,7 @@
                   <th class="text-right">Tạm tính</th>
                   </thead>
                   <tbody>
-                  <template v-for="(item, index) in currentOrder.items">
+                  <template v-for="(item, index) in items">
                     <DetailProductItem :key="'item' + index" :product="item"></DetailProductItem>
                   </template>
                   <tr>
@@ -125,7 +132,9 @@
 <script>
 import DetailProductItem from "../../components/Customer/order/DetailProductItem";
 import {mapGetters} from "vuex";
-import {GET_ORDER} from "../../store/actions.type";
+import {GET_ORDER, ORDER_CANCEL} from "../../store/actions.type";
+import {toastSuccess, toastError} from "../../common/toast";
+import firstError from "../../common/filter.error";
 
 export default {
   data() {
@@ -140,15 +149,29 @@ export default {
     this.loadingData();
   },
   methods: {
-    loadingData() {
-      return this.$store.dispatch(GET_ORDER, this.$route.params.orderID)
-          .then(() => {
-
-          })
+    async loadingData() {
+      try {
+        await this.$store.dispatch(GET_ORDER, this.$route.params.orderID);
+      } catch (e) {
+        console.log(e)
+      }
     },
+
+    async cancelOrder() {
+      try {
+        await this.$store.dispatch(ORDER_CANCEL, this.$route.params.orderID);
+        toastSuccess('Hủy đơn hàng thành công');
+        await this.$router.push({name: 'customer.order.history'});
+      } catch (errs) {
+        for (let name_err in errs) {
+          toastError(firstError(errs[name_err]));
+        }
+
+      }
+    }
   },
   computed: {
-    ...mapGetters(["currentOrder","isLoading"]),
+    ...mapGetters(["currentOrder", "isLoading"]),
     shippingAddress() {
       const {shipping_address} = this.currentOrder;
       return shipping_address || {};
@@ -160,6 +183,29 @@ export default {
     typePayment() {
       const {payment_type} = this.currentOrder;
       return this.typePayments[payment_type] || "OH NO!";
+    },
+
+    status() {
+      const {status} = this.currentOrder;
+      return status;
+    },
+    statusText() {
+      const {status_text} = this.currentOrder;
+      return status_text;
+    },
+    items() {
+      const {items} = this.currentOrder;
+      return items || [];
+    },
+
+    createdAt() {
+      const {created_at} = this.currentOrder;
+      return created_at;
+    },
+
+    latestHistory() {
+      const {latest_history} = this.currentOrder;
+      return latest_history || {};
     }
   },
 

@@ -22,6 +22,7 @@ export const GET_LIST_WAITING_FOR_REVIEW = "getListWaitingForReview";
 export const FETCH_ORDERS = "fetchOrders";
 export const GET_ORDER = "getOrder";
 export const ORDER_CREATE = "createOrder";
+export const ORDER_CANCEL = "cancelOrder";
 export const FETCH_CART = "fetchCart";
 export const CART_ADD = "addCart";
 export const GET_CART_COUNT_ITEMS = "getCartTotalItems";

@@ -216,6 +216,9 @@ export const OrderService = {
     post(params) {
         return ApiService.post('me/orders', params)
     },
+    cancel(id) {
+        return ApiService.post(`/me/orders/${id}/cancel`)
+    }
 }
 
 export const CartService = {

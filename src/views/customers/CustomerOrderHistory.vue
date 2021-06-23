@@ -27,7 +27,7 @@
                 <td class="">{{ order.created_at | time_date }}</td>
                 <td>{{ order.description }}</td>
                 <td>{{ order.grand_total | currency }}</td>
-                <td class="text-right">{{ status_text(order.status) }}</td>
+                <td class="text-right">{{ order.status_text }}</td>
               </tr>
             </template>
             </transition-group>

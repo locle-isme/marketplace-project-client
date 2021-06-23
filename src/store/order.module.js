@@ -1,4 +1,4 @@
-import {FETCH_ORDERS, GET_ORDER, ORDER_CREATE} from "./actions.type";
+import {FETCH_ORDERS, GET_ORDER, ORDER_CANCEL, ORDER_CREATE} from "./actions.type";
 import {OrderService} from "../common/api.service";
 import {SET_LIST_ORDERS, SET_ORDER} from "./mutations.type";
 
@@ -51,5 +51,17 @@ const actions = {
                 }
             })
     },
+
+    [ORDER_CANCEL](context, id) {
+        return OrderService.cancel(id)
+            .then(response => {
+                const {data, status} = response;
+                if (status == "success") {
+                    return data;
+                } else {
+                    throw data;
+                }
+            })
+    }
 };
 export default {state, getters, mutations, actions}
