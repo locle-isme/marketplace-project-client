@@ -157,9 +157,7 @@ export default {
   },
 
   methods: {
-    goLogin() {
-      this.redirect('login');
-    }
+
   },
 
   name: "RegisterPage"
