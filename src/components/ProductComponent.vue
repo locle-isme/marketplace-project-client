@@ -74,7 +74,7 @@ export default {
 
 
   .img-product {
-    width: 220px;
+    width: 210px;
     height: 180px;
     margin: 0 auto;
 

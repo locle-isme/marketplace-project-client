@@ -29,6 +29,7 @@ export const SET_SUPPLIER = "setSupplier";
 export const SET_SUPPLIER_CATEGORIES = "setSupplierCategories";
 export const SET_SUPPLIER_CATEGORY_CHILDS = "setSupplierCategoryChilds";
 export const SET_SUPPLIER_PRODUCTS = "setSupplierProducts";
+export const SET_SUPPLIER_HOME_PRODUCTS = "setSupplierHomeProducts";
 export const SET_CURRENT_CATEGORY = "setCurrentSupplier";
 export const SET_CATEGORY_PRODUCTS = "setCategoryProducts";
 export const SET_LIST_RECOMMEND_PRODUCTS = "setListRecommendProducts"
