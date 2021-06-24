@@ -27,9 +27,18 @@ export default {
   },
 
   methods: {
-    loadingData() {
-      return this.$store.dispatch(GET_SUPPLIER, this.slug)
+    async loadingData() {
+      try {
+        await this.loadingSupplier();
+      } catch (e) {
+        console.log(e)
+        await this.$router.replace({name: 'error.404'});
+      }
     },
+
+    loadingSupplier() {
+      return this.$store.dispatch(GET_SUPPLIER, this.slug)
+    }
   },
 
   computed: {

@@ -6,7 +6,7 @@
         <div class="d-flex justify-content-between">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <div class="nav-link">Kênh người bán</div>
+              <a class="nav-link" href="http://localhost:8000/" style="color: #f8f9fa ">Kênh người bán</a>
             </li>
             <li class="nav-item social">
               <div class="nav-link"> Kết nối

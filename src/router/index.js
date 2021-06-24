@@ -187,6 +187,14 @@ const routes = [
         }
     },
 
+    {
+        path: "/error/404",
+        alias: "*",
+        name: "error.404",
+        component: () => import("../views/errors/NotFoundPage"),
+        props: true,
+    },
+
 ];
 
 const scrollBehavior = () => {

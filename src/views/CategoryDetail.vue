@@ -213,15 +213,12 @@ export default {
     async runPromises() {
       try {
         await this.loadingCategory();
-      } catch (err) {
-        console.log(err);
+        await this.loadingData();
+      } catch (e) {
+        console.log(e)
+        await this.$router.replace({name: 'error.404'});
       }
 
-      try {
-        await this.loadingData();
-      } catch (err) {
-        console.log(err);
-      }
     },
     async loadingData() {
       return this.$store.dispatch(FETCH_CATEGORY_PRODUCTS, this.listConfigs);

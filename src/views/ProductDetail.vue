@@ -167,7 +167,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch(FETCH_ADDRESSES);
+
     this.loadingData();
   },
   methods: {
@@ -175,18 +175,32 @@ export default {
       const {brand} = this;
       this.redirect('brand', {slug: brand.slug});
     },
-    loadingData() {
-      this.loadingProducts()
-          .then(() => {
-            const {favourited, id} = this.currentProduct;
-            this.favourite = favourited;
-            this.$store.dispatch(FETCH_REVIEWS, {product_id: id});
-          })
+    async loadingData() {
+      try {
+        await Promise.all([
+          this.loadingProducts(),
+          this.loadingAddrresses()
+        ])
+        await this.loadingReviews();
+      } catch (e) {
+        console.log(e)
+        await this.$router.replace({name: 'error.404'});
+      }
     },
 
     loadingProducts() {
       const {slug} = this.$route.params;
       return this.$store.dispatch(GET_PRODUCT, slug);
+    },
+
+    loadingReviews() {
+      const {favourited, id} = this.currentProduct;
+      this.favourite = favourited;
+      return this.$store.dispatch(FETCH_REVIEWS, {product_id: id});
+    },
+
+    loadingAddrresses() {
+      return this.$store.dispatch(FETCH_ADDRESSES);
     },
 
     changeQuantity(n) {

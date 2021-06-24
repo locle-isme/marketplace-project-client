@@ -35,8 +35,14 @@ const actions = {
     [GET_ORDER](context, orderID) {
         return OrderService.get(orderID)
             .then(response => {
-                const {data} = response;
-                context.commit(SET_ORDER, data);
+                const {data, status} = response;
+                if (status == "success") {
+                    context.commit(SET_ORDER, data);
+                    return data;
+                } else {
+                    throw data;
+                }
+
             })
     },
 

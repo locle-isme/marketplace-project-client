@@ -5,7 +5,7 @@
     <div class="container" style="padding-top: 3.2rem; padding-bottom: 5rem">
       <router-view></router-view>
     </div>
-    <VFooter v-if="false"></VFooter>
+    <VFooter></VFooter>
 
   </div>
 </template>

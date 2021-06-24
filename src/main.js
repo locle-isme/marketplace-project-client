@@ -24,6 +24,7 @@ import FilterRound from './common/filter.round'
 import FilterDate from './common/filter.date'
 import FilterTimeDate from './common/filter.timeDate'
 import FilterYear from './common/filter.year'
+import FilterFixed from './common/filter.fixed'
 
 Vue.use(VueToast);
 Vue.use(VueSwal)
@@ -38,6 +39,7 @@ Vue.filter('round', FilterRound)
 Vue.filter('date', FilterDate)
 Vue.filter('time_date', FilterTimeDate)
 Vue.filter('year', FilterYear)
+Vue.filter('fixed', FilterFixed)
 
 Vue.config.productionTip = false
 

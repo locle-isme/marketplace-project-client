@@ -126,7 +126,7 @@ export default {
         this.isActive = this.formData.active;
       } catch (e) {
         console.log(e);
-        await this.$router.push({name: 'customer.address'});
+        await this.$router.replace({name: 'error.404'});
       }
     },
 

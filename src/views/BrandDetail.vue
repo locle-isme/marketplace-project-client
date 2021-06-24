@@ -198,14 +198,10 @@ export default {
     async runPromises() {
       try {
         await this.loadingBrand();
-      } catch (err) {
-        console.log(err);
-      }
-
-      try {
         await this.loadingData();
-      } catch (err) {
-        console.log(err);
+      } catch (e) {
+        console.log(e)
+        await this.$router.replace({name: 'error.404'});
       }
     },
 

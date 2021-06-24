@@ -11,7 +11,7 @@
           </div>
           <div class="mt-1">
             <span>Cung cấp bởi &nbsp;</span>
-            <router-link :to="{name:'store.global', params:{slug: brand.slug}}" tag="span" class="text-primary"
+            <router-link :to="{name:'store.global', params:{slug: supplier.slug}}" tag="span" class="text-primary"
                          style="cursor: pointer">{{ supplier.nameOfShop }}
             </router-link>
           </div>

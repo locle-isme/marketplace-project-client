@@ -151,25 +151,30 @@ export default {
   methods: {
     async loadingData() {
       try {
-        await this.$store.dispatch(GET_ORDER, this.$route.params.orderID);
+        await this.loadingOrderDetail();
       } catch (e) {
         console.log(e)
+        await this.$router.replace({name: 'error.404'});
       }
     },
 
-    async handleCancelOrder(){
-      try{
+    loadingOrderDetail() {
+      return this.$store.dispatch(GET_ORDER, this.$route.params.orderID);
+    },
+
+    async handleCancelOrder() {
+      try {
         let isCancel = await this.$swal({
           title: "Cảnh báo!",
           text: "Bạn có chắc chắn hủy đơn hàng này không?",
           icon: "warning",
-          buttons: ['Thoát','Xóa'],
+          buttons: ['Thoát', 'Xóa'],
           dangerMode: true,
         });
-        if (isCancel){
+        if (isCancel) {
           await this.cancelOrder();
         }
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },

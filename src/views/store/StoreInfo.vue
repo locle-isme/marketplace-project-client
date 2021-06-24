@@ -10,7 +10,7 @@
                 <div class="col d-flex justify-content-center align-items-center">
                   <div class="d-flex flex-column">
                     <h5>Tỉ lệ hủy</h5>
-                    <h4 class="text-center" style="color: #1c7430">{{ cancellation_info.rate }} %</h4>
+                    <h4 class="text-center" style="color: #1c7430">{{ cancellation_info.rate | fixed }} %</h4>
                   </div>
                 </div>
                 <!--                <div class="col d-flex justify-content-center align-items-center">-->
