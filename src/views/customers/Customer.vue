@@ -6,9 +6,9 @@
           <li :class="isActive('customer')" @click="redirect('customer')"><i class="sub-title fas fa-user"></i> Thông
             tin tài khoản
           </li>
-          <li :class="isActive('customer.notification')" @click="redirect('customer.notification')"><i
+<!--          <li :class="isActive('customer.notification')" @click="redirect('customer.notification')"><i
               class="sub-title fas fa-bell"></i> Thông báo của tôi
-          </li>
+          </li>-->
           <li :class="isActive('customer.order.history')" @click="redirect('customer.order.history')"><i
               class="sub-title fas fa-book"></i> Quản lý đơn hàng
           </li>

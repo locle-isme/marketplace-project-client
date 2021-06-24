@@ -21,6 +21,10 @@ export const HeaderMixin = {
             this.redirect('register')
         },
 
+        goOrderHistory() {
+            this.redirect('customer.order.history')
+        },
+
         goLogin() {
             this.redirect('login')
         },

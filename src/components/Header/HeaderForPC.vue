@@ -17,17 +17,23 @@
             </li>
           </ul>
           <ul class="navbar-nav">
-            <li class="nav-item">
+<!--            <li v-if="isAuthenticated" class="nav-item">
               <div class="nav-link" @click="goNotification"><i class="fas fa-bell"></i> Thông báo</div>
+            </li>-->
+            <li v-if="isAuthenticated" class="nav-item">
+              <div class="nav-link" @click="goOrderHistory">
+                <i class="fa fa-list-alt"></i> Đơn hàng</div>
             </li>
             <li class="nav-item">
               <div class="nav-link"><i class="fa fa-life-ring"></i> Hổ trợ</div>
             </li>
             <li v-if="!isAuthenticated" class="nav-item">
-              <div class="nav-link" @click="goRegister"><i class="fas fa-bell"></i> Đăng ký</div>
+              <div class="nav-link" @click="goRegister">
+                <i class="fas fa-bell"></i> Đăng ký</div>
             </li>
             <li v-if="!isAuthenticated" class="nav-item">
-              <div class="nav-link" @click="goLogin"><i class="fas fa-bell"></i> Đăng nhập</div>
+              <div class="nav-link" @click="goLogin">
+                <i class="fas fa-bell"></i> Đăng nhập</div>
             </li>
             <li v-if="isAuthenticated" class="nav-item">
               <div class="nav-link d-flex" @click="goProfile" style="cursor: pointer">

@@ -57,8 +57,15 @@
             <li v-if="isAuthenticated" @click="redirect('customer')"><i class="sub-title far fa-address-card"></i> Quản
               lý tài khoản
             </li>
-            <li v-if="isAuthenticated" @click="redirect('customer.notification')"><i class="sub-title far fa-bell"></i>
-              Thông báo
+
+<!--            <li v-if="isAuthenticated" @click="redirect('customer.notification')">-->
+<!--              <i class="sub-title far fa-bell"></i>-->
+<!--              Thông báo-->
+<!--            </li>-->
+
+            <li v-if="isAuthenticated" @click="goOrderHistory">
+              <i class="sub-title fa fa-list-alt"></i>
+              Đơn hàng
             </li>
 <!--            <li @click="setStatusShowCategoryList()"><i class="sub-title fa fa-list"></i> Danh mục sản phẩm</li>-->
           </ul>
