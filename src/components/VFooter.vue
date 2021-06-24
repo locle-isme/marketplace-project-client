@@ -6,8 +6,8 @@
         <div class="row justify-content-center">
           <div class="col-12 col-sm-6 col-md-3">
             <h6 class="text-uppercase">Hổ trợ khách hàng</h6>
-            <p><span class="text-danger">Hotline chăm sóc khách hàng: 1900-1515 </span>
-              <span><small>(1000đ/phút , 8-21h kể cả T7, CN)</small></span></p>
+            <p><span class="text-danger">Hotline chăm sóc khách hàng: 1900-100 thấy </span>
+              <span><small>(609đ/phút , 8-21h kể cả T7, CN)</small></span></p>
             <p>Các câu hỏi thường gặp</p>
             <p>Yêu cầu hổ trợ</p>
             <p>Hướng dẫn</p>
@@ -24,12 +24,12 @@
           <div class="col-12 col-sm-6 col-md-2">
             <h6 class="text-uppercase">Hợp tác và liên kết</h6>
             <p>Quy chế hoạt động</p>
-            <p>Bán hàng cùng TNZ</p>
-
+            <a href="http://localhost:8000/login" style="color: rgb(248, 249, 250);"><p>Bán hàng cùng TNZ</p></a>
           </div>
 
           <div class="col-12 col-sm-6 col-md-3">
             <h6 class="text-uppercase">PHƯƠNG THỨC THANH TOÁN</h6>
+<!--
             <p style="max-width: 192px; display: flex; flex-wrap: wrap">
               <img class="icon" src="images/payment/visa.svg"
                    width="54" alt=""/>
@@ -46,7 +46,8 @@
                    width="54" alt=""/>
               <img class="icon"
                    src="images/payment/installment.svg"
-                   width="54" alt=""/></p>
+                   width="54" alt=""/>
+            </p>-->
           </div>
 
           <div class="col-12 col-sm-6 col-md-2">
@@ -71,8 +72,7 @@
           </div>
           <div class="col">
             <p class="font-weight-bold">© 2020 - Bản quyền của Công Ty Cổ Phần TNZ</p>
-            <small><span>Giấy chứng nhận Đăng ký Kinh doanh số 696969 do Sở Kế hoạch và Đầu tư Thành phố Hồ Chí
-              Minh cấp ngày 06/09/2069</span>
+            <small><span>Giấy chứng nhận Đăng ký Kinh doanh số 696969 do Sở Kế hoạch và Đầu tư Thành phố BigcityBoi cấp ngày 06/09/2069</span>
             </small>
           </div>
         </div>

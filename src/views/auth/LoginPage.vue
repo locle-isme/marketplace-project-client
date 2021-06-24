@@ -28,9 +28,12 @@
                        placeholder="Mật khẩu từ 6 đến 36 ký tự">
               </div>
             </div>
+
+<!--
             <div class="col-xl-9 offset-xl-3 col-md-12 pl-2">
               <p class="">Quên mật khẩu? Nhấn vào <a href="">đây</a></p>
             </div>
+            -->
             <div class="row">
               <div class="col">
                 <button class="btn btn-primary col-xl-9 offset-xl-3 col-md-12" @click="login">Đăng nhập</button>

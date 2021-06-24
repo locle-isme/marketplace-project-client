@@ -27,6 +27,7 @@ export const FETCH_CART = "fetchCart";
 export const RESET_COUPON_IN_CART = "resetCouponInCart";
 export const CART_ADD = "addCart";
 export const GET_CART_COUNT_ITEMS = "getCartTotalItems";
+export const RESET_CART_COUNT_ITEMS = "resetCartTotalItems";
 export const CART_EDIT = "editCart";
 export const CART_REMOVE = "removeCart";
 export const GET_LIST_DISCOUNT_CODE_GLOBAL = "getListDiscountCodeGlobal";

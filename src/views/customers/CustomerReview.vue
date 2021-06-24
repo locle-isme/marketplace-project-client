@@ -16,7 +16,7 @@
           </li>
         </ul>
         <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
-        <ReviewedComponent v-if="typeSelect == 'reviewed'"></ReviewedComponent>
+        <ReviewedComponent v-if="typeSelect == 'reviewed'" :typeSelect.sync="typeSelect"></ReviewedComponent>
         <NotReviewComponent v-else></NotReviewComponent>
       </div>
     </div>

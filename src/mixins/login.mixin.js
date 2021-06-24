@@ -1,4 +1,4 @@
-import {LOGIN} from "../store/actions.type";
+import {GET_CART_COUNT_ITEMS, LOGIN} from "../store/actions.type";
 import {HandleRedirect} from "./redirect.handle";
 import {mapGetters} from "vuex";
 
@@ -17,6 +17,7 @@ export const LoginMixin = {
         login() {
             this.$store.dispatch(LOGIN, this.formDataLogin)
                 .then(() => {
+                    this.$store.dispatch(GET_CART_COUNT_ITEMS);
                     this.$swal({
                         title: "Thành công!",
                         text: "Đăng nhập thành công!",

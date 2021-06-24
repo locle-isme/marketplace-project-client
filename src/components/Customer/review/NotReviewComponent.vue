@@ -16,6 +16,12 @@
       <CreateReview v-if="modalRatingShow" :product="currentProductRating"
                     @exit="modalRatingShow = false" @handleSubmitReview="handleSubmitReview"></CreateReview>
     </transition>
+
+    <div v-if="waitingForReviewCount == 0" class="card-empty">
+      <img class="bg-empty" src="/images/undraw/undraw_for_review_eqxk.png" alt="">
+      <p class="description">Bạn chưa mua sản phẩm nào</p>
+      <button class="btn btn-sm btn-danger" @click="goHome">Mua sắm ngay</button>
+    </div>
   </div>
 </template>
 

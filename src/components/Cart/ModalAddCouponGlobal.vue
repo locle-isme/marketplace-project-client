@@ -12,11 +12,15 @@
           </div>
           <div class="modal-body">
             <div class="list-coupons custom-scroll d-flex flex-column mt-3">
-              <template v-for="discount_code in globalCoupons.data">
+              <template v-for="discount_code in globalDiscountCodes">
                 <CouponGlobalComponent :key="'global_coupon' + discount_code.code"
                                        :discount_code="discount_code">
                 </CouponGlobalComponent>
               </template>
+            </div>
+            <div v-if="totalCount == 0" class="card-empty">
+              <img class="bg-empty" src="/images/undraw/undraw_discount_d4bd.png" alt="">
+              <p class="description">Chưa có mã giảm giá nào từ Taka</p>
             </div>
           </div>
         </div>
@@ -40,11 +44,7 @@ export default {
     return {}
   },
 
-  methods: {
-    useGlobalDiscount() {
-
-    }
-  },
+  methods: {},
   computed: {
     ...mapGetters(["couponGlobalInUse", "globalCoupons"]),
     /*classCouponGlobalItem() {
@@ -56,18 +56,24 @@ export default {
         active: this.globalCoupon.code == this.couponGlobalInUse,
       }
     },*/
-
+    globalDiscountCodes() {
+      const {data} = this.globalCoupons;
+      return data || [];
+    },
+    totalCount() {
+      const {total_count} = this.globalCoupons;
+      return total_count || 0;
+    },
     isAvailable() {
       const {from_price} = this
       return from_price;
     }
   },
 
+
   components: {
     CouponGlobalComponent
   },
-
-  name: "ModalAddCouponGlobal"
 }
 </script>
 

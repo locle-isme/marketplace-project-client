@@ -11,11 +11,15 @@
             </button>
           </div>
           <div class="modal-body">
-              <div class="list-coupons custom-scroll d-flex flex-column mt-3">
+            <div class="list-coupons custom-scroll d-flex flex-column mt-3">
               <template v-for="discount_code in discount_codes">
                 <CouponComponent :key="'discount_code' + discount_code.code"
                                  :discount_code="discount_code" :supplier="supplier"></CouponComponent>
               </template>
+            </div>
+            <div v-if="lengthDiscountCode == 0" class="card-empty">
+              <img class="bg-empty" src="/images/undraw/undraw_discount_d4bd.png" alt="">
+              <p class="description">Chưa có mã giảm giá nào từ {{ supplier.nameOfShop }}</p>
             </div>
           </div>
         </div>
@@ -41,8 +45,13 @@ export default {
   computed: {
     discount_codes() {
       const {discount_codes} = this.supplier;
-      return discount_codes;
+      return discount_codes || [];
     },
+
+    lengthDiscountCode() {
+      const {discount_codes} = this;
+      return discount_codes.length;
+    }
   },
   components: {
     CouponComponent
@@ -95,6 +104,7 @@ export default {
     .list-coupons {
       max-height: 456px;
       overflow-y: auto;
+
       .coupon-item {
         background: #fff;
         box-shadow: rgba(207, 207, 226, 0.2) 0px 7px 29px 0px;
@@ -127,26 +137,23 @@ export default {
   }
 }
 
-.custom-scroll{
+.custom-scroll {
 
   /*
    *  STYLE 3
    */
 
-  &::-webkit-scrollbar-track
-  {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  &::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background-color: #F5F5F5;
   }
 
-  &::-webkit-scrollbar
-  {
+  &::-webkit-scrollbar {
     width: 6px;
     background-color: #F5F5F5;
   }
 
-  &::-webkit-scrollbar-thumb
-  {
+  &::-webkit-scrollbar-thumb {
     background-color: #000000;
   }
 }

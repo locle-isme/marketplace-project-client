@@ -101,6 +101,7 @@ export default {
         //title: 'Are you sure?',
         text: "Bạn muốn xóa sản phẩm này?",
         icon: 'warning',
+        dangerMode: true,
         buttons: ["Không", "Có"],
       })
           .then(async (answer) => {

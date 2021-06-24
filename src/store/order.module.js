@@ -24,8 +24,8 @@ const mutations = {
     }
 };
 const actions = {
-    [FETCH_ORDERS](context) {
-        return OrderService.query()
+    [FETCH_ORDERS](context, params = {}) {
+        return OrderService.query(params)
             .then(response => {
                 const {data} = response;
                 context.commit(SET_LIST_ORDERS, data);

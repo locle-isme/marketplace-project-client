@@ -90,16 +90,16 @@
             <div class="offset-3"></div>
             <div class="col-sm-8 ml-4">
               <label class="form-check-label" style="user-select: none">
-                <input v-model="user.is_change_password" type="checkbox" class="form-check-input" name="isChangePW"
-                       value="1">Thay
-                đổi mật khẩu
+                <input v-model="isChangePassword" type="checkbox" class="form-check-input" name="isChangePW"
+                       value="1">
+                Thay đổi mật khẩu
               </label>
             </div>
 
           </div>
-          <div v-if="user.is_change_password">
+          <div v-if="isChangePassword">
             <div class="form-group row">
-              <label for="inputOldPassword" class="col-sm-3 col-form-label">Mật khẩu vũ</label>
+              <label for="inputOldPassword" class="col-sm-3 col-form-label">Mật khẩu cũ</label>
               <div class="col-sm-9">
                 <input v-model="user.old_password" type="password"
                        :class="classOldPassword" id="inputOldPassword" placeholder="Mật khẩu từ 6 đến 36 ký tự">
@@ -151,7 +151,7 @@ export default {
   name: "CustomerEdit",
   data() {
     return {
-      isChangePW: null,
+      isChangePassword: false,
       /*formData: {
         name: "",
         email: "",
@@ -183,16 +183,15 @@ export default {
           });
     },
 
-    resetFormData(){
+    resetFormData() {
       this.user.old_password = "";
-      this.user.is_change_password = 0;
       this.user.new_password_confirmation = "";
       this.user.new_password = "";
     }
   },
 
   computed: {
-    ...mapGetters(["user", "errors","isLoading"]),
+    ...mapGetters(["user", "errors", "isLoading"]),
     className() {
       return {
         'form-control': true,
@@ -256,6 +255,9 @@ export default {
     //     this.initFormData(e);
     //   }
     // }
+    isChangePassword(v) {
+      this.user.is_change_password = v;
+    }
   }
 }
 </script>

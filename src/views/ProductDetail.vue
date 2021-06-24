@@ -136,7 +136,7 @@
       </div>
     </div>
     <SlideComponent v-if="isAuthenticated" :currentProduct="product"></SlideComponent>
-    <ReviewComponent :reviews="reviews" :supplier="supplier" :ratings="ratings"></ReviewComponent>
+    <ReviewComponent v-if="currentProduct.id" :productID="currentProduct.id" :supplier="supplier" :ratings="ratings"></ReviewComponent>
   </div>
 </template>
 <script>
@@ -146,7 +146,7 @@ import AlbumOverview from "../components/ProductDetail/album_image/AlbumOverview
 import ReviewComponent from "../components/ProductDetail/review/ReviewComponent";
 import SlideComponent from "../components/ProductDetail/recommend/SlideComponent";
 import {mapGetters} from "vuex";
-import {CART_ADD, FETCH_ADDRESSES, FETCH_REVIEWS, GET_CART_COUNT_ITEMS, GET_PRODUCT} from "../store/actions.type";
+import {CART_ADD, FETCH_ADDRESSES, GET_CART_COUNT_ITEMS, GET_PRODUCT} from "../store/actions.type";
 import {HandleFavourite} from "../mixins/favourite.handle";
 import {HandleRedirect} from "../mixins/redirect.handle";
 import {ProductMixin} from "../mixins/product.mixin";
@@ -167,7 +167,6 @@ export default {
   },
 
   created() {
-
     this.loadingData();
   },
   methods: {
@@ -179,12 +178,18 @@ export default {
       try {
         await Promise.all([
           this.loadingProducts(),
-          this.loadingAddrresses()
         ])
-        await this.loadingReviews();
+        const {favourited} = this.currentProduct;
+        this.favourite = favourited;
       } catch (e) {
         console.log(e)
         await this.$router.replace({name: 'error.404'});
+      }
+
+      try{
+        this.loadingAddresses()
+      }catch (e) {
+        console.log(e)
       }
     },
 
@@ -193,13 +198,8 @@ export default {
       return this.$store.dispatch(GET_PRODUCT, slug);
     },
 
-    loadingReviews() {
-      const {favourited, id} = this.currentProduct;
-      this.favourite = favourited;
-      return this.$store.dispatch(FETCH_REVIEWS, {product_id: id});
-    },
 
-    loadingAddrresses() {
+    loadingAddresses() {
       return this.$store.dispatch(FETCH_ADDRESSES);
     },
 
@@ -230,7 +230,6 @@ export default {
     ...mapGetters([
       "currentProduct", "isAuthenticated",
       "defaultAddress", "isLoading",
-      "listReviews"
     ]),
 
 

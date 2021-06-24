@@ -17,6 +17,11 @@
 
       </EditReview>
     </transition>
+    <div v-if="myReviewCount == 0" class="card-empty">
+      <img class="bg-empty" src="/images/undraw/undraw_reviews_lp8w.png" alt="">
+      <p class="description">Bạn chưa đánh giá sản phẩm nào</p>
+      <button class="btn btn-sm btn-danger" @click="changeType('already')">Đánh giá ngay</button>
+    </div>
   </div>
 </template>
 

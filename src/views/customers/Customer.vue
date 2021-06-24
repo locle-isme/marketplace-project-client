@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import {LOGOUT} from "../../store/actions.type";
+import {LOGOUT, RESET_CART_COUNT_ITEMS} from "../../store/actions.type";
 
 export default {
   name: "Customer",
@@ -52,6 +52,7 @@ export default {
     logout() {
       this.$store.dispatch(LOGOUT)
           .then(() => {
+            this.$store.dispatch(RESET_CART_COUNT_ITEMS)
             this.$swal({
               title: "Đăng xuất thành công!",
               text: "Hẹn gặp lại dân chơi vào lần sau!",

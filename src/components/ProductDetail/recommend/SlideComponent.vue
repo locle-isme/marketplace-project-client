@@ -1,7 +1,7 @@
 <template>
   <div class="recommend col-lg-12">
     <div class="card position-relative">
-      <div class="card-title text-uppercase">Có thể bạn quan tâm</div>
+      <div class="card-title text-uppercase">Gợi ý cho bạn</div>
       <div class="card-body">
         <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
         <carousel :perPage="5" :navigationEnabled="true" :navigationPrevLabel="prevBtn" :navigationNextLabel="nextBtn">
@@ -13,7 +13,7 @@
         </carousel>
         <div v-if="lengthListRecommends == 0" class="not-available">
           <img src="/images/actions/sad_tuzki.gif" alt="">
-          <span class="">Chưa có sản phẩm đề xuất phù hợp tới bạn</span>
+          <span class="my-3">Chưa có sản phẩm phù hợp để đề xuất tới bạn!</span>
         </div>
       </div>
     </div>

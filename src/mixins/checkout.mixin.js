@@ -6,7 +6,7 @@ export const CheckoutMixin = {
             const {products} = supplier;
             let total = products.reduce((accumulator, product) => {
                 const {available, grand_total, quantity} = product;
-                let tempCost = available ? grand_total*quantity : 0;
+                let tempCost = available ? grand_total * quantity : 0;
                 return accumulator + tempCost;
             }, 0);
             return total;
@@ -20,7 +20,7 @@ export const CheckoutMixin = {
                 const {category, grand_total, available, quantity} = product;
                 let tempCost =
                     (category.id == coupon.category.id || childs.indexOf(category.id) > -1) && available
-                        ? grand_total*quantity : 0;
+                        ? grand_total * quantity : 0;
                 return acc + tempCost;
             }, 0)
         },
@@ -33,6 +33,11 @@ export const CheckoutMixin = {
         suppliers() {
             const {suppliers} = this.cart;
             return suppliers || [];
+        },
+
+        totalSuppliers() {
+            const {suppliers} = this;
+            return suppliers.length || 0;
         },
 
         totalCount() {

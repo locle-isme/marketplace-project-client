@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
-    <div v-if="totalCount > 0" class="col-lg-9 col-md-12">
+    <div v-if="totalCount > 0 && totalSuppliers > 0" class="col-lg-9 col-md-12">
       <div class="card position-relative" style="background-color: unset; border: none">
         <div class="card-title text-uppercase">GIỎ HÀNG</div>
         <template v-for="supplier in suppliers">
@@ -10,7 +10,7 @@
         </template>
       </div>
     </div>
-    <div v-if="totalCount > 0" class="col-lg-3 col-md-12">
+    <div v-if="totalCount > 0 && totalSuppliers > 0" class="col-lg-3 col-md-12">
       <div class="row">
         <!--        <div class="delivery-address col">
                   <div class="card">
@@ -89,7 +89,7 @@
         <div class="card-body">
           <div class="card-empty">
             <img class="bg-empty" src="/images/cart/undraw_empty_cart_co35.png" alt="">
-            <p class="description">Giỏ hàng của bạn còn trống</p>
+            <p class="description">Giỏ hàng của bạn đang trống</p>
             <button class="btn btn-sm btn-danger" @click="redirect('home')">Mua sắm ngay</button>
           </div>
         </div>

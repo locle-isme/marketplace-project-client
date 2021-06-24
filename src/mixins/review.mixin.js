@@ -1,9 +1,17 @@
 import {mapGetters} from "vuex";
 import {FETCH_REVIEWS, GET_LIST_WAITING_FOR_REVIEW} from "../store/actions.type";
+import {HandleRedirect} from "./redirect.handle";
 
 export const ReviewMixin = {
+    mixins: [HandleRedirect],
     methods: {
+        goHome() {
+            this.redirect('home');
+        },
 
+        changeType(type) {
+            this.$emit('update:typeSelect', type);
+        },
         async loadingData() {
             let params = {user_id: this.user.id, offset: 10};
             if (params.user_id) {

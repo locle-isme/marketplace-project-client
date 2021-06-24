@@ -63,9 +63,13 @@
             <template v-for="review in reviews">
               <ReviewComment :key="'rv' +review.id" :review="review"></ReviewComment>
             </template>
+
           </div>
 
-          <div class="my-4 d-flex float-right">
+          <div class="my-4 d-flex justify-content-center mx-auto w-25">
+            <button v-show="isShowViewMoreBtn" class="btn btn-sm btn-info btn-block btn-view-more"
+                    @click="loadMorePage">Xem thêm
+            </button>
           </div>
         </div>
       </div>
@@ -78,14 +82,16 @@
 import ReviewRating from "./ReviewRating";
 import ReviewComment from "./ReviewComment";
 import {mapGetters} from "vuex";
+import {FETCH_REVIEWS} from "../../../store/actions.type";
+import {PageMixin} from "../../../mixins/page.mixin";
 
 export default {
+  mixins: [PageMixin],
   props: {
-    reviews: {
-      type: Array,
-      required: true,
+    productID: {
+      type: [String, Number],
+      required: true
     },
-
     supplier: {
       type: Object,
       required: true,
@@ -97,8 +103,36 @@ export default {
     }
   },
 
-  computed:{
-    ...mapGetters(["isLoading"]),
+  created() {
+    this.loadingReviews();
+  },
+
+  methods: {
+    loadingReviews() {
+      const {productID, offset} = this;
+      return this.$store.dispatch(FETCH_REVIEWS, {product_id: productID, offset});
+    },
+  },
+  computed: {
+    ...mapGetters(["isLoading", "listReviews"]),
+    reviews() {
+      const {reviews} = this.listReviews;
+      return reviews || [];
+    },
+    totalCount() {
+      const {count} = this.listReviews;
+      return count;
+    },
+    isShowViewMoreBtn() {
+      const {offset, totalCount} = this;
+      return offset < totalCount;
+    }
+  },
+
+  watch: {
+    currentPage() {
+      this.loadingReviews();
+    },
   },
   components: {
     ReviewRating,

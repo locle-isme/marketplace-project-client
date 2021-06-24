@@ -201,7 +201,7 @@ export default {
           title: "Đặt hàng thành công!",
           text: "Hệ thống sẽ chuyển hướng đến trang quản đơn hàng...",
           icon: "success",
-          button: "Thoát!",
+          button: "Đồng ý",
         });
         await this.redirect("customer.order.history");
       } catch (errs) {

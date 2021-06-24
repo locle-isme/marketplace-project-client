@@ -10,7 +10,7 @@ import {
     CART_EDIT, CART_REMOVE,
     FETCH_CART,
     GET_CART_COUNT_ITEMS,
-    GET_LIST_DISCOUNT_CODE_GLOBAL, RESET_COUPON_IN_CART,
+    GET_LIST_DISCOUNT_CODE_GLOBAL, RESET_CART_COUNT_ITEMS, RESET_COUPON_IN_CART,
 } from "./actions.type";
 import {CartService, DiscountCodeService} from "../common/api.service";
 
@@ -48,8 +48,7 @@ const mutations = {
         state.cart = cart;
     },
 
-    [SET_CART_COUNT_ITEMS](state, data) {
-        const {total_count} = data;
+    [SET_CART_COUNT_ITEMS](state, {total_count}) {
         state.countItems = total_count;
     },
 
@@ -166,8 +165,11 @@ const actions = {
 
     [RESET_COUPON_IN_CART](context) {
         context.commit(SET_RESET_COUPON_IN_CART);
-    }
+    },
 
+    [RESET_CART_COUNT_ITEMS](context) {
+        context.commit(SET_CART_COUNT_ITEMS, {total_count: 0});
+    }
 
 }
 
