@@ -52,7 +52,7 @@ export const ApiService = {
         return Vue.axios.get(`${resource}`, {params})
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[LVT] ApiService ${error}`)
+                throw new Error(`[LVL] ApiService ${error}`)
             })
     },
 
@@ -60,7 +60,7 @@ export const ApiService = {
         return Vue.axios.get(`${resource}/${slug}`)
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[LVT] ApiService ${error}`)
+                throw new Error(`[LVL] ApiService ${error}`)
             })
     },
 
@@ -68,7 +68,7 @@ export const ApiService = {
         return Vue.axios.post(`${resource}`, params)
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[LVT] ApiService ${error}`)
+                throw new Error(`[LVL] ApiService ${error}`)
             })
     },
 
@@ -76,7 +76,7 @@ export const ApiService = {
         return Vue.axios.put(`${resource}/${slug}`, params)
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[LVT] ApiService ${error}`)
+                throw new Error(`[LVL] ApiService ${error}`)
             })
     },
 
@@ -84,7 +84,7 @@ export const ApiService = {
         return Vue.axios.put(`${resource}`, params)
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[LVT] ApiService ${error}`)
+                throw new Error(`[LVL] ApiService ${error}`)
             })
     },
 
@@ -92,7 +92,7 @@ export const ApiService = {
         return Vue.axios.delete(`${resource}/${slug}`)
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[LVT] ApiService ${error}`)
+                throw new Error(`[LVL] ApiService ${error}`)
             })
     },
 
@@ -102,7 +102,7 @@ export const ApiService = {
         })
             .then(({data}) => data)
             .catch((error) => {
-                throw new Error(`[LVT] ApiService ${error}`)
+                throw new Error(`[LVL] ApiService ${error}`)
             })
     }
 }

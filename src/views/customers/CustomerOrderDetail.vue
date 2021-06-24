@@ -6,7 +6,7 @@
           <span style="font-size: 1em">Chi tiết đơn hàng #{{ orderID }} - </span>
           <span style="font-size: 1em">{{ statusText }}</span>
         </div>
-        <button v-if="status == 'processing'" class="float-right btn btn-sm btn-danger" @click="cancelOrder()">
+        <button v-if="status == 'processing'" class="float-right btn btn-sm btn-danger" @click="handleCancelOrder()">
           Hủy đơn
         </button>
       </div>
@@ -157,6 +157,23 @@ export default {
       }
     },
 
+    async handleCancelOrder(){
+      try{
+        let isCancel = await this.$swal({
+          title: "Cảnh báo!",
+          text: "Bạn có chắc chắn hủy đơn hàng này không?",
+          icon: "warning",
+          buttons: ['Thoát','Xóa'],
+          dangerMode: true,
+        });
+        if (isCancel){
+          await this.cancelOrder();
+        }
+      }catch (e) {
+        console.log(e)
+      }
+    },
+
     async cancelOrder() {
       try {
         await this.$store.dispatch(ORDER_CANCEL, this.$route.params.orderID);
@@ -166,7 +183,6 @@ export default {
         for (let name_err in errs) {
           toastError(firstError(errs[name_err]));
         }
-
       }
     }
   },

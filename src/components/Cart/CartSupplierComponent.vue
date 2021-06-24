@@ -1,7 +1,7 @@
 <template>
   <div class="cart-product row">
     <div class="d-flex flex-column w-100">
-      <div class="seller" @click="redirect('store.global', {slug: supplier.id})">
+      <div class="seller" @click="redirect('store.global', {slug: supplier.slug})">
         <b-icon icon="shop" aria-hidden="true" font-scale="1.5"></b-icon>
         {{ supplier.nameOfShop }}
       </div>
