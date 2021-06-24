@@ -88,7 +88,8 @@ export const CheckoutMixin = {
         },
 
         totalPrice() {
-            return this.totalTempPrice - this.totalDiscountPrice;
+            let temp = this.totalDiscountPrice > this.totalTempPrice ? this.totalTempPrice : this.totalDiscountPrice;
+            return this.totalTempPrice - temp;
         },
 
         isAvailable() {
