@@ -193,8 +193,8 @@ export const ReviewService = {
         return ApiService.get('reviews', id)
     },
 
-    getListWaitingForReview() {
-        return ApiService.get('me/getListWaitingReview')
+    getListWaitingForReview(params = {}) {
+        return ApiService.query('me/getListWaitingReview', params)
     },
 
     store(params) {

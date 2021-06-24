@@ -56,8 +56,8 @@ const actions = {
             })
     },
 
-    [GET_LIST_WAITING_FOR_REVIEW](context) {
-        return ReviewService.getListWaitingForReview()
+    [GET_LIST_WAITING_FOR_REVIEW](context, params = {}) {
+        return ReviewService.getListWaitingForReview(params)
             .then(response => {
                 const {status, data} = response;
                 if (status == "success") {

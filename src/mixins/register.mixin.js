@@ -19,7 +19,9 @@ export const RegisterMixin = {
     },
 
     methods: {
-
+        goLogin() {
+            this.redirect('login');
+        },
         register() {
             this.$store.dispatch(REGISTER, this.formDataRegister)
                 .then(() => {
@@ -29,6 +31,8 @@ export const RegisterMixin = {
                         icon: "success",
                         button: "Thoát!",
                     });
+
+                    this.goLogin();
                 })
         }
     },

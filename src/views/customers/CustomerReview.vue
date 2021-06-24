@@ -15,27 +15,9 @@
             </div>
           </li>
         </ul>
-
-        <transition-group name="fade" tag="div" v-if="typeSelect == 'reviewed'" class="list-reviewed">
-          <template v-for="review in reviews">
-            <ReviewedComponent :review="review" :key="review.id" @handleRating="handleEditRating"></ReviewedComponent>
-          </template>
-        </transition-group>
-        <transition-group v-else name="fade" tag="div" class="list-already-review">
-          <template v-for="product in products">
-            <NotReviewComponent :key="product.id" :product="product"
-                                @handleRating="handleCreateRating"></NotReviewComponent>
-          </template>
-        </transition-group>
-        <transition name="slideLeft">
-          <CreateReview v-if="modalRatingShow" :product="currentProductRating"
-                        @exit="modalRatingShow = false" @handleSubmitReview="handleSubmitReview"></CreateReview>
-        </transition>
-        <transition name="slideRight">
-          <EditReview v-if="modalEditRatingShow" :review="currentReview"
-                      @exit="modalEditRatingShow = false"
-                      @handleSubmitReview="handleSubmitEditReview"></EditReview>
-        </transition>
+        <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
+        <ReviewedComponent v-if="typeSelect == 'reviewed'"></ReviewedComponent>
+        <NotReviewComponent v-else></NotReviewComponent>
       </div>
     </div>
   </div>
@@ -44,20 +26,14 @@
 <script>
 import ReviewedComponent from "../../components/Customer/review/ReviewedComponent";
 import NotReviewComponent from "../../components/Customer/review/NotReviewComponent";
-import EditReview from "../../components/Customer/review/EditReview";
-import CreateReview from "../../components/Customer/review/CreateReview";
-import {FETCH_REVIEWS, GET_LIST_WAITING_FOR_REVIEW, REVIEW_CREATE, REVIEW_EDIT} from "../../store/actions.type";
+import {ReviewMixin} from "../../mixins/review.mixin";
 import {mapGetters} from "vuex";
 
 export default {
-  name: "CustomerReview",
+  mixins: [ReviewMixin],
   data() {
     return {
       typeSelect: 'reviewed',
-      modalRatingShow: false,
-      modalEditRatingShow: false,
-      currentReview: {},
-      currentProductRating: {}
     }
   },
 
@@ -71,107 +47,31 @@ export default {
         active: this.typeSelect == _type
       }
     },
-
-    loadingData() {
-      let params = {user_id: this.user.id};
-      if (params.user_id)
-        return this.$store.dispatch(FETCH_REVIEWS, params)
-            .then(() => {
-              return this.$store.dispatch(GET_LIST_WAITING_FOR_REVIEW)
-            });
-    },
-
-    handleEditRating(review) {
-      this.currentReview = review;
-      this.modalEditRatingShow = true;
-    },
-
-    handleCreateRating(product) {
-      this.currentProductRating = product;
-      this.modalRatingShow = true;
-    },
-
-    handleSubmitEditReview(review) {
-      const {id} = this.currentReview;
-      this.$store.dispatch(REVIEW_EDIT, {...review, id: id})
-          .then(() => {
-            this.$toast.success("Chỉnh sửa đánh giá thành công", {
-              duration: 5000,
-              position: 'top-left'
-            })
-            this.typeSelect = 'reviewed';
-            this.modalEditRatingShow = false;
-            this.loadingData();
-          })
-          .catch((data) => {
-            let firstMessage = this.$options.filters.error(data[Object.keys(data)[0]]);
-            this.$toast.error(firstMessage, {
-              duration: 5000,
-              position: 'top-left'
-            })
-          })
-    },
-
-    handleSubmitReview(params) {
-
-      const {id} = this.currentProductRating;
-      this.$store.dispatch(REVIEW_CREATE, {...params, product_id: id})
-          .then(() => {
-            this.$toast.success("Đánh giá thành công", {
-              duration: 5000,
-              position: 'top-left'
-            })
-            this.typeSelect = 'reviewed';
-            this.modalRatingShow = false;
-            this.loadingData();
-          })
-          .catch((data) => {
-            let firstMessage = this.$options.filters.error(data[Object.keys(data)[0]]);
-            this.$toast.error(firstMessage, {
-              duration: 5000,
-              position: 'top-left'
-            })
-          })
-    }
-
   },
 
   computed: {
-    ...mapGetters(["user", "myReviews", "listWaitingForReview"]),
-    reviews() {
-      const {reviews} = this.myReviews;
-      return reviews;
+    ...mapGetters(["user", "myReviews", "listWaitingForReview", "isLoading"]),
+    waitingForReviewCount() {
+      const {count} = this.listWaitingForReview;
+      return count || 0;
     },
-
-    products() {
-      const {products} = this.listWaitingForReview;
-      return products || [];
-    },
-
     myReviewCount() {
       const {count} = this.myReviews;
       return count || 0;
     },
-
-    waitingForReviewCount() {
-      const {count} = this.listWaitingForReview;
-      return count || 0;
-    }
   },
 
   watch: {
     user: {
-      deep: true,
+      //deep: true,
       handler() {
         this.loadingData();
       }
-    },
+    }
   },
   components: {
     ReviewedComponent,
-    NotReviewComponent,
-    EditReview,
-    CreateReview,
+    NotReviewComponent
   }
 }
 </script>
