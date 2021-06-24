@@ -8,7 +8,8 @@ const routes = [
     {
         name: 'home',
         path: '/',
-        component: () => import("../views/Home")
+        component: () => import("../views/Home"),
+        title: "Taka"
     },
     {
         name: 'search',

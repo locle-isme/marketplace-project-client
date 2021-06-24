@@ -3,8 +3,8 @@
   <router-link tag="div" :to="{name:'product.detail', params:{slug: product.slug}}" class="product-item col"
                style="padding: 1rem">
     <div class="d-flex flex-column">
-      <div>
-        <img :src="firstImages" class="img-thumbnail" alt="">
+      <div class="img-product">
+        <img :src="firstImages" class="just-img" alt="">
       </div>
       <div class="name mt-2 limit-line">
         <span>{{ product.name }}</span>
@@ -70,6 +70,26 @@ export default {
     user-select: none;
     font-size: 0.9em;
     border-radius: 5px;
+  }
+
+
+  .img-product {
+    width: 220px;
+    height: 180px;
+    margin: 0 auto;
+
+    .just-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .img-product {
+      width: 130px;
+      height: 80px;
+    }
   }
 }
 

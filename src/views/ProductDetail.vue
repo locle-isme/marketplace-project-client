@@ -81,36 +81,7 @@
         </div>
       </div>
     </div>
-    <div class="col-xl-9 col-lg-12">
-      <div class="card position-relative">
-        <div class="card-title text-uppercase">Thông tin chi tiết</div>
-        <div class="card-body">
-          <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
-          <div class="table-responsive">
-            <table class="product-detail table">
-              <tbody>
-              <tr>
-                <td>Thương hiệu</td>
-                <td>OEM</td>
-              </tr>
-              <tr>
-                <td>Xuất xứ thương hiệu</td>
-                <td>Trung Quốc</td>
-              </tr>
-              <tr>
-                <td>Xuất xứ</td>
-                <td>Trung Quốc</td>
-              </tr>
-              <tr>
-                <td>SKU</td>
-                <td>9911662691998</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+    <InfoDetailComponent :infoDetails="infoDetails"></InfoDetailComponent>
 
     <div class="col-xl-9 col-lg-12">
       <div class="card position-relative">
@@ -136,7 +107,9 @@
       </div>
     </div>
     <SlideComponent v-if="isAuthenticated" :currentProduct="product"></SlideComponent>
-    <ReviewComponent v-if="currentProduct.id" :productID="currentProduct.id" :supplier="supplier" :ratings="ratings"></ReviewComponent>
+    <RelateCategoryComponent :category="category"></RelateCategoryComponent>
+    <ReviewComponent v-if="currentProduct.id" :productID="currentProduct.id" :supplier="supplier"
+                     :ratings="ratings"></ReviewComponent>
   </div>
 </template>
 <script>
@@ -145,6 +118,8 @@ import SellerOverview from "../components/ProductDetail/SellerOverview";
 import AlbumOverview from "../components/ProductDetail/album_image/AlbumOverview";
 import ReviewComponent from "../components/ProductDetail/review/ReviewComponent";
 import SlideComponent from "../components/ProductDetail/recommend/SlideComponent";
+import InfoDetailComponent from "../components/ProductDetail/info_detail/InfoDetailComponent";
+import RelateCategoryComponent from "../components/ProductDetail/recommend/RelateCategoryComponent";
 import {mapGetters} from "vuex";
 import {CART_ADD, FETCH_ADDRESSES, GET_CART_COUNT_ITEMS, GET_PRODUCT} from "../store/actions.type";
 import {HandleFavourite} from "../mixins/favourite.handle";
@@ -186,9 +161,9 @@ export default {
         await this.$router.replace({name: 'error.404'});
       }
 
-      try{
+      try {
         this.loadingAddresses()
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
@@ -236,6 +211,11 @@ export default {
     product() {
       return this.currentProduct;
     },
+
+    infoDetails() {
+      const {info_details} = this.currentProduct;
+      return info_details || [];
+    },
     classContentToggle() {
       const {isShowMoreContent} = this;
       return {
@@ -271,6 +251,8 @@ export default {
     AlbumOverview,
     SlideComponent,
     ReviewComponent,
+    InfoDetailComponent,
+    RelateCategoryComponent,
   },
   watch: {
     '$route.params': {

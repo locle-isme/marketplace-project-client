@@ -8,7 +8,7 @@ export const ProductMixin = {
     data() {
         return {
             minProducts: 25,
-            defaultImage: 'https://via.placeholder.com/640x480.png/00bb11?text=default',
+            defaultImage: 'http://localhost:8000/assets/images/placeholder-images.png',
         }
     },
     computed: {
@@ -68,7 +68,7 @@ export const ProductMixin = {
             return amount;
         },
 
-        max_buy(){
+        max_buy() {
             const {max_buy} = this.product;
             return max_buy;
         },
@@ -93,6 +93,10 @@ export const ProductMixin = {
             return slug;
         },
 
+        category() {
+            const {category} = this.product;
+            return category || {};
+        }
 
     }
 
