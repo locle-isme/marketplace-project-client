@@ -13,7 +13,7 @@
             <div class="btn-group">
               <button :class="classQuantityBtn" :disabled="isLoading" @click="changeQuantity(-1)">
                 <i class="fa fa-minus"></i></button>
-              <input v-model="quantity" type="number" class="quality-input">
+              <input :value="quantity" type="number" class="quality-input" @keyup="changeValueQuantity($event)">
               <button :class="classQuantityBtn" :disabled="isDisabledUpQuantityBtn" @click="changeQuantity(1)">
                 <i class="fa fa-plus"></i>
               </button>
@@ -52,11 +52,18 @@
 
 <script>
 import {ProductMixin} from "../../mixins/product.mixin";
-import {CART_EDIT, CART_REMOVE, FETCH_CART, GET_CART_COUNT_ITEMS} from "../../store/actions.type";
+import {
+  CART_EDIT, FETCH_CART,
+  GET_CART_COUNT_ITEMS, CART_REMOVE
+} from "../../store/actions.type";
 import {HandleFavourite} from "../../mixins/favourite.handle";
 import {HandleRedirect} from "../../mixins/redirect.handle";
 import firstError from "../../common/filter.error"
-import {toastError, toastSuccess} from "../../common/toast";
+import {
+  toastError,
+  toastSuccess
+} from "../../common/toast";
+import {SET_RESET_COUPON_IN_CART} from "../../store/mutations.type";
 
 export default {
   props: {
@@ -90,35 +97,47 @@ export default {
     async removeCartItem() {
       const {id} = this.product;
       this.isLoading = true;
-      let result = await this.$swal({
+      this.$swal({
         //title: 'Are you sure?',
         text: "Bạn muốn xóa sản phẩm này?",
         icon: 'warning',
         buttons: ["Không", "Có"],
-      });
-      if (result) {
-        try {
-          await this.$store.dispatch(CART_REMOVE, {product_id: id});
-          await this.$store.dispatch(GET_CART_COUNT_ITEMS);
-          await this.$store.dispatch(FETCH_CART);
-          toastSuccess('Xóa sản phẩm thành công');
-        } catch (e) {
-          console.log(e)
-          toastError('Có lỗi xảy ra');
-        }
-      }
+      })
+          .then(async (answer) => {
+            if (answer) {
+              try {
+                await this.$store.dispatch(CART_REMOVE, {product_id: id});
+                await this.$store.dispatch(GET_CART_COUNT_ITEMS);
+                await this.$store.dispatch(FETCH_CART);
+                toastSuccess('Xóa sản phẩm thành công');
+              } catch (e) {
+                console.log(e)
+                toastError('Có lỗi xảy ra');
+              }
+              console.log('answer')
+            } else {
+              this.quantity = 1;
+            }
+          })
+
       this.isLoading = false;
     },
 
     changeQuantity(n) {
       this.quantity += n;
+      this.updateQuantity();
+    },
+
+    changeValueQuantity({target: {value}}) {
+      if (value == "") return;
+      this.quantity = value;
+      this.updateQuantity();
     },
 
     async updateQuantity() {
       const {quantity} = this;
       const {amount, max_buy, id} = this.product;
       if (quantity > max_buy) {
-        console.log('max')
         this.quantity = max_buy;
         return toastError(`Sản phẩm có số lượng mua tối đa là ${max_buy}`);
       }
@@ -128,9 +147,15 @@ export default {
         return toastError(`Số lượng mua lớn hơn số lượng sản phẩm hiện có`);
       }
 
+      if (quantity <= 0) {
+        return this.removeCartItem();
+      }
       try {
         await this.$store.dispatch(CART_EDIT, {product_id: id, quantity: this.quantity});
-        await this.$store.dispatch(FETCH_CART);
+        await Promise.all([
+          this.$store.dispatch(FETCH_CART),
+          this.$store.dispatch(SET_RESET_COUPON_IN_CART),
+        ])
       } catch (errs) {
         for (let name_err in errs) {
           toastError(firstError(errs[name_err]));
@@ -167,7 +192,7 @@ export default {
   },
 
   watch: {
-    async quantity(v) {
+    quantity(v) {
       const {isAvailable} = this;
       //const {amount, max_buy} = this.product;
       let tempValue = v;
@@ -179,16 +204,16 @@ export default {
         tempValue = 1;
       }
 
-      if (v === 0 || v === "0") {
+      /*if (v === 0 || v === "0") {
         await this.removeCartItem();
-      }
+      }*/
 
       if (!isAvailable) {
         return;
       }
 
       this.quantity = tempValue;
-      await this.updateQuantity();
+      //await this.updateQuantity();
     }
   },
 }

@@ -1,6 +1,6 @@
 import {
     REMOVE_COUPON_GLOBAL_IN_USE,
-    REMOVE_COUPON_SUPPLIER_IN_USE,
+    REMOVE_COUPON_SUPPLIER_IN_USE, SET_RESET_COUPON_IN_CART,
     SET_CART, SET_CART_COUNT_ITEMS,
     SET_COUPON_GLOBAL, SET_COUPON_GLOBAL_IN_USE,
     SET_COUPON_SUPPLIER_IN_USE,
@@ -10,7 +10,7 @@ import {
     CART_EDIT, CART_REMOVE,
     FETCH_CART,
     GET_CART_COUNT_ITEMS,
-    GET_LIST_DISCOUNT_CODE_GLOBAL,
+    GET_LIST_DISCOUNT_CODE_GLOBAL, RESET_COUPON_IN_CART,
 } from "./actions.type";
 import {CartService, DiscountCodeService} from "../common/api.service";
 
@@ -55,14 +55,14 @@ const mutations = {
 
     [SET_COUPON_SUPPLIER_IN_USE](state, obj) {
         const {supplier_id} = obj;
-        let temp = state.couponSupplierInUse.filter(c => c.supplier_id != supplier_id);
+        let temp = state.couponSupplierInUse.filter(c => c.supplier_id !== supplier_id);
         temp.push(obj);
         state.couponSupplierInUse = temp;
     },
 
     [REMOVE_COUPON_SUPPLIER_IN_USE](state, obj) {
         const {supplier_id} = obj;
-        let temp = state.couponSupplierInUse.filter(c => c.supplier_id != supplier_id);
+        let temp = state.couponSupplierInUse.filter(c => c.supplier_id !== supplier_id);
         state.couponSupplierInUse = temp;
     },
     [SET_COUPON_GLOBAL](state, list) {
@@ -76,14 +76,26 @@ const mutations = {
     [REMOVE_COUPON_GLOBAL_IN_USE](state) {
         state.couponGlobalInUse = "";
     },
+
+    [SET_RESET_COUPON_IN_CART](state) {
+        state.couponGlobalInUse = "";
+        state.couponSupplierInUse = [];
+    },
 }
 const actions = {
     [FETCH_CART](context) {
         return CartService.query()
             .then(response => {
-                const {data} = response;
-                //console.log(data);
-                context.commit(SET_CART, data);
+                const {status, data} = response;
+                if (status == 'success') {
+                    //context.commit(SET_RESET_COUPON_IN_CART);
+                    context.commit(SET_CART, data);
+                    return data;
+                } else {
+                    //context.commit(SET_RESET_COUPON_IN_CART);
+                    context.commit(SET_CART_COUNT_ITEMS, {total_count: 0});
+                    throw data;
+                }
             })
     },
 
@@ -151,6 +163,10 @@ const actions = {
                 })
         }
     },
+
+    [RESET_COUPON_IN_CART](context) {
+        context.commit(SET_RESET_COUPON_IN_CART);
+    }
 
 
 }

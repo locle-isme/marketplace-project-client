@@ -145,7 +145,7 @@
 </template>
 
 <script>
-import {FETCH_ADDRESSES, FETCH_CART, ORDER_CREATE} from "../store/actions.type";
+import {FETCH_ADDRESSES, FETCH_CART, GET_CART_COUNT_ITEMS, ORDER_CREATE} from "../store/actions.type";
 import {mapGetters} from "vuex";
 import {HandleRedirect} from "../mixins/redirect.handle";
 import {CheckoutMixin} from "../mixins/checkout.mixin";
@@ -153,6 +153,7 @@ import {CheckoutMixin} from "../mixins/checkout.mixin";
 import SupplierItem from "../components/Payment/SupplierItem";
 import {toastError} from "../common/toast";
 import firstError from "../common/filter.error";
+import {SET_RESET_COUPON_IN_CART} from "../store/mutations.type";
 
 export default {
   mixins: [HandleRedirect, CheckoutMixin],
@@ -191,7 +192,11 @@ export default {
 
       try {
         await this.$store.dispatch(ORDER_CREATE, formData)
-        await this.$store.dispatch(FETCH_CART)
+        await Promise.all([
+          this.$store.dispatch(FETCH_CART),
+          this.$store.dispatch(GET_CART_COUNT_ITEMS),
+          this.$store.dispatch(SET_RESET_COUPON_IN_CART),
+        ])
         await this.$swal({
           title: "Đặt hàng thành công!",
           text: "Hệ thống sẽ chuyển hướng đến trang quản đơn hàng...",
