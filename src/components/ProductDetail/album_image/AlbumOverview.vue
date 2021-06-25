@@ -33,7 +33,7 @@ export default {
     return {
       nextBtn: '<i class="fa fa-chevron-right" aria-hidden="true"></i>',
       prevBtn: '<i class="fa fa-chevron-left" aria-hidden="true"></i>',
-      defaultImage: 'https://via.placeholder.com/640x480.png/00bb11?text=default',
+      defaultImage: 'http://localhost:8000/assets/images/placeholder-images.png',
       indexImage: 0
     }
   },
