@@ -92,13 +92,6 @@
     z-index: 11;
 }
 
-
-body {
-    font-family: Roboto, Helvetica, Arial, sans-serif !important;
-    font-size: 14px;
-}
-
-
 .card-empty {
     text-align: center;
 }

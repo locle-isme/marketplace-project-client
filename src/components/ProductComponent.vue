@@ -54,7 +54,7 @@ export default {
 
   .name {
     text-align: left;
-    font-weight: 550;
+    font-weight: 510;
   }
 
   .limit-line {
@@ -64,11 +64,16 @@ export default {
     overflow: hidden;
   }
 
+  .price {
+    font-weight: 600;
+  }
+
   .discount {
     background: #e74646;
-    padding: 2px 3px;
+    padding: 3px 5px;
     user-select: none;
-    font-size: 0.9em;
+    font-size: 0.8em;
+    font-weight: 600;
     border-radius: 5px;
   }
 

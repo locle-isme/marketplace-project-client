@@ -75,14 +75,15 @@ export default {
   }
 }
 
-.not-available{
+.not-available {
   height: auto;
   padding: 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  img{
+
+  img {
     user-select: none;
     width: 100px;
     height: auto;

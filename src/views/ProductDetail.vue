@@ -89,8 +89,10 @@
         <div class="card-body">
           <vue-element-loading :active="isLoading" spinner="bar-fade-scale" color="#FF6700"/>
           <div class="product-description position-relative">
-            <div :class="classContentToggle" v-html="currentProduct.description">
-
+            <div :class="classContentToggle" style="white-space: pre-wrap">
+              {{
+                currentProduct.description
+              }}
             </div>
             <div v-if="isShowMoreContent == false" class="gradient"></div>
 
@@ -336,12 +338,14 @@ export default {
   }
 
   .root-price {
-    font-size: 1em;
+    color: #eb2123;
     margin-right: 15px;
+    font-weight: 600;
     text-decoration: line-through;
   }
 
   .decrease-discount {
+    font-weight: 600;
     font-size: 0.8em;
   }
 
@@ -449,6 +453,8 @@ export default {
 }
 
 .product-description {
+  font-size: 0.8em;
+  color: #000;
   .toggle {
     min-height: 100px;
     max-height: 500px;

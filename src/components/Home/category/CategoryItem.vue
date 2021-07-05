@@ -27,7 +27,8 @@ export default {
   computed: {
     imageURL() {
       const {image} = this.category;
-      return `http://localhost:8000/${image}`;
+      return image;
+      //return `http://localhost:8000/${image}`;
     }
   },
 }
@@ -43,16 +44,18 @@ export default {
     border-bottom: solid 1px rgba(0, 0, 0, .05);
     border-right: solid 1px rgba(0, 0, 0, .05);
     cursor: pointer;
-    &:hover{
+
+    &:hover {
       box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
       //box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     }
+
     .image-avatar {
       width: 83px;
       height: 83px;
       //box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
-      img{
+      img {
         width: 100%;
         object-fit: contain;
       }

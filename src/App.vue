@@ -31,11 +31,10 @@ export default {
 <style lang="scss">
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: rgba(191, 190, 190, 0.1) !important;
-
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
+  $body-font: 'Poppins', sans-serif;
+  font-family: $body-font;
+  font-size: 1em;
 }
 
 @media (max-width: 900px) {
