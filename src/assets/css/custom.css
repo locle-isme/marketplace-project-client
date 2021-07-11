@@ -49,7 +49,7 @@
     }
 }
 
-@media (min-width: 1200) {
+@media (min-width: 1200px) {
     .list-item-result.row-cols-lg-5-md-3-xs-2 > * {
         -ms-flex: 25%;
         flex: 0 0 25%;
@@ -63,10 +63,10 @@
     }
 }
 
-@media (min-width: 1200) {
+@media (min-width: 1200px) {
 
     .container {
-        max-width: 1270;
+        max-width: 1270px;
     }
 }
 
@@ -80,12 +80,12 @@
 }
 
 .card {
-    margin-top: 50;
+    margin-top: 50px;
 }
 
 .card > .card-title {
     position: absolute;
-    top: -30;
+    top: -30px;
     left: 0;
     font-weight: 600;
     font-size: 1.2em;
@@ -97,7 +97,7 @@
 }
 
 .card-empty .bg-empty {
-    width: 210;
+    width: 210px;
 }
 
 .card-empty .description {

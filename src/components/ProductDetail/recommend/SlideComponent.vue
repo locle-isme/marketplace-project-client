@@ -73,10 +73,12 @@ export default {
     min-height: 200px;
     padding: 0;
   }
+
+  .not-available {
+    min-height: 250px;
+  }
 }
 
-.not-available {
-  min-height: 250px;
-}
+
 
 </style>
