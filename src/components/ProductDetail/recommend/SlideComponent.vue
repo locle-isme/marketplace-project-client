@@ -11,9 +11,9 @@
             </slide>
           </template>
         </carousel>
-        <div v-if="lengthListRecommends == 0" class="not-available">
-          <img src="/images/actions/sad_tuzki.gif" alt="">
-          <span class="my-3">Chưa có sản phẩm phù hợp để đề xuất tới bạn!</span>
+        <div v-if="lengthListRecommends === 0" class="card-empty not-available">
+          <img class="bg-empty" src="/images/undraw/undraw_heartbroken_cble.png" alt="">
+          <p class="my-3">Chưa có sản phẩm phù hợp để đề xuất tới bạn...</p>
         </div>
       </div>
     </div>
@@ -76,18 +76,7 @@ export default {
 }
 
 .not-available {
-  height: auto;
-  padding: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  img {
-    user-select: none;
-    width: 100px;
-    height: auto;
-  }
+  min-height: 250px;
 }
 
 </style>

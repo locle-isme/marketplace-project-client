@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-<!--    <vue-element-loading :active="isLoading" :is-full-screen="true"/>-->
+    <!--    <vue-element-loading :active="isLoading" :is-full-screen="true"/>-->
     <HeaderComponent></HeaderComponent>
     <div class="container" style="padding-top: 3.2rem; padding-bottom: 5rem">
       <router-view></router-view>
@@ -15,9 +15,10 @@ import HeaderComponent from "./components/Header/HeaderComponent";
 import VFooter from './components/VFooter'
 //import VueElementLoading from 'vue-element-loading'
 import {mapGetters} from "vuex";
+
 export default {
   name: 'App',
-  computed:{
+  computed: {
     ...mapGetters(["isLoading"]),
   },
   components: {
@@ -31,9 +32,8 @@ export default {
 <style lang="scss">
 
 #app {
-  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
-  $body-font: 'Poppins', sans-serif;
-  font-family: $body-font;
+
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 1em;
 }
 

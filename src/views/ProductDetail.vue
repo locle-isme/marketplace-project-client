@@ -377,8 +377,10 @@ export default {
 .card-buy {
   .detail-mount {
     .up-down-amount-group {
+      display: flex;
+      align-items: center;
       margin-right: 10px;
-
+      column-gap: 0.2rem;
       input {
         &::-webkit-outer-spin-button,
         &::-webkit-inner-spin-button {
@@ -388,13 +390,12 @@ export default {
       }
 
       button {
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
         padding: 4px;
         border: 1px #d6d6d6 solid;
         border-radius: 4px;
         background: #fff;
-        margin: 0px 3px;
 
         &:hover {
           background: #7dd1e3;
@@ -412,17 +413,16 @@ export default {
     }
 
     input {
-      height: 30px;
+      height: 28px;
       width: 50px;
       padding: 4px;
       border: 1px #d6d6d6 solid;
-      border-radius: 4px;
       font-size: 15px;
       text-align: center;
     }
 
     span {
-      margin: 10px 0px;
+      margin: 10px 0;
 
       &:first-child {
         margin-right: 10px;
@@ -454,7 +454,7 @@ export default {
 
 .product-description {
   font-size: 0.8em;
-  color: #000;
+  color: #636363;
   .toggle {
     min-height: 100px;
     max-height: 500px;

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-xl-9 col-lg-12">
+  <div class="col-xl-9 col-lg-12" v-if="infoDetails.length">
     <div class="card position-relative">
       <div class="card-title text-uppercase">Thông tin chi tiết</div>
       <div class="card-body">

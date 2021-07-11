@@ -49,7 +49,7 @@
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1200) {
     .list-item-result.row-cols-lg-5-md-3-xs-2 > * {
         -ms-flex: 25%;
         flex: 0 0 25%;
@@ -63,10 +63,10 @@
     }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1200) {
 
     .container {
-        max-width: 1270px;
+        max-width: 1270;
     }
 }
 
@@ -80,13 +80,13 @@
 }
 
 .card {
-    margin-top: 50px;
+    margin-top: 50;
 }
 
 .card > .card-title {
     position: absolute;
-    top: -30px;
-    left: 0px;
+    top: -30;
+    left: 0;
     font-weight: 600;
     font-size: 1.2em;
     z-index: 11;
@@ -97,12 +97,12 @@
 }
 
 .card-empty .bg-empty {
-    width: 210px;
+    width: 210;
 }
 
 .card-empty .description {
     font-size: 1.2em;
-    margin: 0.5rem 0px;
+    margin: 0.5rem 0;
 }
 
 .card-empty .btn-danger {
@@ -124,9 +124,9 @@
 .line-between {
     width: 38px;
     height: 2px;
-    font-size: 0px;
+    font-size: 0;
     display: inline-block;
     background: rgb(154, 154, 154);
-    margin: 0px 12px;
+    margin: 0 12px;
     vertical-align: middle;
 }
